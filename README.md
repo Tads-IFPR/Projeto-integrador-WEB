@@ -32,6 +32,7 @@ Tecnologia Projeto Integrador
 
 Para o desenvolvimento deste projeto, serão utilizados as seguintes tecnologias e ferramentas:
 
+- Livewire
 - Laravel
 - PHP
 - MySql
@@ -40,3 +41,22 @@ Para o desenvolvimento deste projeto, serão utilizados as seguintes tecnologias
 - Jira
 - Figma
 - Linux
+
+
+## Requisitos Funcionais
+
+| Código   | Requisito Funcional  | Caso de Uso  |
+|---|---|---|
+| RF 01  | O sistema deve gerenciar os dados dos usuários no sistema. Deverá conter as funções confirmar e-mail, cadastrar, editar e consultar usuário. O usuário irá se auto-cadastrar.  | UC 01 - Gerenciar Usuário   |
+| RF 02  | O sistema deve gerenciar os áudios que os usuários registrarem na plataforma. Através desta funcionalidade, o usuário poderá adicionar, deletar, editar e buscar áudios. <br><br>Um registro de áudio será composto por um arquivo de áudio a ser salvo em um repositório de arquivos.| UC 02 - Gerenciar Áudios  |
+| RF 03  | O sistema irá gerenciar as playlists que os usuários criarem. Ele deverá criar, deletar, editar e buscar playlists.<br><br>Uma  playlist será composta por áudios previamente cadastrados.<br><br>A playlist poderá ser privada (acessada apenas pelo usuário que a criou) ou pública (acessada por qualquer usuário). | UC 03 - Gerenciar Playlist  |
+| RF 04  | O sistema deverá permitir que o usuário curta áudios   | UC 04 - Curtir Áudio  |
+| RF 05  | O sistema deve permitir ao usuário curtir playlists.  | UC 05 - O sistema deve permitir ao usuário curtir playlists.  |
+| RF 06  | O sistema irá gerenciar o player, reproduzindo, pausando, avançando e retrocedendo, parando e aleatorizando a execução dos áudios.  | UC 06 - Reproduzir Áudio  |
+| RF 07  | O sistema deverá permitir o compartilhamento de playlists com outros usuários especificados.  | UC - 07 - Compartilhar Playlists  |
+| RF 08  | O sistema deve gerenciar o login de acesso à plataforma, permitindo logar, recuperar senha e fazer logout.  | UC 08 - Gerenciar Acesso  |
+
+<img src="https://drive.google.com/file/d/1LMLLHZEM-z-QbKreWGGDtPjS5acn5Ld-/view?usp=sharing">
+
+![image der](https://drive.google.com/uc?id=1LMLLHZEM-z-QbKreWGGDtPjS5acn5Ld-)
+
