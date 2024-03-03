@@ -56,7 +56,7 @@ Para o desenvolvimento deste projeto, serão utilizados as seguintes tecnologias
 | RF 07  | O sistema deverá permitir o compartilhamento de playlists com outros usuários especificados.  | UC - 07 - Compartilhar Playlists  |
 | RF 08  | O sistema deve gerenciar o login de acesso à plataforma, permitindo logar, recuperar senha e fazer logout.  | UC 08 - Gerenciar Acesso  |
 
-<img src="https://drive.google.com/file/d/1LMLLHZEM-z-QbKreWGGDtPjS5acn5Ld-/view?usp=sharing">
 
 ![image der](https://drive.google.com/uc?id=1LMLLHZEM-z-QbKreWGGDtPjS5acn5Ld-)
 
+![image use case](https://drive.google.com/uc?id=1Qge2HpD9hEhUC3afSUG2u9O5hoVMvBjH)
