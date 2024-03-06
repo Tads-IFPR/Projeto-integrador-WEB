@@ -57,6 +57,15 @@ Para o desenvolvimento deste projeto, serão utilizados as seguintes tecnologias
 | RF 08  | O sistema deve gerenciar o login de acesso à plataforma, permitindo logar, recuperar senha e fazer logout.  | UC 08 - Gerenciar Acesso  |
 
 
+## Imagem DER
+
 ![image der](https://drive.google.com/uc?id=1LMLLHZEM-z-QbKreWGGDtPjS5acn5Ld-)
 
+
+## Imagem Use Case
+
 ![image use case](https://drive.google.com/uc?id=1Qge2HpD9hEhUC3afSUG2u9O5hoVMvBjH)
+
+## Link Protótipo
+
+https://www.figma.com/file/YEWwQfRJnsnllnBvG5mY1w/PFC-WEB?type=design&node-id=0%3A1&mode=design&t=USgyE2t4a1h18xJP-1
