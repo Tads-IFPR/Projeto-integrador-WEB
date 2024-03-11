@@ -32,7 +32,7 @@ class Playlist extends Model
         'is_public' => 'boolean',
     ];
 
-    public function audio(): BelongsToMany
+    public function audios(): BelongsToMany
     {
         return $this->belongsToMany(Audio::class);
     }
