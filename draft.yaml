@@ -19,5 +19,12 @@ models:
     cover_disk: cover_path nullable
     relationships:
       belongsToMany: Audio, User
+      belongsTo: User
+
+controllers:
+  Audio:
+    resource
+  Playlist:
+    resource
 
 seeders: Playlist, Audio, User
