@@ -29,3 +29,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+Route::resource('audio', App\Http\Controllers\AudioController::class);
+
+Route::resource('playlist', App\Http\Controllers\PlaylistController::class);
