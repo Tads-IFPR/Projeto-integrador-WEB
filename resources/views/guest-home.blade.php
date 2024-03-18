@@ -12,13 +12,13 @@
         </div>
     </nav>
     <main class="px-3">
-        <div class="d-flex justify-content-end h-70 mb-5">
-            <div class="d-flex align-items-center justify-content-center flex-column w-80">
+        <div class="d-flex justify-content-end main-text-div">
+            <div class="d-flex align-items-center justify-content-center flex-column main-text-inner-div">
                 <h1 class="text-effect mb-5">UPLOAD HERE<br>LISTEN EVERYWHERE</h1>
                 <a href="{{route('register')}}" class="button-default px-3 py-1 cfs-1-5 bold fit-content">Create account</a>
             </div>
         </div>
-        <div class="d-flex align-items-center justify-content-center flex-column w-80 ch110">
+        <div class="d-flex align-items-center justify-content-center flex-column main-text-inner-div secondary-text-div">
             <h2 style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
                 BUILD WITH <span class="material-symbols-outlined cfs-3-5 green">favorite</span><br>TO COMMUNITY
             </h2>
@@ -57,7 +57,7 @@
         main {
             background-image: url('/imgs/guest-bg.png');
             background-size: 80vw;
-            background-position-y: top 2rem;
+            background-position-y: 2rem;
             background-position-x: 5vw;
             background-repeat: no-repeat;
         }
@@ -66,19 +66,16 @@
             width: fit-content;
         }
 
-        .h-70 {
+        .main-text-div {
             height: 70vh;
+            margin-bottom: 3rem;
         }
 
-        .ch110 {
+        .secondary-text-div {
             height: 110vh;
         }
 
-        .h-80 {
-            height: 80vh;
-        }
-
-        .w-80 {
+        .main-text-inner-div {
             width: 80%;
         }
 
@@ -123,6 +120,34 @@
         a {
             color: var(--white);
             text-decoration: none;
+        }
+
+        @media screen and (max-width: 1200px) {
+            .main-text-inner-div {
+                width: 100%;
+            }
+
+            .main-text-div {
+                height: 50vh;
+                margin-bottom: 1rem;
+            }
+
+            .secondary-text-div {
+                height: 40vh;
+            }
+
+            main {
+                background-image: none;
+            }
+
+            h1,
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            p {
+            font-size: 1rem;
+        }
         }
     </style>
 @endpush
