@@ -20,15 +20,10 @@ class AudioStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'path' => ['required', 'string'],
-            'disk' => ['required', 'string'],
-            'author' => ['nullable', 'string'],
-            'duration' => ['required', 'integer'],
-            'cover_path' => ['nullable', 'string'],
-            'cover_disk' => ['nullable', 'string'],
-            'is_public' => ['required'],
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'name' => ['string', 'nullable'],
+            'artist' => ['string', 'nullable'],
+            'file' => ['required', 'file', 'max:10000'],
+            'cover' => ['file', 'nullable'],
         ];
     }
 }

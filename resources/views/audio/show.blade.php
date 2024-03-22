@@ -1,7 +1,7 @@
-{{--
-    @extends('layouts.app')
 
-    @section('content')
-        audio.show template
-    @endsection
---}}
+    {{-- @extends('layouts.app')
+
+        @section('content')
+
+    @endsection --}}
+
