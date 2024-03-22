@@ -67,12 +67,12 @@
         }
 
         .main-text-div {
-            height: 70vh;
+            min-height: 70vh;
             margin-bottom: 3rem;
         }
 
         .secondary-text-div {
-            height: 110vh;
+            min-height: 110vh;
         }
 
         .main-text-inner-div {
@@ -128,12 +128,13 @@
             }
 
             .main-text-div {
-                height: 50vh;
+                min-height: 50vh;
                 margin-bottom: 1rem;
             }
 
             .secondary-text-div {
-                height: 40vh;
+                min-height: 40vh;
+                margin-bottom: 2rem;
             }
 
             main {
