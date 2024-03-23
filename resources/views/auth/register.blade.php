@@ -1,52 +1,152 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('layouts.custom-guest')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+@section('content')
+<form method="POST" action="{{ route('register') }}" id="main-form">
+    @csrf
+    <x-auth-session-status class="mb-4" :status="session('status')" />
+
+    <div class="d-flex flex-column align-items-center justify-content-between w-100 h-100 py-5">
+        <h1>Sing Up</h1>
+        <div class="d-flex flex-column align-items-center justify-content-center w-100">
+            <div class="login-div-input">
+                <x-input id="name"
+                    class="d-block mt-1 w-100"
+                    type="text"
+                    name="Name"
+                    placeholder="Name"
+                    :value="old('name')"
+                    required
+                    autofocus
+                    autocomplete="username" />
+        
+                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            </div>
+
+            <div class="mt-4 login-div-input">
+                <x-input id="email"
+                    class="d-block mt-1 w-100"
+                    type="email"
+                    name="email"
+                    placeholder="E-mail"
+                    required 
+                    autocomplete="current-email" />
+        
+                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            </div>
+        
+            <div class="mt-4 login-div-input">
+                <x-input id="password"
+                    class="d-block mt-1 w-100"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required 
+                    autocomplete="new-password" />
+        
+                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            </div>
+
+            <div class="mt-4 login-div-input">
+                <x-input id="password_confirmation"
+                    class="d-block mt-1 w-100"
+                    type="password"
+                    name="password_confirmation"
+                    placeholder="Confirm password"
+                    required 
+                    autocomplete="new-password" />
+        
+                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            </div>
+            
+            <div class="d-flex justify-content-end mt-1 login-div-input">
+                <a class="link" href="{{ route('login') }}">
+                    Already registered?
+                </a>
+            </div>
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="d-flex justify-content-center mt-3 login-div-input">
+            <x-button class="ms-3 px-4 py-1" id="login">
+                {{ __('REGISTER') }}
+            </x-button>
         </div>
+    </div>
+</form>
+@endsection
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+@push('styles')
+    <style>
+        .login-div-input {
+            width: 70%;
+        }
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+        #login {
+            font-size: 1.2rem;
+            font-weight: bolder;
+            transform: scale(1, 1.1);
+        }
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+        .link {
+            color: var(--primary);
+            font-size: .7rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 150ms ease-out;
+        }
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        #remember {
+            font-size: .7rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+        .link:hover {
+            color: var(--secondary);
+        }
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+        body {
+            background-image: url("imgs/bg-user.png");
+            background-size: auto, 100%;
+            background-repeat: no-repeat;
+        }
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        h1 {
+            color: var(--primary);
+            font-size: 3.5rem;
+            font-weight: bolder;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1, 1.1);
+            -webkit-transform: scale(1, 1.1);
+            -moz-transform: scale(1, 1.1);
+            -ms-transform: scale(1, 1.1);
+            -o-transform: scale(1, 1.1);
+        }
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        #main-form {
+            width: 40vw;
+            height: 80vh;
+            background-color: var(--dark-gray);
+            box-shadow: var(--gray) -4px 4px 4px;
+            border-radius: 1rem;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%)
+        }
+
+        @media screen and (max-width: 1200px) {
+            #main-form {
+                width: 60vw;
+                height: 50vh;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            #main-form {
+                width: 80vw;
+            }
+        }
+    </style>
+@endpush
