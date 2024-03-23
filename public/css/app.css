@@ -1,0 +1,106 @@
+*{
+    --dark:#0d0d0d;
+    --dark-gray:#404040;
+    --tertiary:#BABF24;
+    --secondary: #13F2A1;
+    --primary: #6DF2CC;
+    --gray: #c0c0c0;
+    --white: #f2f2f2;
+    --danger: #F26D6D;
+}
+
+@font-face {  
+    font-family: "Sofia Sans", sans-serif;
+    src: url('/fonts/SofiaSans-Regular.ttf');
+    font-weight: normal;  
+    font-style: normal;
+}
+    
+
+
+body{
+    font-family: "Sofia Sans", sans-serif;
+    background-color: var(--dark);
+    color: var(--white);
+}
+
+.text-effect{
+    
+    text-shadow: -3px 3px var(--primary), -6px 6px var(--secondary), -9px 9px var(--tertiary);
+}
+
+.custom-input{
+    background-color: var(--white);
+    color: var(--dark);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+}
+
+.input-nav{
+    background-color: var(--white);
+    color: var(--dark);
+    border: 1px solid var(--gray);
+    border-radius: 20px;
+}
+
+.cfs-1 {
+    font-size: 1rem;
+}
+
+.cfs-2 {
+    font-size: 2rem;
+}
+
+.cfs-3 {
+    font-size: 3rem;
+}
+
+.cfs-4 {
+    font-size: 4rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.bolder {
+    font-weight: bolder;
+}
+
+.button-default{
+    color: var(--dark-gray);
+    border: 1px solid var(--dark-gray);
+    background-color: var(--secondary);
+    border-radius: 5px;
+    transition: all 150ms ease-out;
+}
+
+.button-default:hover{
+    border: 1px solid var(--dark-gray);
+    background-color: var(--primary);
+    border-radius: 5px;
+    box-shadow: -2px 2px 5px var(--white);
+}
+
+.button-community{
+    
+    border-radius: 20px;
+    background-color: var(--dark-gray);
+    color: var(--primary);
+    font-family: "Sofia Sans", sans-serif;
+    font-size: 20px;
+    border: solid 1px var(--dark-gray);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.button-community:hover{
+    
+    border-radius: 20px;
+    background-color: var(--dark-gray);
+    color: var(--primary);
+    font-family: "Sofia Sans", sans-serif;
+    font-size: 20px;
+    box-shadow: -5px 5px  var(--primary);
+}
+
+
