@@ -13,9 +13,9 @@ class AudioController extends Controller
 {
     public function index(Request $request): View
     {
-        $audio = Audio::all();
+        $audios = Audio::all();
 
-        return view('audio.index', compact('audio'));
+        return view('audio.index', compact('audios'));
     }
 
     public function create(Request $request): View
@@ -25,7 +25,31 @@ class AudioController extends Controller
 
     public function store(AudioStoreRequest $request): RedirectResponse
     {
-        $audio = Audio::create($request->validated());
+        $validated = $request->validated();
+        $audio = [
+            'name' => $validated['name'],
+            'author' => $validated['artist'],
+            'user_id' => auth()->id(),
+        ];
+
+        $audio['disk'] = config('filesystems.default');
+        $audio['path'] = $request->file('file')->store('audios', $audio['disk']);
+
+        $getID3 = new \getID3;
+        $file = $getID3->analyze(storage_path('app') . '/' .$audio['path']);
+        $audio['duration'] = ceil($file['playtime_seconds']);
+
+        if ($request->hasFile('cover')) {
+            $audio['cover_disk'] = config('filesystems.default');
+            $audio['cover_path'] = $request->file('cover')->store('covers', $audio['cover_disk']);
+        }
+
+        if (!$audio['name']) {
+            $audio['name'] = $request->file('file')->getClientOriginalName();
+            $audio['name'] = str_replace("." . $request->file('file')->getClientOriginalExtension(), '', $audio['name']);
+        }
+
+        $audio = Audio::create($audio);
 
         return redirect()->route('audio.index');
     }
@@ -42,7 +66,28 @@ class AudioController extends Controller
 
     public function update(AudioUpdateRequest $request, Audio $audio): RedirectResponse
     {
-        $audio->update($request->validated());
+        $validatedData = $request->validated();
+
+        $audio->update([
+            'name' => $validatedData['name'],
+            'author' => $validatedData['artist'],
+        ]);
+
+        if (!$audio['name']) {
+            $audio['name'] = $request->file('file')->getClientOriginalName();
+            $audio['name'] = str_replace("." . $request->file('file')->getClientOriginalExtension(), '', $audio['name']);
+        }
+        if ($request->hasFile('cover')) {
+            $audio['cover_disk'] = config('filesystems.default');
+            $audio['cover_path'] = $request->file('cover')->store('covers', $audio['cover_disk']);
+        }
+        if ($request->hasFile('file')) {
+            $getID3 = new \getID3;
+            $audio['disk'] = config('filesystems.default');
+            $audio['path'] = $request->file('file')->store('audios', $audio['disk']);
+            $file = $getID3->analyze(storage_path('app') . '/' .$audio['path']);
+            $audio['duration'] = ceil($file['playtime_seconds']);
+        }
 
         return redirect()->route('audio.index');
     }
