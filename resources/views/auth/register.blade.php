@@ -3,23 +3,22 @@
 @section('content')
 <form method="POST" action="{{ route('register') }}" id="main-form">
     @csrf
-    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <div class="d-flex flex-column align-items-center justify-content-between w-100 h-100 py-5">
+    <div class="d-flex flex-column align-items-center justify-content-between w-100 h-100 py-5 inner-div">
         <h1>Sing Up</h1>
         <div class="d-flex flex-column align-items-center justify-content-center w-100">
             <div class="login-div-input">
                 <x-input id="name"
                     class="d-block mt-1 w-100"
                     type="text"
-                    name="Name"
+                    name="name"
                     placeholder="Name"
                     :value="old('name')"
                     required
                     autofocus
                     autocomplete="username" />
         
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                <x-input-error :messages="$errors->get('name')" />
             </div>
 
             <div class="mt-4 login-div-input">
@@ -31,7 +30,7 @@
                     required 
                     autocomplete="current-email" />
         
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-input-error :messages="$errors->get('email')" />
             </div>
         
             <div class="mt-4 login-div-input">
@@ -43,7 +42,7 @@
                     required 
                     autocomplete="new-password" />
         
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <x-input-error :messages="$errors->get('password')" />
             </div>
 
             <div class="mt-4 login-div-input">
@@ -55,7 +54,7 @@
                     required 
                     autocomplete="new-password" />
         
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                <x-input-error :messages="$errors->get('password_confirmation')" />
             </div>
             
             <div class="d-flex justify-content-end mt-1 login-div-input">
@@ -70,6 +69,8 @@
                 {{ __('REGISTER') }}
             </x-button>
         </div>
+
+        <x-auth-session-status class="mb-4" :status="session('status')" />
     </div>
 </form>
 @endsection
@@ -105,7 +106,7 @@
         }
 
         body {
-            background-image: url("imgs/bg-user.png");
+            background-image: url("/imgs/bg-user.png");
             background-size: auto, 100%;
             background-repeat: no-repeat;
         }
@@ -124,9 +125,12 @@
             -o-transform: scale(1, 1.1);
         }
 
+        .inner-div {
+            min-height: 80vh;
+        }
+
         #main-form {
             width: 40vw;
-            height: 80vh;
             background-color: var(--dark-gray);
             box-shadow: var(--gray) -4px 4px 4px;
             border-radius: 1rem;
@@ -139,7 +143,10 @@
         @media screen and (max-width: 1200px) {
             #main-form {
                 width: 60vw;
-                height: 50vh;
+            }
+
+            .inner-div {
+                min-height: 50vh;
             }
         }
 
