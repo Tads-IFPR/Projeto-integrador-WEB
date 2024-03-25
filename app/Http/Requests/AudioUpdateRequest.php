@@ -11,7 +11,10 @@ class AudioUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        /** @var \App\Models\Audio */
+        $audio = $this->route('audio');
+
+        return $audio->user->is($this->user());
     }
 
     /**
