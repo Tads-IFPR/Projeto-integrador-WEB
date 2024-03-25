@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Audio extends Model
 {
@@ -54,4 +55,10 @@ class Audio extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function file()
+    {
+        return Storage::disk($this->disk)->get($this->path);
+    }
 }
+
