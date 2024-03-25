@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AudioShowRequest;
 use App\Http\Requests\AudioStoreRequest;
 use App\Http\Requests\AudioUpdateRequest;
 use App\Models\Audio;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AudioController extends Controller
 {
-    public function index(Request $request): View
-    {
-        $audios = Audio::all();
-
-        return view('audio.index', compact('audios'));
-    }
-
     public function create(Request $request): View
     {
         return view('audio.create');
@@ -51,12 +46,20 @@ class AudioController extends Controller
 
         $audio = Audio::create($audio);
 
-        return redirect()->route('audio.index');
+        return redirect()->route('home');
     }
 
-    public function show(Request $request, Audio $audio): View
+    public function show(AudioShowRequest $request, Audio $audio)
     {
-        return view('audio.show', compact('audio'));
+        $request->validated();
+
+        $data = explode('/', $audio->path);
+        $extension = $data[array_key_last($data)];
+        $path = 'temp/' . uniqid() . '.' . $extension;
+
+        Storage::put($path, $audio->file());
+
+        return response()->file(storage_path('app/') . $path)->deleteFileAfterSend();
     }
 
     public function edit(Request $request, Audio $audio): View
@@ -89,13 +92,13 @@ class AudioController extends Controller
             $audio['duration'] = ceil($file['playtime_seconds']);
         }
 
-        return redirect()->route('audio.index');
+        return redirect()->route('home');
     }
 
     public function destroy(Request $request, Audio $audio): RedirectResponse
     {
         $audio->delete();
 
-        return redirect()->route('audio.index');
+        return redirect()->route('home');
     }
 }
