@@ -62,6 +62,19 @@ class AudioController extends Controller
         return response()->file(storage_path('app/') . $path)->deleteFileAfterSend();
     }
 
+    public function showImage(AudioShowRequest $request, Audio $audio)
+    {
+        $request->validated();
+
+        $data = explode('/', $audio->path);
+        $extension = $data[array_key_last($data)];
+        $path = 'temp/' . uniqid() . '.' . $extension;
+
+        Storage::put($path, $audio->cover());
+
+        return response()->file(storage_path('app/') . $path)->deleteFileAfterSend();
+    }
+
     public function edit(Request $request, Audio $audio): View
     {
         return view('audio.edit', compact('audio'));
@@ -71,26 +84,28 @@ class AudioController extends Controller
     {
         $validatedData = $request->validated();
 
-        $audio->update([
+        $audioData = [
             'name' => $validatedData['name'],
             'author' => $validatedData['artist'],
-        ]);
+        ];
 
-        if (!$audio['name']) {
-            $audio['name'] = $request->file('file')->getClientOriginalName();
-            $audio['name'] = str_replace("." . $request->file('file')->getClientOriginalExtension(), '', $audio['name']);
+        if (!$audioData['name']) {
+            $audioData['name'] = $request->file('file')->getClientOriginalName();
+            $audioData['name'] = str_replace("." . $request->file('file')->getClientOriginalExtension(), '', $audioData['name']);
         }
         if ($request->hasFile('cover')) {
-            $audio['cover_disk'] = config('filesystems.default');
-            $audio['cover_path'] = $request->file('cover')->store('covers', $audio['cover_disk']);
+            $audioData['cover_disk'] = config('filesystems.default');
+            $audioData['cover_path'] = $request->file('cover')->store('covers', $audioData['cover_disk']);
         }
         if ($request->hasFile('file')) {
             $getID3 = new \getID3;
-            $audio['disk'] = config('filesystems.default');
-            $audio['path'] = $request->file('file')->store('audios', $audio['disk']);
-            $file = $getID3->analyze(storage_path('app') . '/' .$audio['path']);
-            $audio['duration'] = ceil($file['playtime_seconds']);
+            $audioData['disk'] = config('filesystems.default');
+            $audioData['path'] = $request->file('file')->store('audios', $audioData['disk']);
+            $file = $getID3->analyze(storage_path('app') . '/' .$audioData['path']);
+            $audioData['duration'] = ceil($file['playtime_seconds']);
         }
+
+        $audio->update($audioData);
 
         return redirect()->route('home');
     }
