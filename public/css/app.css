@@ -9,13 +9,13 @@
     --danger: #F26D6D;
 }
 
-@font-face {  
+@font-face {
     font-family: "Sofia Sans", sans-serif;
     src: url('/fonts/SofiaSans-Regular.ttf');
-    font-weight: normal;  
+    font-weight: normal;
     font-style: normal;
 }
-    
+
 
 
 body{
@@ -25,7 +25,7 @@ body{
 }
 
 .text-effect{
-    
+
     text-shadow: -3px 3px var(--primary), -6px 6px var(--secondary), -9px 9px var(--tertiary);
 }
 
@@ -83,7 +83,7 @@ body{
 }
 
 .button-community{
-    
+
     border-radius: 20px;
     background-color: var(--dark-gray);
     color: var(--primary);
@@ -94,7 +94,7 @@ body{
 }
 
 .button-community:hover{
-    
+
     border-radius: 20px;
     background-color: var(--dark-gray);
     color: var(--primary);
@@ -103,4 +103,43 @@ body{
     box-shadow: -5px 5px  var(--primary);
 }
 
+#audio-card {
+    object-fit: contain;
+    border-radius: .5rem;
+}
 
+.w-33 {
+    width: 33%;
+}
+
+#player-controls {
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 10vh;
+    width: 100vw;
+    background-color: var(--dark-gray);
+    justify-content: space-between;
+    padding: .5rem .7rem;
+}
+
+#actions {
+    color: var(--primary);
+}
+
+#player {
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+#audio-data h3 {
+    font-size: .8rem;
+    color: var(--white);
+}
+
+#audio-data h4 {
+    font-size: .6rem;
+    color: var(--gray);
+}
