@@ -60,5 +60,10 @@ class Audio extends Model
     {
         return Storage::disk($this->disk)->get($this->path);
     }
+
+    public function cover()
+    {
+        return Storage::disk($this->cover_disk)->get($this->cover_path);
+    }
 }
 
