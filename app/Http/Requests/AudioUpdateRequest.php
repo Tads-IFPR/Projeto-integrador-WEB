@@ -26,7 +26,7 @@ class AudioUpdateRequest extends FormRequest
             'name' => ['string', 'nullable'],
             'artist' => ['string', 'nullable'],
             'file' => ['nullable', 'file', 'max:10000'],
-            'cover' => ['file', 'nullable'],
+            'cover' => ['file', 'nullable', 'max:10000'],
         ];
     }
 }
