@@ -1,0 +1,88 @@
+#audio-card {
+    object-fit: contain;
+    border-radius: .5rem;
+}
+
+.w-33 {
+    width: 33%;
+}
+
+#player-controls {
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 10vh;
+    width: 100vw;
+    background-color: var(--dark-gray);
+    justify-content: space-between;
+    padding: .5rem .7rem;
+}
+
+#actions {
+    color: var(--primary);
+}
+
+#player {
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+#audio-data h3 {
+    font-size: .8rem;
+    color: var(--white);
+}
+
+#audio-data h4 {
+    font-size: .6rem;
+    color: var(--gray);
+}
+
+.audio-card {
+    height: 3rem;
+    overflow: hidden;
+}
+
+.audio-card .play {
+    display: none;
+}
+
+.audio-card:hover .play {
+    display: block;
+}
+
+.audio-card:hover img {
+    display: none;
+}
+
+.audio-card .delete-form,
+.audio-card .edit-form,
+.audio-card .rest-name {
+    opacity: 0;
+    transition: opacity 150ms ease-out;
+}
+
+.audio-card:hover .delete-form,
+.audio-card:hover .edit-form,
+.audio-card:hover .rest-name {
+    opacity: 1;
+}
+
+.audio-card img {
+    display: block;
+    object-fit: contain;
+    border-radius: .8rem;
+}
+
+.audio-card h3 {
+    font-size: .8rem;
+    font-weight: bolder;
+    color: var(--white);
+}
+
+.audio-card h4 {
+    font-size: .6rem;
+    font-weight: bolder;
+    color: var(--gray)
+}

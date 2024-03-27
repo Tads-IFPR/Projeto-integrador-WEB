@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Audio extends Model
 {
@@ -65,5 +67,23 @@ class Audio extends Model
     {
         return Storage::disk($this->cover_disk)->get($this->cover_path);
     }
-}
 
+    public function scopeCurrentUser(Builder $query): void
+    {
+        $query->where('user_id', auth()->user()->id);
+    }
+
+    protected function shortName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => substr($this->name, 0, 23),
+        );
+    }
+
+    protected function restName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => substr($this->name, 23),
+        );
+    }
+}

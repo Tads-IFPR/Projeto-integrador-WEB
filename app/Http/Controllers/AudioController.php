@@ -55,11 +55,11 @@ class AudioController extends Controller
 
         $data = explode('/', $audio->path);
         $extension = $data[array_key_last($data)];
-        $path = 'temp/' . uniqid() . '.' . $extension;
+        $path = 'temp/audio' . uniqid() . '.' . $extension;
 
         Storage::put($path, $audio->file());
 
-        return response()->file(storage_path('app/') . $path)->deleteFileAfterSend();
+        return response()->file(storage_path('app/') . $path);
     }
 
     public function showImage(AudioShowRequest $request, Audio $audio)
@@ -68,11 +68,11 @@ class AudioController extends Controller
 
         $data = explode('/', $audio->path);
         $extension = $data[array_key_last($data)];
-        $path = 'temp/' . uniqid() . '.' . $extension;
+        $path = 'temp/cover' . uniqid() . '.' . $extension;
 
         Storage::put($path, $audio->cover());
 
-        return response()->file(storage_path('app/') . $path)->deleteFileAfterSend();
+        return response()->file(storage_path('app/') . $path);
     }
 
     public function edit(Request $request, Audio $audio): View

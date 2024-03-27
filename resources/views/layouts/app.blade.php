@@ -14,6 +14,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="/css/audio.css">
 
         @livewireStyles
     </head>
@@ -22,7 +23,9 @@
 
         @yield('content')
 
-        <livewire:audio-player />
+        @persist('player')
+            <livewire:audio-player />
+        @endpersist
         @livewireScripts
     </body>
 </html>

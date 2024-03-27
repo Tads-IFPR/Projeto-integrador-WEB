@@ -1,10 +1,12 @@
 <div id="player-controls">
     <div id="audio-data" class="d-flex align-items-center w-33">
-        <img id="audio-card" width="45px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
-        <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2">
-            <h3>{{$audio->name}}</h3>
-            <h4>{{$audio->author}}</h4>
-        </div>
+        @if ($audio)
+            <img id="audio-card" width="45px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
+            <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2">
+                <h3>{{$audio?->name}}</h3>
+                <h4>{{$audio?->author}}</h4>
+            </div>
+        @endif
     </div>
 
     <div id="controls" class="w-33 d-flex flex-column align-items-center justify-content-center">
@@ -19,8 +21,10 @@
             </button>
         </div>
         <audio id="player" ontimeupdate="changeTime()">
-            <source src="{{ route('audio.show', $audio) }}" type="audio/mpeg">
-            Your browser does not support the audio element.
+            @if ($audio)
+                <source src="{{ route('audio.show', $audio) }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            @endif
         </audio>
 
         <div class="d-flex justify-content-between">
@@ -72,6 +76,12 @@
     }
 
     function loadedAudio() {
+        if (!player.duration) {
+            return;
+        }
+
+        player.currentTime = 0;
+        play();
         timer.max = player.duration;
 
         const mins = Math.floor(player.duration / 60);
