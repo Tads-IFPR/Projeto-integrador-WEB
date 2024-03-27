@@ -16,6 +16,8 @@
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/audio.css">
 
+        @stack('styles')
+
         @livewireStyles
     </head>
     <body>
@@ -26,6 +28,7 @@
         @persist('player')
             <livewire:audio-player />
         @endpersist
+        @stack('scripts')
         @livewireScripts
     </body>
 </html>

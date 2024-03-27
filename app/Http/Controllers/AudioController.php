@@ -59,7 +59,7 @@ class AudioController extends Controller
 
         Storage::put($path, $audio->file());
 
-        return response()->file(storage_path('app/') . $path);
+        return response()->file(storage_path('app/') . $path)->deleteFileAfterSend();
     }
 
     public function showImage(AudioShowRequest $request, Audio $audio)
@@ -72,7 +72,7 @@ class AudioController extends Controller
 
         Storage::put($path, $audio->cover());
 
-        return response()->file(storage_path('app/') . $path);
+        return response()->file(storage_path('app/') . $path)->deleteFileAfterSend();
     }
 
     public function edit(Request $request, Audio $audio): View

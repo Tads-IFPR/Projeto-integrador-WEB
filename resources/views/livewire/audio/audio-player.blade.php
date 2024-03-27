@@ -1,5 +1,5 @@
 <div id="player-controls">
-    <div id="audio-data" class="d-flex align-items-center w-33">
+    <div id="audio-data" class="d-flex align-items-center w-20">
         @if ($audio)
             <img id="audio-card" width="45px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
             <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2">
@@ -9,7 +9,7 @@
         @endif
     </div>
 
-    <div id="controls" class="w-33 d-flex flex-column align-items-center justify-content-center">
+    <div id="controls" class="w-60 d-flex flex-column align-items-center justify-content-center">
         <div id="actions" class="d-flex justify-content-center" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
             <button onclick="play()" id="play">
                 <span class="material-symbols-outlined">play_arrow</span>
@@ -30,13 +30,13 @@
         <div class="d-flex justify-content-between">
             <div>
                 <span id="current">0:00</span>
-                <input type="range" id="timer" name="timer" min="0" max="0" step="1" onchange="changeTimer()" />
+                <input type="range" id="timer" name="timer" min="0" max="0" step="1" oninput="changeTimer()" />
                 <span id="end">0:00</span>
             </div>
         </div>
     </div>
 
-    <div class="w-33 d-flex justify-content-end">
+    <div class="w-20 d-flex justify-content-end">
         <input type="range" id="volume" name="volume" min="0" value="100" max="1" step="0.01" oninput="changeVolume()" />
     </div>
 </div>
@@ -49,6 +49,7 @@
     const volume = document.getElementById('volume');
     const playButton =  document.getElementById('play');
     const pauseButton =  document.getElementById('pause');
+    var isDragging = false;
 
     document.addEventListener("DOMContentLoaded", () => {
         loadedAudio()
