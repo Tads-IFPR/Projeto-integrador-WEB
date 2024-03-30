@@ -93,67 +93,129 @@
 }
 
 .audio-card h3 {
-    font-size: .8rem;
+    font-size: .7rem;
     font-weight: bolder;
     color: var(--white);
 }
 
 .audio-card h4 {
-    font-size: .6rem;
+    font-size: .575rem;
     font-weight: bolder;
     color: var(--gray)
 }
 
 #timer {
-    -webkit-appearance: none;
-    appearance: none;
-    background: transparent;
-    cursor: pointer;
-    width: 30vw;
     position: relative;
-}
-
-#timer::before{
-    content: "";
-    display: block;
-    position: absolute;
-    top: .35rem;
-    left: 0;
-    z-index: -1;
-    background: var(--primary);
-    border-radius: .5rem;
-    height: .5rem;
-    width: 100%;
+    -webkit-appearance: none;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    height: 100%;
+    width: 30vw;
+    outline: none;
+    background: none;
+    appearance: none;
 }
 
 #timer::-webkit-slider-runnable-track {
-    background: transparent;
+    width: 100%;
+    height: .5rem;
+    cursor: pointer;
+    background: var(--primary);
     border-radius: 1.2rem;
-    height: 1.2rem;
 }
 
 #timer::-moz-range-track {
-    background: transparent;
+    width: 100%;
+    height: .5rem;
+    cursor: pointer;
+    background: var(--primary);
     border-radius: 1.2rem;
-    height: 1.2rem;
+}
+
+#timer::-ms-track {
+    width: 100%;
+    height: .5rem;
+    cursor: pointer;
+    background: var(--primary);
+    border: solid transparent;
+    color: transparent;
+}
+
+#timer::-moz-range-progress {
+    background-color: var(--secondary);
+    height: .5rem;
+    border-radius: 1.2rem 0 0 1.2rem;
+}
+
+#timer::before {
+    position: absolute;
+    content: "";
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: var(--player-before-width);
+    height: .5rem;
+    background-color: var(--secondary);
+    border-radius: 1.2rem 0 0 1.2rem;
+    cursor: pointer;
 }
 
 #timer::-webkit-slider-thumb {
+    position: relative;
     -webkit-appearance: none;
-    appearance: none;
-    background-color: var(--secondary);
+    box-sizing: content-box;
     height: 1.2rem;
     width: 1.2rem;
-    border-radius: 100%;
- }
+    border-radius: 50%;
+    background-color: var(--secondary);
+    cursor: pointer;
+    margin-top: -5.6px;
+}
+
+#timer:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+    background: var(--secondary);
+}
+
+#timer::-moz-focus-outer {
+    border: 0;
+}
 
 #timer::-moz-range-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: var(--secondary);
+    box-sizing: content-box;
+    border: 1px solid var(--secondary);
     height: 1.2rem;
     width: 1.2rem;
-    border-radius: 100%;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    cursor: pointer;
+}
+
+#timer:active::-moz-range-thumb {
+    transform: scale(1.2);
+    background: var(--secondary);
+}
+
+#timer::-ms-fill-lower {
+    background-color: var(--secondary);
+}
+
+#timer::-ms-thumb {
+    box-sizing: content-box;
+    border: 1px solid var(--secondary);
+    height: 1.2rem;
+    width: 1.2rem;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    cursor: pointer;
+}
+
+#timer:active::-ms-thumb {
+    transform: scale(1.2);
+    background: var(--secondary);
 }
 
 /* volume bar */

@@ -28,10 +28,10 @@
         </audio>
 
         <div class="d-flex justify-content-between">
-            <div>
-                <span id="current">0:00</span>
+            <div class="d-flex">
+                <span id="current" class="me-2">0:00</span>
                 <input type="range" id="timer" name="timer" min="0" max="0" step="1" oninput="changeTimer()" />
-                <span id="end">0:00</span>
+                <span id="end" class="ms-2">0:00</span>
             </div>
         </div>
     </div>
@@ -71,6 +71,7 @@
 
     function changeTimer() {
         player.currentTime = timer.value;
+        timer.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
     }
 
     function loadedAudio() {
@@ -97,6 +98,7 @@
 
     function changeTime() {
         timer.value = player.currentTime;
+        timer.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
         if (player.currentTime < 60) {
             const decimalSecond = player.currentTime < 10 ? 0 : '';
             current.innerText = '0:' + decimalSecond + Math.floor(player.currentTime);
