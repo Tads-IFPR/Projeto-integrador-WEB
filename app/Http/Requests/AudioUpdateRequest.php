@@ -11,7 +11,10 @@ class AudioUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        /** @var \App\Models\Audio */
+        $audio = $this->route('audio');
+
+        return $audio->user->is($this->user());
     }
 
     /**
@@ -23,7 +26,7 @@ class AudioUpdateRequest extends FormRequest
             'name' => ['string', 'nullable'],
             'artist' => ['string', 'nullable'],
             'file' => ['nullable', 'file', 'max:10000'],
-            'cover' => ['file', 'nullable'],
+            'cover' => ['file', 'nullable', 'max:10000'],
         ];
     }
 }

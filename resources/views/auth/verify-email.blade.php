@@ -19,17 +19,17 @@
         <div class="d-flex justify-content-evenly">
             <form method="POST" action="{{ route('verification.send') }}">
                 @csrf
-            
+
                 <div class="d-flex align-items-center justify-content-center w-100">
                     <x-button class="ms-3 px-4 py-1 main-buttons">
                         {{ __('RESEND E-MAIL') }}
                     </x-button>
                 </div>
             </form>
-            
+
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-            
+
                 <x-button class="ms-3 px-4 py-1 main-buttons h-100">
                     {{ __('LOG OUT') }}
                 </x-button>
@@ -85,12 +85,12 @@
 
         h1 {
             color: var(--primary);
-            font-size: 3rem;
-            font-weight: bolder;
+            font-size: 3rem !important;
+            font-weight: bolder !important;
             display: flex;
             justify-content: center;
             align-items: center;
-            transform: scale(1, 1.1);
+            transform: scale(1, 1.1) !important;
             -webkit-transform: scale(1, 1.1);
             -moz-transform: scale(1, 1.1);
             -ms-transform: scale(1, 1.1);
