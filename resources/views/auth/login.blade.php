@@ -17,22 +17,22 @@
                     required
                     autofocus
                     autocomplete="username" />
-        
+
                 <x-input-error :messages="$errors->get('email')" />
             </div>
-        
+
             <div class="mt-4 login-div-input">
                 <x-input id="password"
                     class="d-block mt-1 w-100"
                     type="password"
                     name="password"
                     placeholder="Password"
-                    required 
+                    required
                     autocomplete="current-password" />
-        
+
                 <x-input-error :messages="$errors->get('password')" />
             </div>
-        
+
             <div class="d-flex justify-content-between mt-1 login-div-input">
                 <a class="link" href="{{ route('register') }}">
                     Sing up
@@ -43,7 +43,7 @@
                     </a>
                 @endif
             </div>
-    
+
             <div class="d-flex justify-content-left mt-3 login-div-input">
                 <label for="remember_me" class="d-flex align-items-center">
                     <x-input id="remember_me" type="checkbox" name="remember" />
@@ -101,12 +101,12 @@
 
         h1 {
             color: var(--primary);
-            font-size: 3.5rem;
-            font-weight: bolder;
+            font-size: 3.5rem !important;
+            font-weight: bolder !important;
             display: flex;
             justify-content: center;
             align-items: center;
-            transform: scale(1, 1.1);
+            transform: scale(1, 1.1) !important;
             -webkit-transform: scale(1, 1.1);
             -moz-transform: scale(1, 1.1);
             -ms-transform: scale(1, 1.1);

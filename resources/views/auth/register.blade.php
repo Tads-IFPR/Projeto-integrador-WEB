@@ -17,7 +17,7 @@
                     required
                     autofocus
                     autocomplete="username" />
-        
+
                 <x-input-error :messages="$errors->get('name')" />
             </div>
 
@@ -27,21 +27,21 @@
                     type="email"
                     name="email"
                     placeholder="E-mail"
-                    required 
+                    required
                     autocomplete="current-email" />
-        
+
                 <x-input-error :messages="$errors->get('email')" />
             </div>
-        
+
             <div class="mt-4 login-div-input">
                 <x-input id="password"
                     class="d-block mt-1 w-100"
                     type="password"
                     name="password"
                     placeholder="Password"
-                    required 
+                    required
                     autocomplete="new-password" />
-        
+
                 <x-input-error :messages="$errors->get('password')" />
             </div>
 
@@ -51,12 +51,12 @@
                     type="password"
                     name="password_confirmation"
                     placeholder="Confirm password"
-                    required 
+                    required
                     autocomplete="new-password" />
-        
+
                 <x-input-error :messages="$errors->get('password_confirmation')" />
             </div>
-            
+
             <div class="d-flex justify-content-end mt-1 login-div-input">
                 <a class="link" href="{{ route('login') }}">
                     Already registered?
@@ -113,12 +113,12 @@
 
         h1 {
             color: var(--primary);
-            font-size: 3.5rem;
-            font-weight: bolder;
+            font-size: 3.5rem !important;
+            font-weight: bolder !important;
             display: flex;
             justify-content: center;
             align-items: center;
-            transform: scale(1, 1.1);
+            transform: scale(1, 1.1) !important;
             -webkit-transform: scale(1, 1.1);
             -moz-transform: scale(1, 1.1);
             -ms-transform: scale(1, 1.1);

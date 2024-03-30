@@ -22,7 +22,7 @@
                     required
                     autofocus
                     autocomplete="username" />
-        
+
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
         </div>
@@ -82,12 +82,12 @@
 
         h1 {
             color: var(--primary);
-            font-size: 3rem;
-            font-weight: bolder;
+            font-size: 3rem !important;
+            font-weight: bolder !important;
             display: flex;
             justify-content: center;
             align-items: center;
-            transform: scale(1, 1.1);
+            transform: scale(1, 1.1) !important;
             -webkit-transform: scale(1, 1.1);
             -moz-transform: scale(1, 1.1);
             -ms-transform: scale(1, 1.1);

@@ -12,6 +12,8 @@
 
         @stack('styles')
 
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+
         <link rel="stylesheet" href="/css/app.css">
     </head>
     <body>

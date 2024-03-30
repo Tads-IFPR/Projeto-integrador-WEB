@@ -9,14 +9,12 @@
     --danger: #F26D6D;
 }
 
-@font-face {  
+@font-face {
     font-family: "Sofia Sans", sans-serif;
     src: url('/fonts/SofiaSans-Regular.ttf');
-    font-weight: normal;  
+    font-weight: normal;
     font-style: normal;
 }
-    
-
 
 body{
     font-family: "Sofia Sans", sans-serif;
@@ -25,6 +23,7 @@ body{
 }
 
 .text-effect{
+
     text-shadow: -3px 3px var(--primary), -6px 6px var(--secondary), -9px 9px var(--tertiary);
 }
 
@@ -85,7 +84,7 @@ body{
     left: 50%;
     top: 50%;
 }
-  
+
 .custom-input[type="checkbox"]:checked::before {
     transform: scale(1) translate(-50%, -50%);
 }
@@ -138,7 +137,7 @@ body{
 }
 
 .button-community{
-    
+
     border-radius: 20px;
     background-color: var(--dark-gray);
     color: var(--primary);
@@ -149,7 +148,7 @@ body{
 }
 
 .button-community:hover{
-    
+
     border-radius: 20px;
     background-color: var(--dark-gray);
     color: var(--primary);
@@ -157,5 +156,3 @@ body{
     font-size: 20px;
     box-shadow: -5px 5px  var(--primary);
 }
-
-
