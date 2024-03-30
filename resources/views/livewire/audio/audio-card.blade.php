@@ -21,13 +21,12 @@
                 </span>
             </button>
         </form>
-        <form action="{{ route('audio.edit', $audio->id) }}" method="GET" class="edit-form">
-            @csrf
-            <button type="submit">
+        <div class="edit-form">
+            <a href="{{ route('audio.edit', $audio->id) }}" wire:navigate>
                 <span class="material-symbols-outlined">
                     edit
                 </span>
-            </button>
-        </form>
+            </a>
+        </div>
     </div>
 </div>
