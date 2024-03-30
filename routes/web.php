@@ -28,6 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('audio', App\Http\Controllers\AudioController::class);
 });
 
+Route::get('/playlist-create', function () {
+    return view('playlist.create');
+});
+
 require __DIR__.'/auth.php';
 
 Route::resource('playlist', App\Http\Controllers\PlaylistController::class);
