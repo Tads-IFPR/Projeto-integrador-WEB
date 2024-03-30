@@ -1,17 +1,18 @@
 <div class="audio-card d-flex justify-content-between {{$class}}"
     style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;"
 >
-    <img height="100%" src="{{ route('audio.show.image', $audio) }}" alt="Audio cover image">
-    <button wire:click='play' class="play">
-        <span class="material-symbols-outlined">play_arrow</span>
-    </button>
-    <div class="d-flex flex-column">
-        {{-- <h3 class="short-name">{{ $audio->shortName }} <span class="rest-name">{{ $audio->restName }}</span></h3> --}}
+    <div class="d-flex justify-content-center align-items-center" style="min-width: 50px">
+        <img width="50px" src="{{ route('audio.show.image', $audio) }}" class="h-100" alt="Audio cover image">
+        <button wire:click='play' class="play">
+            <span class="material-symbols-outlined">play_arrow</span>
+        </button>
+    </div>
+    <div class="d-flex flex-column px-3 w-100">
         <h3 class="name">{{ $audio->name }}</h3>
         <h4>{{ $audio->author }}</h4>
     </div>
     <div class="d-flex">
-        <form action="{{ route('audio.destroy', $audio->id) }}" method="POST" class="delete-form">
+        <form action="{{ route('audio.destroy', $audio->id) }}" method="POST" class="delete-form me-2">
             @csrf
             @method('DELETE')
             <button type="submit">

@@ -25,10 +25,10 @@
 
         @yield('content')
 
+        @stack('scripts')
+        @livewireScripts
         @persist('player')
             <livewire:audio-player />
         @endpersist
-        @stack('scripts')
-        @livewireScripts
     </body>
 </html>

@@ -20,9 +20,9 @@
                 </span>
             </button>
         </div>
-        <audio id="player" ontimeupdate="changeTime()">
+        <audio id="player" ontimeupdate="changeTime()" onloadedmetadata="loadedAudio()">
             @if ($audio)
-                <source src="{{ route('audio.show', $audio) }}" type="audio/mpeg">
+                <source src="{{ route('audio.show', $audio) }}" type="audio/mpeg" id="player-source">
                 Your browser does not support the audio element.
             @endif
         </audio>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="w-20 d-flex justify-content-end">
-        <input type="range" id="volume" name="volume" min="0" value="100" max="1" step="0.01" oninput="changeVolume()" />
+        <input type="range" id="volume" name="volume" min="0" value="0" max="1" step="0.01" oninput="changeVolume()" />
     </div>
 </div>
 
@@ -50,11 +50,7 @@
     const playButton =  document.getElementById('play');
     const pauseButton =  document.getElementById('pause');
     var isDragging = false;
-
-    document.addEventListener("DOMContentLoaded", () => {
-        loadedAudio()
-        player.addEventListener('loadedmetadata', () => loadedAudio());
-    });
+    var crSrc = null
 
     function play() {
         pauseButton.style.display = 'block';
@@ -69,7 +65,8 @@
     }
 
     function changeVolume() {
-        player.volume = volume.value
+        player.volume = volume.value;
+        volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
     }
 
     function changeTimer() {
@@ -77,10 +74,15 @@
     }
 
     function loadedAudio() {
-        if (!player.duration) {
+        if (!player.duration || isNaN(Number(player.duration)) || typeof player.duration !== 'number') {
             return;
         }
 
+        if (crSrc != document.getElementById('player-source').src) {
+            crSrc = document.getElementById('player-source').src;
+            player.load();
+        }
+        console.log(player.duration, isNaN(player.duration));
         player.currentTime = 0;
         play();
         timer.max = player.duration;
@@ -89,6 +91,8 @@
         const seconds = player.duration - (mins * 60);
         const decimalSecond = seconds < 10 ? 0 : '';
         end.innerText = mins + ':' + decimalSecond + Math.floor(seconds);
+        player.volume = volume.value;
+        volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
     }
 
     function changeTime() {

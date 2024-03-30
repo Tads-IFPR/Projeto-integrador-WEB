@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Audio;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -14,7 +15,6 @@ class AudioPlayer extends Component
     public function updateAudio(Audio $audio)
     {
         $this->audio = $audio;
-        $this->dispatch('$refresh');
     }
 
     public function render()
