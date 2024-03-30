@@ -37,10 +37,13 @@
     </div>
 
     <div class="w-20 d-flex justify-content-end align-items-center" id="sound">
-        <span class="material-symbols-outlined pe-1">
+        <span class="material-symbols-outlined pe-1" id="up" style="display: block" onclick="mute()">
             volume_up
-         </span>
-        <input type="range" id="volume" name="volume" min="0" value="0" max="1" step="0.01" oninput="changeVolume()" />
+        </span>
+        <span class="material-symbols-outlined pe-1" id="off" style="display: none" onclick="unmute()">
+            volume_off
+        </span>
+        <input type="range" id="volume" name="volume" min="0" value="0.1" max="1" step="0.01" oninput="changeVolume()" />
     </div>
 </div>
 
@@ -50,10 +53,13 @@
     const end = document.getElementById('end');
     const timer = document.getElementById('timer');
     const volume = document.getElementById('volume');
-    const playButton =  document.getElementById('play');
-    const pauseButton =  document.getElementById('pause');
+    const playButton = document.getElementById('play');
+    const pauseButton = document.getElementById('pause');
+    const up = document.getElementById('up');
+    const off = document.getElementById('off');
     var isDragging = false;
-    var crSrc = null
+    var crSrc = null;
+    changeVolume()
 
     function play() {
         pauseButton.style.display = 'block';
@@ -67,9 +73,29 @@
         player.pause();
     }
 
+    function mute() {
+        volume.value = 0;
+        changeVolume();
+    }
+
+    function unmute() {
+        volume.value = 0.1;
+        changeVolume();
+    }
+
     function changeVolume() {
         player.volume = volume.value;
         volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
+
+        if (volume.value == 0) {
+            console.log('aqui', volume.value)
+            off.style.display = 'block';
+            up.style.display = 'none';
+        } else {
+            console.log('aqui2', volume.value)
+            off.style.display = 'none';
+            up.style.display = 'block';
+        }
     }
 
     function changeTimer() {
@@ -86,7 +112,6 @@
             crSrc = document.getElementById('player-source').src;
             player.load();
         }
-        console.log(player.duration, isNaN(player.duration));
         player.currentTime = 0;
         play();
         timer.max = player.duration;
@@ -111,5 +136,14 @@
             const decimalSecond = seconds < 10 ? 0 : '';
             current.innerText = mins + ':' + decimalSecond + Math.floor(seconds);
         }
+
+        if (player.currentTime === player.duration) {
+            reset();
+        }
+    }
+
+    function reset() {
+        pause();
+        player.currentTime = 0;
     }
 </script>
