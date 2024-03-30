@@ -112,6 +112,8 @@ class AudioController extends Controller
 
     public function destroy(Request $request, Audio $audio): RedirectResponse
     {
+        Storage::disk($audio->disk)->delete($audio->path);
+        Storage::disk($audio->cover_disk)->delete($audio->cover_path);
         $audio->delete();
 
         return redirect()->route('home');
