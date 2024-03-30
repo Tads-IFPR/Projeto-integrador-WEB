@@ -40,6 +40,10 @@
     color: var(--primary);
 }
 
+#sound .material-symbols-outlined:hover {
+    cursor: pointer;
+}
+
 #player {
     opacity: 0;
     height: 0;
