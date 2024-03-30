@@ -1,4 +1,4 @@
-<div id="player-controls">
+<div id="player-controls" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
     <div id="audio-data" class="d-flex align-items-center w-20">
         @if ($audio)
             <img id="audio-card" width="45px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
@@ -10,7 +10,7 @@
     </div>
 
     <div id="controls" class="w-60 d-flex flex-column align-items-center justify-content-center">
-        <div id="actions" class="d-flex justify-content-center" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
+        <div id="actions" class="d-flex justify-content-center">
             <button onclick="play()" id="play">
                 <span class="material-symbols-outlined">play_arrow</span>
             </button>
@@ -36,7 +36,10 @@
         </div>
     </div>
 
-    <div class="w-20 d-flex justify-content-end">
+    <div class="w-20 d-flex justify-content-end align-items-center" id="sound">
+        <span class="material-symbols-outlined pe-1">
+            volume_up
+         </span>
         <input type="range" id="volume" name="volume" min="0" value="0" max="1" step="0.01" oninput="changeVolume()" />
     </div>
 </div>
@@ -91,7 +94,7 @@
         const mins = Math.floor(player.duration / 60);
         const seconds = player.duration - (mins * 60);
         const decimalSecond = seconds < 10 ? 0 : '';
-        end.innerText = mins + ':' + decimalSecond + Math.floor(seconds);
+        end.innerText = seconds ? mins + ':' + decimalSecond + Math.floor(seconds) : '0:0';
         player.volume = volume.value;
         volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
     }
