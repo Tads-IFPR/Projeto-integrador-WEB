@@ -88,7 +88,7 @@
 
 .audio-card img {
     display: block;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: .8rem;
 }
 
@@ -147,11 +147,126 @@
     border-radius: 100%;
  }
 
- #timer::-moz-range-thumb {
+#timer::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
     background-color: var(--secondary);
     height: 1.2rem;
     width: 1.2rem;
     border-radius: 100%;
+}
+
+/* volume bar */
+
+#volume {
+    position: relative;
+    -webkit-appearance: none;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    height: 19px;
+    float: left;
+    outline: none;
+    background: none;
+    appearance: none;
+}
+
+#volume::-webkit-slider-runnable-track {
+    width: 100%;
+    height: .5rem;
+    cursor: pointer;
+    background: var(--primary);
+    border-radius: 1.2rem;
+}
+
+#volume::-moz-range-track {
+    width: 100%;
+    height: .5rem;
+    cursor: pointer;
+    background: var(--primary);
+    border-radius: 1.2rem;
+}
+
+#volume::-ms-track {
+    width: 100%;
+    height: .5rem;
+    cursor: pointer;
+    background: var(--primary);
+    border: solid transparent;
+    color: transparent;
+}
+
+#volume::-moz-range-progress {
+    background-color: var(--secondary);
+    height: .5rem;
+    border-radius: 1.2rem 0 0 1.2rem;
+}
+
+#volume::before {
+    position: absolute;
+    content: "";
+    top: .35rem;
+    left: 0;
+    width: var(--seek-before-width);
+    height: .5rem;
+    background-color: var(--secondary);
+    border-radius: 1.2rem 0 0 1.2rem;
+    cursor: pointer;
+}
+
+#volume::-webkit-slider-thumb {
+    position: relative;
+    -webkit-appearance: none;
+    box-sizing: content-box;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    cursor: pointer;
+    margin-top: -4px;
+}
+
+#volume:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+    background: var(--secondary);
+}
+
+#volume::-moz-focus-outer {
+    border: 0;
+}
+
+#volume::-moz-range-thumb {
+    box-sizing: content-box;
+    border: 1px solid var(--secondary);
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    cursor: pointer;
+}
+
+#volume:active::-moz-range-thumb {
+    transform: scale(1.2);
+    background: var(--secondary);
+}
+
+#volume::-ms-fill-lower {
+    background-color: var(--secondary);
+}
+
+#volume::-ms-thumb {
+    box-sizing: content-box;
+    border: 1px solid var(--secondary);
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    cursor: pointer;
+}
+
+#volume:active::-ms-thumb {
+    transform: scale(1.2);
+    background: var(--secondary);
 }
