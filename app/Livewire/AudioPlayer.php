@@ -17,6 +17,16 @@ class AudioPlayer extends Component
         $this->audio = $audio;
     }
 
+    public function next()
+    {
+        $this->dispatch('changed-audio', audio: $this->audio->next);
+    }
+
+    public function previous()
+    {
+        $this->dispatch('changed-audio', audio: $this->audio->previous);
+    }
+
     public function render()
     {
         return view('livewire.audio.audio-player');

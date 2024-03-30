@@ -11,14 +11,32 @@
 
     <div id="controls" class="w-60 d-flex flex-column align-items-center justify-content-center">
         <div id="actions" class="d-flex justify-content-center">
-            <button onclick="play()" id="play">
+            @if ($audio?->previous)
+                <button id="previous" class="button-icon" wire:click='previous'>
+                    <span class="material-symbols-outlined">
+                        skip_previous
+                    </span>
+                </button>
+            @else
+                <div></div>
+            @endif
+            <button onclick="play()" id="play" class="button-icon">
                 <span class="material-symbols-outlined">play_arrow</span>
             </button>
-            <button onclick="pause()" id="pause" style="display: none">
+            <button onclick="pause()" id="pause" style="display: none" class="button-icon">
                 <span class="material-symbols-outlined">
                     pause
                 </span>
             </button>
+            @if ($audio?->next)
+                <button id="next" class="button-icon" wire:click='next'>
+                    <span class="material-symbols-outlined">
+                        skip_next
+                    </span>
+                </button>
+            @else
+                <div></div>
+            @endif
         </div>
         <audio id="player" ontimeupdate="changeTime()" onloadedmetadata="loadedAudio()">
             @if ($audio)

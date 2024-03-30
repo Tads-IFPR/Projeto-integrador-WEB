@@ -27,13 +27,11 @@
     padding: .5rem .7rem;
 }
 
-#pause,
-#play {
+.button-icon {
     height: 2rem;
 }
 
-#pause .material-symbols-outlined,
-#play .material-symbols-outlined {
+.button-icon .material-symbols-outlined {
     font-size: 2rem;
 }
 
@@ -342,4 +340,10 @@
 #volume:active::-ms-thumb {
     transform: scale(1.2);
     background: var(--secondary);
+}
+
+@media screen and (max-width: 800px) {
+    #sound {
+       display: none !important;
+    }
 }

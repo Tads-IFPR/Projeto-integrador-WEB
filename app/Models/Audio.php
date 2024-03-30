@@ -86,4 +86,18 @@ class Audio extends Model
             get: fn () => substr($this->name, 23),
         );
     }
+
+    protected function next(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => self::currentUser()->where('id', '>', $this->id)->orderBy('id','asc')->first(),
+        );
+    }
+
+    protected function previous(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => self::currentUser()->where('id', '<', $this->id)->orderBy('id','desc')->first(),
+        );
+    }
 }
