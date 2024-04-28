@@ -1,6 +1,8 @@
 #audio-card {
-    object-fit: contain;
-    border-radius: .5rem;
+    display: block;
+    object-fit: cover;
+    border-radius: .8rem;
+    height: 50px;
 }
 
 .w-33 {
@@ -48,6 +50,14 @@
     opacity: 0;
     height: 0;
     width: 0;
+}
+
+#audio-data {
+    width: 20%;
+}
+
+#controls {
+    width: 60%;
 }
 
 #audio-data h3 {
@@ -346,8 +356,67 @@
     background: var(--secondary);
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 500px) {
     #sound {
        display: none !important;
+    }
+
+    #audio-data {
+        width: 60%;
+        padding-top: .3rem;
+        padding-bottom: .3rem;
+    }
+
+    #audio-card {
+        display: block;
+        object-fit: cover;
+        border-radius: .8rem;
+        height: 60px;
+        width: 60px;
+    }
+
+    #audio-name {
+        justify-content: start !important;
+    }
+
+    #controls {
+        width: 40%;
+    }
+
+    #time-controls {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100vw;
+    }
+
+    #time-controls div.d-flex {
+        visibility: hidden;
+    }
+
+    #mobile-timer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: var(--player-before-width);
+        height: .3rem;
+        background-color: var(--white);
+        border-radius: 0 1rem 1rem 0;
+    }
+
+    #current {
+        display: none;
+    }
+
+    #end {
+        display: none;
+    }
+
+    .button-icon {
+        height: 3rem;
+    }
+
+    .button-icon .material-symbols-outlined {
+        font-size: 3rem;
     }
 }

@@ -1,15 +1,15 @@
 <div id="player-controls" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
-    <div id="audio-data" class="d-flex align-items-center w-20">
+    <div id="audio-data" class="d-flex align-items-center">
         @if ($audio)
-            <img id="audio-card" width="45px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
-            <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2">
-                <h3>{{$audio?->name}}</h3>
+            <img id="audio-card" width="50px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
+            <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2" id="audio-name">
+                <h3><strong>{{$audio?->name}}</strong></h3>
                 <h4>{{$audio?->author}}</h4>
             </div>
         @endif
     </div>
 
-    <div id="controls" class="w-60 d-flex flex-column align-items-center justify-content-center">
+    <div id="controls" class="d-flex flex-column align-items-center justify-content-center">
         <div id="actions" class="d-flex justify-content-center">
             @if ($audio?->previous)
                 <button id="previous" class="button-icon" wire:click='previous'>
@@ -45,12 +45,13 @@
             @endif
         </audio>
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between" id="time-controls">
             <div class="d-flex">
                 <span id="current" class="me-2">0:00</span>
                 <input type="range" id="timer" name="timer" min="0" max="0" step="1" oninput="changeTimer()" />
                 <span id="end" class="ms-2">0:00</span>
             </div>
+            <div id="mobile-timer"></div>
         </div>
     </div>
 
@@ -75,6 +76,7 @@
     const pauseButton = document.getElementById('pause');
     const up = document.getElementById('up');
     const off = document.getElementById('off');
+    const timeControls = document.getElementById('time-controls');
     var isDragging = false;
     var crSrc = null;
     changeVolume()
@@ -118,7 +120,7 @@
 
     function changeTimer() {
         player.currentTime = timer.value;
-        timer.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
+        timeControls.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
     }
 
     function loadedAudio() {
@@ -144,7 +146,7 @@
 
     function changeTime() {
         timer.value = player.currentTime;
-        timer.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
+        timeControls.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
         if (player.currentTime < 60) {
             const decimalSecond = player.currentTime < 10 ? 0 : '';
             current.innerText = '0:' + decimalSecond + Math.floor(player.currentTime);
