@@ -360,9 +360,21 @@
     #player-controls.expanded {
         flex-direction: column;
         height: 45vh;
-        border-radius: 1rem 1rem 0 0;
+        border-radius: 1.5rem 1.5rem 0 0;
         align-items: center;
         justify-content: space-evenly;
+        z-index: 2;
+    }
+
+    .black-background::before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.6);
+        height: 100vh;
+        width: 100vw;
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        left: 0;
     }
 
     #sound {
@@ -436,6 +448,7 @@
     .expanded #time-controls div.d-flex {
         visibility: visible;
         width: 100%;
+        position: relative;
     }
 
     .expanded #time-controls #timer {
@@ -464,6 +477,18 @@
     .expanded #current,
     .expanded #end {
         display: initial;
+    }
+
+    .expanded #current {
+        margin: 0 !important;
+        position: absolute;
+        top: 1rem;
+        left: calc(var(--player-before-width) - .5rem);
+    }
+
+    .expanded #end {
+        position: absolute;
+        left: 100%;
     }
 
     .button-icon {

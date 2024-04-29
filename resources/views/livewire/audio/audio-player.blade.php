@@ -1,4 +1,4 @@
-<div id="player-controls" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
+<div id="player-controls" @class(['have-audio' => !!$audio]) style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
     <div id="audio-data" class="d-flex align-items-center">
         @if ($audio)
             <img id="audio-card" width="50px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
@@ -12,7 +12,7 @@
     <div id="controls" class="d-flex flex-column align-items-center justify-content-center">
         <div id="actions" class="d-flex justify-content-center">
             @if ($audio?->previous)
-                <button id="previous" class="button-icon" wire:click='previous'>
+                <button id="previous" class="button-icon" wire:click='previous' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_previous
                     </span>
@@ -20,16 +20,16 @@
             @else
                 <div></div>
             @endif
-            <button onclick="play()" id="play" class="button-icon">
+            <button onclick="play(event)" id="play" class="button-icon">
                 <span class="material-symbols-outlined">play_arrow</span>
             </button>
-            <button onclick="pause()" id="pause" style="display: none" class="button-icon">
+            <button onclick="pause(event)" id="pause" style="display: none" class="button-icon">
                 <span class="material-symbols-outlined">
                     pause
                 </span>
             </button>
             @if ($audio?->next)
-                <button id="next" class="button-icon" wire:click='next'>
+                <button id="next" class="button-icon" wire:click='next' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_next
                     </span>
@@ -81,13 +81,19 @@
     var crSrc = null;
     changeVolume()
 
-    function play() {
+    function stopPropagation(event) {
+        event?.stopPropagation();
+    }
+
+    function play(event = null) {
+        event?.stopPropagation();
         pauseButton.style.display = 'block';
         playButton.style.display = 'none';
         player.play();
     }
 
-    function pause() {
+    function pause(event = null) {
+        event?.stopPropagation();
         playButton.style.display = 'block';
         pauseButton.style.display = 'none';
         player.pause();
@@ -165,12 +171,30 @@
         player.currentTime = 0;
     }
 
+    function toggleMobilePlayer() {
+        const playerControls = document.getElementById('player-controls');
+        playerControls.classList.toggle('expanded')
+        document.body.classList.toggle('black-background');
+
+        let elements = document.getElementsByClassName('black-background');
+        Array.from(elements).forEach(element => {
+            element.removeEventListener('click', toggleMobilePlayer)
+        })
+
+        setTimeout(() => {
+            let elements = document.getElementsByClassName('black-background');
+            Array.from(elements).forEach(element => {
+                element.addEventListener('click', toggleMobilePlayer)
+            })
+        }, 250)
+    }
+
     function updateSize() {
         const playerControls = document.getElementById('player-controls');
 
         if (window.innerWidth <= 500 ) {
             playerControls.addEventListener('click', () => {
-                playerControls.classList.toggle('expanded')
+                toggleMobilePlayer();
             });
         } else {
             playerControls.removeEventListener('click')
