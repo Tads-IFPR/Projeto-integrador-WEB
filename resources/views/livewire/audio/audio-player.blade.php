@@ -171,7 +171,8 @@
         player.currentTime = 0;
     }
 
-    function toggleMobilePlayer() {
+    function toggleMobilePlayer(event = null) {
+        event.stopPropagation();
         const playerControls = document.getElementById('player-controls');
         playerControls.classList.toggle('expanded')
         document.body.classList.toggle('black-background');
@@ -193,8 +194,8 @@
         const playerControls = document.getElementById('player-controls');
 
         if (window.innerWidth <= 500 ) {
-            playerControls.addEventListener('click', () => {
-                toggleMobilePlayer();
+            playerControls.addEventListener('click', (event) => {
+                toggleMobilePlayer(event);
             });
         } else {
             playerControls.removeEventListener('click')
