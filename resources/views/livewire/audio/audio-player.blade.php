@@ -1,18 +1,18 @@
-<div id="player-controls" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
-    <div id="audio-data" class="d-flex align-items-center w-20">
+<div id="player-controls" @class(['have-audio' => !!$audio]) style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
+    <div id="audio-data" class="d-flex align-items-center">
         @if ($audio)
-            <img id="audio-card" width="45px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
-            <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2">
-                <h3>{{$audio?->name}}</h3>
+            <img id="audio-card" width="50px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
+            <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2" id="audio-name">
+                <h3><strong>{{$audio?->name}}</strong></h3>
                 <h4>{{$audio?->author}}</h4>
             </div>
         @endif
     </div>
 
-    <div id="controls" class="w-60 d-flex flex-column align-items-center justify-content-center">
+    <div id="controls" class="d-flex flex-column align-items-center justify-content-center">
         <div id="actions" class="d-flex justify-content-center">
             @if ($audio?->previous)
-                <button id="previous" class="button-icon" wire:click='previous'>
+                <button id="previous" class="button-icon" wire:click='previous' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_previous
                     </span>
@@ -20,16 +20,16 @@
             @else
                 <div></div>
             @endif
-            <button onclick="play()" id="play" class="button-icon">
+            <button onclick="play(event)" id="play" class="button-icon">
                 <span class="material-symbols-outlined">play_arrow</span>
             </button>
-            <button onclick="pause()" id="pause" style="display: none" class="button-icon">
+            <button onclick="pause(event)" id="pause" style="display: none" class="button-icon">
                 <span class="material-symbols-outlined">
                     pause
                 </span>
             </button>
             @if ($audio?->next)
-                <button id="next" class="button-icon" wire:click='next'>
+                <button id="next" class="button-icon" wire:click='next' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_next
                     </span>
@@ -45,12 +45,13 @@
             @endif
         </audio>
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between" id="time-controls">
             <div class="d-flex">
                 <span id="current" class="me-2">0:00</span>
                 <input type="range" id="timer" name="timer" min="0" max="0" step="1" oninput="changeTimer()" />
                 <span id="end" class="ms-2">0:00</span>
             </div>
+            <div id="mobile-timer"></div>
         </div>
     </div>
 
@@ -75,17 +76,24 @@
     const pauseButton = document.getElementById('pause');
     const up = document.getElementById('up');
     const off = document.getElementById('off');
+    const timeControls = document.getElementById('time-controls');
     var isDragging = false;
     var crSrc = null;
     changeVolume()
 
-    function play() {
+    function stopPropagation(event) {
+        event?.stopPropagation();
+    }
+
+    function play(event = null) {
+        event?.stopPropagation();
         pauseButton.style.display = 'block';
         playButton.style.display = 'none';
         player.play();
     }
 
-    function pause() {
+    function pause(event = null) {
+        event?.stopPropagation();
         playButton.style.display = 'block';
         pauseButton.style.display = 'none';
         player.pause();
@@ -106,11 +114,9 @@
         volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
 
         if (volume.value == 0) {
-            console.log('aqui', volume.value)
             off.style.display = 'block';
             up.style.display = 'none';
         } else {
-            console.log('aqui2', volume.value)
             off.style.display = 'none';
             up.style.display = 'block';
         }
@@ -118,7 +124,7 @@
 
     function changeTimer() {
         player.currentTime = timer.value;
-        timer.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
+        timeControls.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
     }
 
     function loadedAudio() {
@@ -144,7 +150,7 @@
 
     function changeTime() {
         timer.value = player.currentTime;
-        timer.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
+        timeControls.style.setProperty('--player-before-width', timer.value / timer.max * 100 + '%');
         if (player.currentTime < 60) {
             const decimalSecond = player.currentTime < 10 ? 0 : '';
             current.innerText = '0:' + decimalSecond + Math.floor(player.currentTime);
@@ -164,4 +170,38 @@
         pause();
         player.currentTime = 0;
     }
+
+    function toggleMobilePlayer(event = null) {
+        event.stopPropagation();
+        const playerControls = document.getElementById('player-controls');
+        playerControls.classList.toggle('expanded')
+        document.body.classList.toggle('black-background');
+
+        let elements = document.getElementsByClassName('black-background');
+        Array.from(elements).forEach(element => {
+            element.removeEventListener('click', toggleMobilePlayer)
+        })
+
+        setTimeout(() => {
+            let elements = document.getElementsByClassName('black-background');
+            Array.from(elements).forEach(element => {
+                element.addEventListener('click', toggleMobilePlayer)
+            })
+        }, 250)
+    }
+
+    function updateSize() {
+        const playerControls = document.getElementById('player-controls');
+
+        if (window.innerWidth <= 500 ) {
+            playerControls.addEventListener('click', (event) => {
+                toggleMobilePlayer(event);
+            });
+        } else {
+            playerControls.removeEventListener('click')
+        }
+    }
+
+    window.addEventListener('resize', updateSize);
+    updateSize();
 </script>
