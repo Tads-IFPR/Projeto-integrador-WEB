@@ -108,11 +108,9 @@
         volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
 
         if (volume.value == 0) {
-            console.log('aqui', volume.value)
             off.style.display = 'block';
             up.style.display = 'none';
         } else {
-            console.log('aqui2', volume.value)
             off.style.display = 'none';
             up.style.display = 'block';
         }
@@ -166,4 +164,19 @@
         pause();
         player.currentTime = 0;
     }
+
+    function updateSize() {
+        const playerControls = document.getElementById('player-controls');
+
+        if (window.innerWidth <= 500 ) {
+            playerControls.addEventListener('click', () => {
+                playerControls.classList.toggle('expanded')
+            });
+        } else {
+            playerControls.removeEventListener('click')
+        }
+    }
+
+    window.addEventListener('resize', updateSize);
+    updateSize();
 </script>

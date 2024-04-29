@@ -357,6 +357,14 @@
 }
 
 @media screen and (max-width: 500px) {
+    #player-controls.expanded {
+        flex-direction: column;
+        height: 45vh;
+        border-radius: 1rem 1rem 0 0;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
     #sound {
        display: none !important;
     }
@@ -367,6 +375,12 @@
         padding-bottom: .3rem;
     }
 
+    .expanded #audio-data {
+        width: 60vw;
+        display: flex;
+        flex-direction: column;
+    }
+
     #audio-card {
         display: block;
         object-fit: cover;
@@ -375,12 +389,32 @@
         width: 60px;
     }
 
+    .expanded #audio-card {
+        height: 60vw;
+        width: 100%;
+    }
+
     #audio-name {
         justify-content: start !important;
     }
 
+    .expanded #audio-name {
+        align-self: start;
+        padding: 0 !important;
+        margin-top: .5rem;
+    }
+
     #controls {
         width: 40%;
+    }
+
+    .expanded #controls {
+        width: 60vw;
+    }
+
+    .expanded #actions {
+        width: 100%;
+        justify-content: space-between !important;
     }
 
     #time-controls {
@@ -390,8 +424,22 @@
         width: 100vw;
     }
 
+    .expanded #time-controls {
+        position: initial;
+        width: 100%;
+    }
+
     #time-controls div.d-flex {
         visibility: hidden;
+    }
+
+    .expanded #time-controls div.d-flex {
+        visibility: visible;
+        width: 100%;
+    }
+
+    .expanded #time-controls #timer {
+        width: 100%;
     }
 
     #mobile-timer {
@@ -404,12 +452,18 @@
         border-radius: 0 1rem 1rem 0;
     }
 
-    #current {
+    .expanded #mobile-timer {
+        visibility: hidden;
+    }
+
+    #current,
+    #end {
         display: none;
     }
 
-    #end {
-        display: none;
+    .expanded #current,
+    .expanded #end {
+        display: initial;
     }
 
     .button-icon {
