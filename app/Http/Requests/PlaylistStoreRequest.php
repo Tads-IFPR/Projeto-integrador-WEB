@@ -21,7 +21,7 @@ class PlaylistStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'is_public' => ['required'],
+            //'is_public' => ['required'],
             'cover_path' => ['nullable', 'string'],
             'cover_disk' => ['nullable', 'string'],
         ];

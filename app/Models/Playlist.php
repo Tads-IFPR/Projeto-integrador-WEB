@@ -20,6 +20,7 @@ class Playlist extends Model
         'is_public',
         'cover_path',
         'cover_disk',
+        'user_id'
     ];
 
     /**

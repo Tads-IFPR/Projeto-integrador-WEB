@@ -11,12 +11,12 @@ use Illuminate\View\View;
 
 class PlaylistController extends Controller
 {
-    public function index(Request $request): View
+    /*public function index(Request $request): View
     {
         $playlists = Playlist::all();
 
         return view('playlist.index', compact('playlists'));
-    }
+    }*/
 
     public function create(Request $request): View
     {
@@ -25,13 +25,33 @@ class PlaylistController extends Controller
 
     public function store(PlaylistStoreRequest $request): RedirectResponse
     {
-        $playlist = Playlist::create($request->validated());
+        $validated = $request->validated();
+        //$playlist = Playlist::create($request->validated());
 
-        return redirect()->route('playlist.index');
+        $isPublic = $request->has('is_public') ? 1 : 0;
+
+
+        $playlist = [
+            'name' => $validated['name'],
+            'is_public' => $isPublic,
+            'cover_path' => $validated['cover_path'],
+            'cover_disk' => $validated['cover_disk'],
+            'user_id' => auth()->id(),
+        ];
+
+    
+        $playlist = Playlist::create($playlist);
+        
+
+        return redirect()->route('home');
     }
 
     public function show(Request $request, Playlist $playlist): View
     {
+        $request->validate();
+
+        
+        
         return view('playlist.show', compact('playlist'));
     }
 

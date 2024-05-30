@@ -9,6 +9,11 @@
                     <h2 class="cfs-1 bolder">Playlists</h2>
                     <button class="button-default px-4 py-1">New</button>
                 </div>
+                <div class="d-flex w-100 wrap">
+                    @foreach ($playlists as $playlist)
+                        <livewire:playlist-card :$playlist :key="$playlist->id" class="mt-3"/>
+                    @endforeach
+                </div>
             </div>
         </div>
         <div class="d-flex flex-column" id="audios">
