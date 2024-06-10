@@ -1,26 +1,138 @@
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: left;
+:root {
+    --main-bg-color: #2e3033;
+    --secondary-bg-color: #101010;
+    --primary-font-color: #777;
+    --secondary-font-color: #70f2cd;
+}
+
+nav.navbar {
+    background-color: var(--main-bg-color);
     padding: 0 20px;
-    border-bottom: 5px solid #ccc;
-    color: white;
-    cursor:pointer;
 }
 
-.search input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-}
-
-.search:hover {
-    transform: scale(2)
-}
-
-.configuration {
+.navbar-nav {
+    list-style: none;
     display: flex;
-    justify-content: space-between;
+}
+
+.navbar-nav li {
+    position: relative;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+.navbar-nav li a {
+    position: relative;
+    text-decoration: none;
+    color: var(--primary-font-color);
+    font-size: 16px;
+    padding: 15px 10px 15px 10px;
+    border-radius: 10px 10px 0 0;
+    transition: none !important;
+}
+
+.navbar-nav li a:hover {
+    color: var(--secondary-font-color);
+    background-color: var(--secondary-bg-color);
+}
+
+/* ABINHA ESQUERDA */
+.navbar-nav li a:hover::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--main-bg-color);
+    position: absolute;
+    bottom: 0;
+    left: -15px;
+    border-bottom-right-radius: 20px;
+}
+
+.navbar-nav li:hover::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--secondary-bg-color);
+    position: absolute;
+    bottom: 0;
+    left: -15px;
+}
+
+/* ABINHA DIREITA */
+.navbar-nav li:hover::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--secondary-bg-color);
+    position: absolute;
+    bottom: 0;
+    right: -15px;
+    z-index: 0;
+}
+
+.navbar-nav li a:hover::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--main-bg-color);
+    position: absolute;
+    bottom: 0;
+    right: -15px;
+    border-bottom-left-radius: 20px;
+    z-index: 1;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+}
+
+#navbarCollapse {
+    position: relative;
+}
+
+#search-bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#search-bar input {
+    border-radius: 10px;
+}
+
+/* Serach Bar */
+#search-bar input {
+    width: 300px;
+    border-radius: 15px;
+    padding: 5px 30px 5px 30px;
+    outline: none;
+    border: none;
+    transition: width 0.9s ease;
+}
+
+#search-bar .input-wrapper.input {
+    position: relative;
+    display: inline-block;
+}
+
+#search-bar i {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    transform: rotate(90deg); /* Girar a lupa*/
+
+    color: var(--secondary-bg-color);
+}
+
+#search-bar input:hover {
+    width: 600px;
+}
+
+#config {
+    border-radius: 100%;
+    line-height: normal;
+    padding: 0.5rem !important;
 }
