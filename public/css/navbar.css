@@ -1,12 +1,5 @@
-:root {
-    --main-bg-color: #2e3033;
-    --secondary-bg-color: #101010;
-    --primary-font-color: #777;
-    --secondary-font-color: #70f2cd;
-}
-
 nav.navbar {
-    background-color: var(--main-bg-color);
+    background-color: var(--dark-gray);
     padding: 0 20px;
 }
 
@@ -24,7 +17,7 @@ nav.navbar {
 .navbar-nav li a {
     position: relative;
     text-decoration: none;
-    color: var(--primary-font-color);
+    color: var(--gray);
     font-size: 16px;
     padding: 15px 10px 15px 10px;
     border-radius: 10px 10px 0 0;
@@ -32,8 +25,8 @@ nav.navbar {
 }
 
 .navbar-nav li a:hover {
-    color: var(--secondary-font-color);
-    background-color: var(--secondary-bg-color);
+    color: var(--white);
+    background-color: var(--dark);
 }
 
 /* ABINHA ESQUERDA */
@@ -41,7 +34,7 @@ nav.navbar {
     content: "";
     width: 15px;
     height: 15px;
-    background-color: var(--main-bg-color);
+    background-color: var(--dark-gray);
     position: absolute;
     bottom: 0;
     left: -15px;
@@ -52,7 +45,7 @@ nav.navbar {
     content: "";
     width: 15px;
     height: 15px;
-    background-color: var(--secondary-bg-color);
+    background-color: var(--dark);
     position: absolute;
     bottom: 0;
     left: -15px;
@@ -63,7 +56,7 @@ nav.navbar {
     content: "";
     width: 15px;
     height: 15px;
-    background-color: var(--secondary-bg-color);
+    background-color: var(--dark);
     position: absolute;
     bottom: 0;
     right: -15px;
@@ -74,7 +67,7 @@ nav.navbar {
     content: "";
     width: 15px;
     height: 15px;
-    background-color: var(--main-bg-color);
+    background-color: var(--dark-gray);
     position: absolute;
     bottom: 0;
     right: -15px;
@@ -124,7 +117,7 @@ nav.navbar {
 
     transform: rotate(90deg); /* Girar a lupa*/
 
-    color: var(--secondary-bg-color);
+    color: var(--dark);
 }
 
 #search-bar input:hover {
