@@ -1,24 +1,22 @@
-<html lang="en">
-
-    <nav class="navbar navbar-expand-md navbar-dark mb-4" id="main-nav">
-        <div class="container-fluid">
-          <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+<nav class="navbar navbar-expand-md navbar-dark mb-4" id="main-nav">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
 
             <ul class="navbar-nav">
 
-              <li class="nav-item" id="home">
-                <a class="nav-link" href="#">Home</a>
-              </li>
+                <li class="nav-item" id="home">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
 
 
-              <li class="nav-item" id="community">
-                <a class="nav-link" href="#">Community</a>
-              </li>
+                <li class="nav-item" id="community">
+                    <a class="nav-link" href="#">Community</a>
+                </li>
 
 
-              <li class="nav-item" id="favorites">
-                <a class="nav-link" href="#">Favorites</a>
-              </li>
+                <li class="nav-item" id="favorites">
+                    <a class="nav-link" href="#">Favorites</a>
+                </li>
 
 
             </ul>
@@ -31,15 +29,13 @@
             </form>
 
             <div class="d-flex">
-              <button class="btn btn-outline-success" type="submit" id="config">
+                <button class="btn btn-outline-success" type="submit" id="config">
                     <span class="material-symbols-outlined">
-                    settings
+                        settings
                     </span>
                 </button>
             </div>
 
-          </div>
         </div>
-    </nav>
-
-
+    </div>
+</nav>
