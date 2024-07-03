@@ -125,6 +125,7 @@ nav.navbar {
 }
 
 #config {
+    display: flex;
     border-radius: 100%;
     line-height: normal;
     padding: 0.5rem !important;
