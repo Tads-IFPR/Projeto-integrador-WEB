@@ -11,7 +11,6 @@ nav.navbar {
 .navbar-nav li {
     position: relative;
     margin-right: 15px;
-    margin-top: 15px;
 }
 
 .navbar-nav li a {
@@ -19,7 +18,7 @@ nav.navbar {
     text-decoration: none;
     color: var(--gray);
     font-size: 16px;
-    padding: 15px 10px 15px 10px;
+    font-weight: bold;
     border-radius: 10px 10px 0 0;
     transition: none !important;
 }
@@ -27,6 +26,11 @@ nav.navbar {
 .navbar-nav li a:hover {
     color: var(--white);
     background-color: var(--dark);
+}
+
+.active a{
+    color: var(--white) !important;
+    background-color: var(--dark) !important;
 }
 
 /* ABINHA ESQUERDA */
@@ -42,6 +46,27 @@ nav.navbar {
 }
 
 .navbar-nav li:hover::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark);
+    position: absolute;
+    bottom: 0;
+    left: -15px;
+}
+
+.active a::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark-gray);
+    position: absolute;
+    bottom: 0;
+    left: -15px;
+    border-bottom-right-radius: 20px;
+}
+
+.active::before {
     content: "";
     width: 15px;
     height: 15px;
@@ -75,6 +100,29 @@ nav.navbar {
     z-index: 1;
 }
 
+.active::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark);
+    position: absolute;
+    bottom: 0;
+    right: -15px;
+    z-index: 0;
+}
+
+.active a::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark-gray);
+    position: absolute;
+    bottom: 0;
+    right: -15px;
+    border-bottom-left-radius: 20px;
+    z-index: 1;
+}
+
 .input {
     display: flex;
     align-items: center;
@@ -85,6 +133,8 @@ nav.navbar {
 }
 
 #search-bar {
+    font-weight: bold;
+    color: var(--dark);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -99,7 +149,7 @@ nav.navbar {
 #search-bar input {
     width: 300px;
     border-radius: 15px;
-    padding: 5px 30px 5px 30px;
+    padding: 0 30px 0 30px;
     outline: none;
     border: none;
     transition: width 0.9s ease;
@@ -125,8 +175,10 @@ nav.navbar {
 }
 
 #config {
+    color: var(--secondary);
+    background-color: var(--dark);
     display: flex;
     border-radius: 100%;
     line-height: normal;
-    padding: 0.5rem !important;
+    padding: 0.2rem !important;
 }
