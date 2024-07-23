@@ -6,6 +6,7 @@ use App\Http\Requests\AudioShowRequest;
 use App\Http\Requests\AudioStoreRequest;
 use App\Http\Requests\AudioUpdateRequest;
 use App\Models\Audio;
+use App\Models\Playlist;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -117,5 +118,19 @@ class AudioController extends Controller
         $audio->delete();
 
         return redirect()->route('home');
+    }
+
+    public function showPlaylist(Request $request, Audio $audio): RedirectResponse
+    {
+        {
+            $validated = $request->validate([
+                'playlist_id' => 'required|exists:playlists,id',
+            ]);
+    
+            $playlist = Playlist::findOrFail($validated['playlist_id']);
+            $playlist->audios()->attach($audio->id);
+    
+            return redirect()->route('home')->with('success', 'Áudio adicionado à playlist com sucesso.');
+        }
     }
 }

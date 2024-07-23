@@ -7,7 +7,7 @@
             <div class="col-12">
                 <div class="d-flex justify-content-between">
                     <h2 class="cfs-1 bolder">Playlists</h2>
-                    <button class="button-default px-4 py-1">New</button>
+                    <a href="{{route('playlist.create')}}" class="button-default px-4 py-1" wire:navigate>New</a>
                 </div>
                 <div class="d-flex w-100 wrap">
                     @foreach ($playlists as $playlist)
@@ -23,7 +23,7 @@
             </div>
             <div class="d-flex w-100 wrap">
                 @foreach ($audios as $audio)
-                    <livewire:audio-card :$audio :key="$audio->id" class="mt-3"/>
+                    <livewire:audio-card :$audio :playlists="$playlists" :key="$audio->id" class="mt-3"/>
                 @endforeach
             </div>
         </div>

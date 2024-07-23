@@ -3,9 +3,9 @@
 >
     <div class="d-flex justify-content-center align-items-center" style="min-width: 50px">
         <img width="50px" src="{{ route('playlist.show.image', $playlist) }}" class="h-100" alt="Playlist cover image">
-        <button wire:click='play' class="play">
+        <a href="{{ route('playlist.show', $playlist->id) }}" class="play">
             <span class="material-symbols-outlined">play_arrow</span>
-        </button>
+        </a>
     </div>
     <div class="d-flex flex-column ps-3 pe-1 w-100">
         <h3 class="name">{{ $playlist->name }}</h3>

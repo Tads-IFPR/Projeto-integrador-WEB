@@ -45,7 +45,7 @@ class Audio extends Model
 
     public function playlists(): BelongsToMany
     {
-        return $this->belongsToMany(Playlist::class);
+        return $this->belongsToMany(Playlist::class, 'audio_playlist');
     }
 
     public function likes(): BelongsToMany

@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+
 
 class Playlist extends Model
 {
@@ -35,7 +39,7 @@ class Playlist extends Model
 
     public function audios(): BelongsToMany
     {
-        return $this->belongsToMany(Audio::class);
+        return $this->belongsToMany(Audio::class,  'audio_playlist');
     }
 
     public function likes(): BelongsToMany
@@ -46,5 +50,14 @@ class Playlist extends Model
     public function shareds(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'shareds');
+    }
+    
+    public function cover()
+    {
+        return Storage::disk($this->cover_disk)->get($this->cover_path);
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

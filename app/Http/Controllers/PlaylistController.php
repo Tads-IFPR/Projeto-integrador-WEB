@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PlaylistShowRequest;
 use App\Http\Requests\PlaylistStoreRequest;
-use App\Http\Requests\PlaylistUpdateRequest;
 use App\Models\Playlist;
+use App\Models\Audio;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PlaylistController extends Controller
@@ -34,10 +36,17 @@ class PlaylistController extends Controller
         $playlist = [
             'name' => $validated['name'],
             'is_public' => $isPublic,
-            'cover_path' => $validated['cover_path'],
-            'cover_disk' => $validated['cover_disk'],
-            'user_id' => auth()->id(),
+            'cover_disk' => config('filesystems.default'),
+            //'cover_path' => $request->file('cover_path'),
+            'user_id' => auth()->id()
         ];
+
+        //$audio['cover_path'] = $request->file('cover')->store('covers', $audio['cover_disk']);
+
+        $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
+    
+       
+        //dd($playlist);
 
     
         $playlist = Playlist::create($playlist);
@@ -46,31 +55,63 @@ class PlaylistController extends Controller
         return redirect()->route('home');
     }
 
-    public function show(Request $request, Playlist $playlist): View
-    {
-        $request->validate();
-
-        
-        
-        return view('playlist.show', compact('playlist'));
-    }
 
     public function edit(Request $request, Playlist $playlist): View
     {
         return view('playlist.edit', compact('playlist'));
     }
 
-    public function update(PlaylistUpdateRequest $request, Playlist $playlist): RedirectResponse
-    {
-        $playlist->update($request->validated());
+    public function update(Request $request, $id){
 
-        return redirect()->route('playlist.index');
+    
+    $playlist = Playlist::findOrFail($id);
+    $playlist->name = $request->input('name');
+    $playlist->is_public = $request->has('is_public');
+    
+    if ($request->hasFile('cover_path')) {
+        $path = $request->file('cover_path')->store('covers');
+        $playlist->cover_path = $path;
     }
+
+    $playlist['cover_disk'] = config('filesystems.default');
+    $playlist->save();
+
+    return redirect()->route('home')->with('success', 'Playlist atualizada com sucesso!');
+}
+
 
     public function destroy(Request $request, Playlist $playlist): RedirectResponse
     {
         $playlist->delete();
 
-        return redirect()->route('playlist.index');
+        return redirect()->route('home');
     }
+
+    public function show(PlaylistShowRequest $request, Playlist $playlist)
+    {
+        $request->validated();
+        
+        return view('playlist.show', compact('playlist'));
+    }
+
+    public function showImage(PlaylistShowRequest $request, Playlist $playlist)
+    {   
+        $request->validated();
+
+        $data = explode('/', $playlist->cover_path);
+        $extension = $data[array_key_last($data)];
+        $path = 'temp/cover' . uniqid() . '.' . $extension;
+
+        Storage::put($path, $playlist->cover());
+    
+        return response()->file(storage_path('app/' . $path))->deleteFileAfterSend();    
+    }
+
+    public function play($id)
+    {
+        $playlist = Playlist::with('audios')->findOrFail($id);
+        $playlists = Playlist::all(); // Exemplo de como você poderia definir $playlists
+        return view('playlist.show', compact('playlist', 'playlists'));
+    }
+   
 }
