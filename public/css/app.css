@@ -38,6 +38,10 @@ body{
     padding-right: .7rem;
 }
 
+.custom-input:not([type="checkbox"]) {
+    min-height: 2.3rem;
+}
+
 .custom-input::-webkit-input-placeholder {
     font-weight: bolder;
     font-size: .8rem;
