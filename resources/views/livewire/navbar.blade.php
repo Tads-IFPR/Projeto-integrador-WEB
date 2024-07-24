@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark mb-4" id="main-nav">
+
     <div class="container-fluid">
         <div class="navbar-collapse justify-content-between" id="navbarCollapse">
 
@@ -17,6 +18,7 @@
             </ul>
 
             <form class="d-flex"role="search" id="search-bar">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
                 <div class="input-wrapper">
                     <input type="text" placeholder="Search here">
                     <i class="fa fa-search"></i>

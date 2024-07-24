@@ -163,10 +163,8 @@ nav.navbar {
 #search-bar i {
     position: absolute;
     right: 10px;
-    top: 10px;
-
-    transform: rotate(90deg); /* Girar a lupa*/
-
+    top: 5px;
+    /* transform: rotate(90deg); Girar a lupa */
     color: var(--dark);
 }
 
