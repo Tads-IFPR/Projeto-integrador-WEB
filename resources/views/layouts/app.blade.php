@@ -15,13 +15,17 @@
 
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/audio.css">
+        <link rel="stylesheet" href="/css/navbar.css">
+
 
         @stack('styles')
 
         @livewireStyles
     </head>
     <body>
-        @yield('header')
+        @persist('navbar')
+            <livewire:navbar />
+        @endpersist
 
         @yield('content')
 
