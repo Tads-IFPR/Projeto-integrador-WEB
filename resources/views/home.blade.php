@@ -24,6 +24,7 @@
         </div>
     </div>
 </div>
+<livewire:audio-upload />
 @endsection
 
 @push('styles')
