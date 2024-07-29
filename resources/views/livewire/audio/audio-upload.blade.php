@@ -15,7 +15,10 @@
         </div>
     @endif
 
-    <input type="file" id="fileElem" wire:model="file" style="display: none;" />
+    <form wire:submit.prevent="save" id="drop-zone" style="display: none">
+        <input type="file" id="fileElem" wire:model="file"/>
+        <button type="submit" id="send-button"></button>
+    </form>
 </div>
 
 <script>
@@ -24,7 +27,6 @@
         const fileInput = document.getElementById('fileElem');
         let overlay;
 
-        // Previne o comportamento padrão do navegador para arrastar e soltar
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropArea.addEventListener(eventName, preventDefaults, false);
         });
@@ -34,16 +36,14 @@
             e.stopPropagation();
         }
 
-        // Adiciona a classe highlight ao arrastar o arquivo sobre a área de drop
         ['dragenter', 'dragover'].forEach(eventName => {
             dropArea.addEventListener(eventName, showOverlay, false);
         });
 
-        ['dragleave', 'drop'].forEach(eventName => {
+        ['drop'].forEach(eventName => {
             dropArea.addEventListener(eventName, hideOverlay, false);
         });
 
-        // Lida com o evento de drop
         dropArea.addEventListener('drop', handleDrop, false);
 
         function showOverlay(e) {
@@ -53,8 +53,8 @@
                 overlay.style.position = 'fixed';
                 overlay.style.top = 0;
                 overlay.style.left = 0;
-                overlay.style.width = '100%';
-                overlay.style.height = '100%';
+                overlay.style.width = '100vw';
+                overlay.style.height = '100vh';
                 overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
                 overlay.style.zIndex = 1000;
                 overlay.style.display = 'flex';
@@ -62,8 +62,9 @@
                 overlay.style.alignItems = 'center';
                 overlay.style.color = 'white';
                 overlay.style.fontSize = '24px';
-                overlay.innerText = 'Solte o arquivo aqui';
+                overlay.innerText = 'Drop the file here';
                 document.body.appendChild(overlay);
+                overlay.addEventListener('dragleave', hideOverlay, false);
             }
         }
 
@@ -82,17 +83,14 @@
         }
 
         function handleFiles(files) {
-            [...files].forEach(file => {
-                if (file.type.startsWith('audio/')) {
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(file);
-                    fileInput.files = dataTransfer.files;
-                    // Trigger change event to inform Livewire
-                    fileInput.dispatchEvent(new Event('change'));
-                } else {
-                    alert('Por favor, envie um arquivo de áudio.');
-                }
-            });
+            fileInput.files = files;
+            var event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
         }
+
+        Livewire.on('fileProcessed', () => {
+            console.log('teste')
+            document.querySelector('#send-button').click();
+        });
     });
 </script>
