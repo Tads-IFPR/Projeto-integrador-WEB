@@ -28,20 +28,5 @@
                 </span>
             </a>
         </div>
-        <div class="save-playlist-form">
-            <form action="{{ route('audio.show.playlist', $audio->id) }}" method="POST">
-                @csrf
-                <select name="playlist_id" id="playlist_id">
-                    @foreach ($playlists as $playlist)
-                        <option value="{{ $playlist->id }}">{{ $playlist->name }}</option>
-                    @endforeach
-                </select>
-                <button type="submit">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                </button>
-            </form>
-        </div>
     </div>
 </div>

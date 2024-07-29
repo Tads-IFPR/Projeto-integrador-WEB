@@ -6,19 +6,26 @@ use App\Http\Requests\PlaylistShowRequest;
 use App\Http\Requests\PlaylistStoreRequest;
 use App\Models\Playlist;
 use App\Models\Audio;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; // Add this line
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PlaylistController extends Controller
 {
-    /*public function index(Request $request): View
+    public function __construct()
     {
-        $playlists = Playlist::all();
+        $this->middleware('auth');
+    }
 
-        return view('playlist.index', compact('playlists'));
-    }*/
+    public function index($id): View
+    {
+        $audios = Audio::all(); // Carrega todos os áudios
+        return view('playlist.index', compact('audios'));
+    }
 
     public function create(Request $request): View
     {
@@ -41,7 +48,6 @@ class PlaylistController extends Controller
             'user_id' => auth()->id()
         ];
 
-        //$audio['cover_path'] = $request->file('cover')->store('covers', $audio['cover_disk']);
 
         $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
     
@@ -77,7 +83,7 @@ class PlaylistController extends Controller
     $playlist->save();
 
     return redirect()->route('home')->with('success', 'Playlist atualizada com sucesso!');
-}
+    }
 
 
     public function destroy(Request $request, Playlist $playlist): RedirectResponse
@@ -107,11 +113,43 @@ class PlaylistController extends Controller
         return response()->file(storage_path('app/' . $path))->deleteFileAfterSend();    
     }
 
-    public function play($id)
-    {
+    public function play($id){
         $playlist = Playlist::with('audios')->findOrFail($id);
-        $playlists = Playlist::all(); // Exemplo de como você poderia definir $playlists
-        return view('playlist.show', compact('playlist', 'playlists'));
+        $playlists = Playlist::all();
+        $audios = Audio::all();
+
+        return view('playlist.show', compact('playlist', 'playlists', 'audios', 'id'));
     }
    
+    public function addAudio(Request $request)
+{
+    $playlist = Playlist::findOrFail($request->playlist_id);
+    $audioIds = $request->audio_ids;
+
+    if ($audioIds) {
+        $playlist->audios()->attach($audioIds);
+    }
+
+    return response()->json(['status' => 'success', 'message' => 'Áudios adicionados com sucesso.']);
+}
+
+    public function filterAudios(Request $request, $id)
+    {
+        $playlist = Playlist::with('audios')->findOrFail($id);
+        $query = $request->input('query');
+    
+        $filteredAudios = Audio::where('name', 'like', '%' . $query . '%')
+            ->whereDoesntHave('playlists', function ($q) use ($playlist) {
+                $q->where('playlist_id', $playlist->id);
+            })->get();
+    
+        return view('playlist.partials.audio_list', compact('playlist', 'filteredAudios'));
+    }
+
+    public function removeAudio(Playlist $playlist, $audio)
+    {
+        $playlist->audios()->detach($audio);
+
+        return redirect()->route('playlist.show', $playlist->id)->with('message', 'Audio removed successfully.');
+    }
 }
