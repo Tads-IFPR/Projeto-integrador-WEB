@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Audio;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -16,9 +15,6 @@ class HomeController extends Controller
             return view('guest-home');
         }
 
-        $audios = Audio::currentUser()->get();
-        return view('home', [
-            'audios' => $audios
-        ]);
+        return view('home');
     }
 }
