@@ -16,7 +16,7 @@
     @endif
 
     <form wire:submit.prevent="save" id="drop-zone" style="display: none">
-        <input type="file" id="fileElem" wire:model="file"/>
+        <input type="file" multiple id="fileElem" wire:model="files"/>
         <button type="submit" id="send-button"></button>
     </form>
 </div>
@@ -62,7 +62,7 @@
                 overlay.style.alignItems = 'center';
                 overlay.style.color = 'white';
                 overlay.style.fontSize = '24px';
-                overlay.innerText = 'Drop the file here';
+                overlay.innerText = 'Drop the files here';
                 document.body.appendChild(overlay);
                 overlay.addEventListener('dragleave', hideOverlay, false);
             }

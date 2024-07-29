@@ -11,12 +11,13 @@ class AudioUpload extends Component
     use WithFileUploads;
 
     protected $rules = [
-        'file' => 'required|file|max:10000|mimes:audio/mpeg,mpga,mp3,wav,aac',
+        'files' => 'required|array',
+        'files.*' => 'file|max:10000|mimes:audio/mpeg,mpga,mp3,wav,aac',
     ];
 
-    public $file;
+    public $files;
 
-    public function updatedFile()
+    public function updatedFiles()
     {
         $this->validate();
         $this->dispatch('fileProcessed');
@@ -24,7 +25,9 @@ class AudioUpload extends Component
 
     public function save()
     {
-        AudioRepository::store($this->file);
+        foreach ($this->files as $file) {
+            AudioRepository::store($file);
+        }
         $this->redirect('/');
         session()->flash('message', 'File successfully uploaded.');
     }
