@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<livewire:audio-upload />
 <div class="container-fluid">
     <div class="d-flex flex-column w-100">
         <div class="d-flex flex-column" id="playlists">
@@ -24,7 +25,6 @@
         </div>
     </div>
 </div>
-<livewire:audio-upload />
 @endsection
 
 @push('styles')
