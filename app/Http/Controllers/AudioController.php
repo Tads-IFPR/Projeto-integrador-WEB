@@ -120,19 +120,4 @@ class AudioController extends Controller
         return redirect()->route('home');
     }
 
-    public function showPlaylist(Request $request, Audio $audio): RedirectResponse
-    {
-        {
-            $validated = $request->validate([
-                'playlist_id' => 'required|exists:playlists,id',
-            ]);
-    
-            $playlist = Playlist::findOrFail($validated['playlist_id']);
-            $playlist->audios()->attach($audio->id);
-    
-            return redirect()->route('home')->with('success', 'Áudio adicionado à playlist com sucesso.');
-        }
-    }
-
-
 }

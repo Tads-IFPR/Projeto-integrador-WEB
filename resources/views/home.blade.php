@@ -23,7 +23,7 @@
             </div>
             <div class="d-flex w-100 wrap">
                 @foreach ($audios as $audio)
-                    <livewire:audio-card :$audio :playlists="$playlists" :key="$audio->id" class="mt-3"/>        
+                    <livewire:audio-card :$audio :key="$audio->id" class="mt-3"/>        
                 @endforeach
             </div>
         </div>
