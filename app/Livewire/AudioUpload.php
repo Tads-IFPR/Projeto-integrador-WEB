@@ -12,7 +12,7 @@ class AudioUpload extends Component
 
     protected $rules = [
         'files' => 'required|array',
-        'files.*' => 'file|max:10000|mimes:audio/mpeg,mpga,mp3,wav,aac',
+        'files.*' => 'file|mimes:audio/mpeg,mpga,mp3,wav,aac',
     ];
 
     public $files;
@@ -28,8 +28,8 @@ class AudioUpload extends Component
         foreach ($this->files as $file) {
             AudioRepository::store($file);
         }
-        $this->redirect('/');
-        session()->flash('message', 'File successfully uploaded.');
+
+        $this->dispatch('audio-created');
     }
 
     public function render()
