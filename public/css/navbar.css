@@ -96,7 +96,7 @@ nav.navbar {
     position: absolute;
     bottom: 0;
     right: -15px;
-    border-bottom-left-radius: 20px;
+    border-bottom-left-radius:- 20px;
     z-index: 1;
 }
 
