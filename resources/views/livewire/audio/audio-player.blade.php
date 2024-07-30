@@ -2,7 +2,7 @@
     <div id="audio-data" class="d-flex align-items-center">
         @if ($audio)
             <img id="audio-card" width="50px"
-            src="{{ $audio->cover_path !== null ? route('audio.show.image', $audio) : '/imgs/wave-sound.png'}}"
+            src="{{ $audio->cover_path !== null ? route('audio.show.image', $audio) : '/imgs/wave-sound-big.png'}}"
             @style(['filter: invert(1)' => $audio->cover_path === null])
             alt="Audio cover image">
             <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2" id="audio-name">
