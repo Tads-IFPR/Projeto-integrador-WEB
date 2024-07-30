@@ -10,6 +10,7 @@ use Livewire\Component;
 class AudioPlayer extends Component
 {
     public Audio $audio;
+    public $isPlaying = false;
 
     #[On('changed-audio')]
     public function updateAudio(Audio $audio)
@@ -25,6 +26,11 @@ class AudioPlayer extends Component
     public function previous()
     {
         $this->dispatch('changed-audio', audio: $this->audio->previous);
+    }
+
+    public function togglePlaying()
+    {
+        $this->isPlaying = !$this->isPlaying;
     }
 
     public function render()
