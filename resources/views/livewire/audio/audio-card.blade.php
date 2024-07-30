@@ -1,4 +1,4 @@
-<div class="audio-card d-flex justify-content-between px-1 {{$class}}"
+<div @class(['audio-card d-flex justify-content-between px-1 {{$class}}', 'is-playing' => $isPlaying])
     style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;"
     wire:click='play'
 >
