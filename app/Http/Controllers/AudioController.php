@@ -6,6 +6,7 @@ use App\Http\Requests\AudioShowRequest;
 use App\Http\Requests\AudioStoreRequest;
 use App\Http\Requests\AudioUpdateRequest;
 use App\Models\Audio;
+use App\Models\Playlist;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -124,4 +125,5 @@ class AudioController extends Controller
 
         return redirect()->route('home');
     }
+
 }

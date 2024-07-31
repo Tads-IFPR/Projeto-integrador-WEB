@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audio;
+use App\Models\Playlist;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -17,8 +18,10 @@ class HomeController extends Controller
         }
 
         $audios = Audio::currentUser()->get();
+        $playlists = Playlist::where('user_id', auth()->id())->get(); 
         return view('home', [
-            'audios' => $audios
+            'audios' => $audios,
+            'playlists' => $playlists
         ]);
     }
 }

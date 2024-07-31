@@ -17,6 +17,9 @@ class AudioCard extends Component
 
     public function render()
     {
-        return view('livewire.audio.audio-card');
+        return view('livewire.audio.audio-card',[
+            'audio' => $this->audio,
+            'class' => $this->class,
+        ]);
     }
 }
