@@ -70,9 +70,14 @@
     color: var(--gray);
 }
 
+.audio-card.is-playing h3 {
+    color: var(--secondary);
+}
+
 .audio-card {
     height: 3rem;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .audio-card .play {
@@ -359,7 +364,7 @@
 @media screen and (max-width: 500px) {
     #player-controls.expanded {
         flex-direction: column;
-        height: 45vh;
+        height: 60vh;
         border-radius: 1.5rem 1.5rem 0 0;
         align-items: center;
         justify-content: space-evenly;
