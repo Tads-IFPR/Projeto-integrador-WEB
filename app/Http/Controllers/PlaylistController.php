@@ -6,11 +6,8 @@ use App\Http\Requests\PlaylistShowRequest;
 use App\Http\Requests\PlaylistStoreRequest;
 use App\Models\Playlist;
 use App\Models\Audio;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log; // Add this line
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -23,7 +20,7 @@ class PlaylistController extends Controller
 
     public function index($id): View
     {
-        $audios = Audio::all(); // Carrega todos os áudios
+        $audios = Audio::all(); 
         return view('playlist.index', compact('audios'));
     }
 
@@ -35,7 +32,6 @@ class PlaylistController extends Controller
     public function store(PlaylistStoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        //$playlist = Playlist::create($request->validated());
 
         $isPublic = $request->has('is_public') ? 1 : 0;
 
