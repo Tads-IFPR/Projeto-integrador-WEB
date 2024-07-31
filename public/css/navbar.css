@@ -96,7 +96,7 @@ nav.navbar {
     position: absolute;
     bottom: 0;
     right: -15px;
-    border-bottom-left-radius: 20px;
+    border-bottom-left-radius:- 20px;
     z-index: 1;
 }
 
@@ -179,4 +179,48 @@ nav.navbar {
     border-radius: 100%;
     line-height: normal;
     padding: 0.2rem !important;
+}
+
+@media (max-width: 760px){
+    .navbar-nav {
+        display: contents;
+        width:30%;
+        justify-content: space-between;
+    }
+
+    #navbarCollapse {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #search-bar {
+        margin-top: 15%;
+    }
+
+    #config {
+        display: flex;
+    }
+
+    #search-bar input {
+        width: 260px;
+        align-items: center;
+    }
+
+    #search-bar input:hover {
+        width: 260px;
+    }
+
+    nav.navbar{
+        padding: 0;
+    }
+
+    body > div:nth-child(2){
+        margin-top: 18%;
+    }
+
+    .navbar-nav li a{
+        padding: 10px 10px 10px 10px;
+    }
+
 }
