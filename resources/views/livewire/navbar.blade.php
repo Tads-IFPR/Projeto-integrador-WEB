@@ -30,6 +30,7 @@
                         settings
                     </span>
                 </button>
+                <div id="drop-back" style="display: none;"></div>
                 <div id="dropdown" class="dropdown-content" style="display: none;">
                     <form method="POST" action="{{ route('logout') }}" id="logout-form">
                         @csrf
@@ -46,15 +47,21 @@
 @script
     <script>
         const config = document.getElementById('config');
+        const dropdown = document.getElementById('dropdown');
+        const dropback = document.getElementById('drop-back');
 
-        config.addEventListener('click', function() {
+        toggleDropDown = () => {
             config.classList.toggle('remove-radius-bottom');
-            var dropdown = document.getElementById('dropdown');
             if (dropdown.style.display === 'none') {
                 dropdown.style.display = 'block';
+                dropback.style.display = 'block';
             } else {
                 dropdown.style.display = 'none';
+                dropback.style.display = 'none';
             }
-        });
+        }
+
+        config.addEventListener('click', toggleDropDown);
+        dropback.addEventListener('click', toggleDropDown);
     </script>
-@endcript
+@endscript

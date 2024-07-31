@@ -1,3 +1,13 @@
+#drop-back {
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* if you change that you need change dropdown-content too*/
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
 .dropdown-content {
     position: absolute;
     background-color: var(--dark-gray);
@@ -5,7 +15,7 @@
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     border-radius: 1rem;
-    z-index: 1;
+    z-index: 2; /* if you change that you need change drop-back too*/
     top: 40px;
     right: 0;
     padding: .2rem;
