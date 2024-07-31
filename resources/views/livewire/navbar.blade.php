@@ -5,7 +5,7 @@
 
             <ul class="navbar-nav">
                 <li @class(['nav-item', 'active' => request()->routeIs("home")]) id="home">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="/" wire:navigate >Home</a>
                 </li>
 
                 <li @class(['nav-item', 'active' => request()->routeIs("community")]) id="community">

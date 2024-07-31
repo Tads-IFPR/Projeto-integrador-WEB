@@ -1,6 +1,7 @@
 nav.navbar {
     background-color: var(--dark-gray);
     padding: 0 20px;
+    padding-left: 0;
 }
 
 .navbar-nav {
@@ -8,9 +9,17 @@ nav.navbar {
     display: flex;
 }
 
+#main-nav .container-fluid {
+    padding-left: 0;
+}
+
+.navbar-nav ul{
+    padding-left: 0;
+}
+
 .navbar-nav li {
     position: relative;
-    margin-right: 15px;
+    margin-right: 27px;
 }
 
 .navbar-nav li a {
@@ -19,9 +28,11 @@ nav.navbar {
     color: var(--gray);
     font-size: 16px;
     font-weight: bold;
-    border-radius: 10px 10px 0 0;
     transition: none !important;
+    padding: 10px 10px 10px 10px;
 }
+
+
 
 .navbar-nav li a:hover {
     color: var(--white);
@@ -96,7 +107,7 @@ nav.navbar {
     position: absolute;
     bottom: 0;
     right: -15px;
-    border-bottom-left-radius:- 20px;
+    border-bottom-left-radius: 20px;
     z-index: 1;
 }
 
