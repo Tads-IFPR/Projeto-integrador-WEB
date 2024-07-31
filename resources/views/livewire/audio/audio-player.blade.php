@@ -179,13 +179,14 @@
 
     function toggleMobilePlayer(event = null) {
         event.stopPropagation();
-        document.body.classList.toggle('black-background');
         @this.togglePlaying();
 
         let elements = document.getElementsByClassName('black-background');
         Array.from(elements).forEach(element => {
             element.removeEventListener('click', toggleMobilePlayer)
         });
+
+        document.body.classList.toggle('black-background');
 
         setTimeout(() => {
             let elements = document.getElementsByClassName('black-background');
