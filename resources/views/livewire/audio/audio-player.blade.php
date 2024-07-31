@@ -4,7 +4,10 @@
 >
     <div id="audio-data" class="d-flex align-items-center">
         @if ($audio)
-            <img id="audio-card" width="50px" src="{{route('audio.show.image', $audio)}}" alt="Audio cover image">
+            <img id="audio-card" width="50px"
+            src="{{ $audio->cover_path !== null ? route('audio.show.image', $audio) : '/imgs/wave-sound-big.png'}}"
+            @style(['filter: invert(1)' => $audio->cover_path === null])
+            alt="Audio cover image">
             <div class="d-flex flex-column align-items-left justify-content-start h-100 px-2" id="audio-name">
                 <h3><strong>{{$audio?->name}}</strong></h3>
                 <h4>{{$audio?->author}}</h4>
@@ -176,13 +179,14 @@
 
     function toggleMobilePlayer(event = null) {
         event.stopPropagation();
-        document.body.classList.toggle('black-background');
         @this.togglePlaying();
 
         let elements = document.getElementsByClassName('black-background');
         Array.from(elements).forEach(element => {
             element.removeEventListener('click', toggleMobilePlayer)
         });
+
+        document.body.classList.toggle('black-background');
 
         setTimeout(() => {
             let elements = document.getElementsByClassName('black-background');
@@ -196,11 +200,9 @@
         const playerControls = document.getElementById('player-controls');
 
         if (window.innerWidth <= 500 ) {
-            playerControls.addEventListener('click', (event) => {
-                toggleMobilePlayer(event);
-            });
+            playerControls.addEventListener('click', toggleMobilePlayer);
         } else {
-            playerControls.removeEventListener('click')
+            playerControls?.removeEventListener('click', toggleMobilePlayer)
         }
     }
 

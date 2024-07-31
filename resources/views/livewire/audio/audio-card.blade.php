@@ -3,7 +3,10 @@
     wire:click='play'
 >
     <div class="d-flex justify-content-center align-items-center" style="min-width: 50px">
-        <img width="50px" src="{{ route('audio.show.image', $audio) }}" class="h-100" alt="Audio cover image">
+        <img width="50px"
+            src="{{ $audio->cover_path !== null ? route('audio.show.image', $audio) : '/imgs/wave-sound.png'}}"
+            @style(['filter: invert(1)' => $audio->cover_path === null])
+            class="h-100" alt="Audio cover image">
         <button class="play">
             <span class="material-symbols-outlined">play_arrow</span>
         </button>
