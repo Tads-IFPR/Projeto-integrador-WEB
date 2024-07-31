@@ -1,4 +1,7 @@
-<div id="player-controls" @class(['have-audio' => !!$audio]) style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
+<div id="player-controls"
+    @class(['have-audio' => !!$audio, 'expanded' => $isPlaying])
+    style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;"
+>
     <div id="audio-data" class="d-flex align-items-center">
         @if ($audio)
             <img id="audio-card" width="50px"
@@ -48,7 +51,7 @@
             @endif
         </audio>
 
-        <div class="d-flex justify-content-between" id="time-controls">
+        <div class="d-flex justify-content-between" id="time-controls" onclick="stopPropagation(event)">
             <div class="d-flex">
                 <span id="current" class="me-2">0:00</span>
                 <input type="range" id="timer" name="timer" min="0" max="0" step="1" oninput="changeTimer()" />
@@ -139,7 +142,7 @@
             crSrc = document.getElementById('player-source').src;
             player.load();
         }
-        player.currentTime = 0;
+
         play();
         timer.max = player.duration;
 
@@ -176,21 +179,20 @@
 
     function toggleMobilePlayer(event = null) {
         event.stopPropagation();
-        const playerControls = document.getElementById('player-controls');
-        playerControls.classList.toggle('expanded')
         document.body.classList.toggle('black-background');
+        @this.togglePlaying();
 
         let elements = document.getElementsByClassName('black-background');
         Array.from(elements).forEach(element => {
             element.removeEventListener('click', toggleMobilePlayer)
-        })
+        });
 
         setTimeout(() => {
             let elements = document.getElementsByClassName('black-background');
             Array.from(elements).forEach(element => {
                 element.addEventListener('click', toggleMobilePlayer)
             })
-        }, 250)
+        }, 250);
     }
 
     function updateSize() {
