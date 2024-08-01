@@ -8,7 +8,7 @@
                 </li>
 
                 <li @class(['nav-item', 'active' => request()->routeIs("community")]) id="community">
-                    <a class="nav-link" href="#">Community</a>
+                    <a class="nav-link" href="{{route('community')}}" wire:navigate>Community</a>
                 </li>
 
                 <li @class(['nav-item', 'active' => request()->routeIs("favorites")]) id="favorites">
