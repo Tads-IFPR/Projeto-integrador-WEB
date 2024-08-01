@@ -29,7 +29,8 @@ nav.navbar {
     font-size: 16px;
     font-weight: bold;
     transition: none !important;
-    padding: 10px 10px 10px 10px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 
