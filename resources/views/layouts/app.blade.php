@@ -8,6 +8,7 @@
         <title>{{ config('app.name', 'Tojoja') }}</title>
 
         <link rel="stylesheet" href="/bootstrap-5.3.3/css/bootstrap.min.css">
+        <script src="/bootstrap-5.3.3/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
         <!-- Scripts -->
@@ -16,6 +17,10 @@
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/audio.css">
         <link rel="stylesheet" href="/css/navbar.css">
+
+
+        
+        <link rel="stylesheet" href="/css/playlist.css">
 
 
         @stack('styles')

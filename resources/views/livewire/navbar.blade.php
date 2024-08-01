@@ -1,5 +1,4 @@
 <nav class="navbar navbar-expand-md navbar-dark mb-4" id="main-nav">
-
     <div class="container-fluid">
         <div class="navbar-collapse justify-content-between" id="navbarCollapse">
 
@@ -31,8 +30,38 @@
                         settings
                     </span>
                 </button>
+                <div id="drop-back" style="display: none;"></div>
+                <div id="dropdown" class="dropdown-content" style="display: none;">
+                    <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                        @csrf
+                        <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                           Logout
+                        </a>
+                    </form>
+                </div>
             </div>
-
         </div>
     </div>
 </nav>
+
+@script
+    <script>
+        const config = document.getElementById('config');
+        const dropdown = document.getElementById('dropdown');
+        const dropback = document.getElementById('drop-back');
+
+        toggleDropDown = () => {
+            config.classList.toggle('remove-radius-bottom');
+            if (dropdown.style.display === 'none') {
+                dropdown.style.display = 'block';
+                dropback.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+                dropback.style.display = 'none';
+            }
+        }
+
+        config.addEventListener('click', toggleDropDown);
+        dropback.addEventListener('click', toggleDropDown);
+    </script>
+@endscript

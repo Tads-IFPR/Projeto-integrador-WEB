@@ -1,6 +1,8 @@
 #audio-card {
-    object-fit: contain;
-    border-radius: .5rem;
+    display: block;
+    object-fit: cover;
+    border-radius: .8rem;
+    height: 50px;
 }
 
 .w-33 {
@@ -50,6 +52,14 @@
     width: 0;
 }
 
+#audio-data {
+    width: 20%;
+}
+
+#controls {
+    width: 60%;
+}
+
 #audio-data h3 {
     font-size: .8rem;
     color: var(--white);
@@ -60,9 +70,14 @@
     color: var(--gray);
 }
 
+.audio-card.is-playing h3 {
+    color: var(--secondary);
+}
+
 .audio-card {
     height: 3rem;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .audio-card .play {
@@ -346,8 +361,146 @@
     background: var(--secondary);
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 500px) {
+    #player-controls.expanded {
+        flex-direction: column;
+        height: 60vh;
+        border-radius: 1.5rem 1.5rem 0 0;
+        align-items: center;
+        justify-content: space-evenly;
+        z-index: 2;
+    }
+
+    .black-background::before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.6);
+        height: 100vh;
+        width: 100vw;
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
     #sound {
        display: none !important;
+    }
+
+    #audio-data {
+        width: 60%;
+        padding-top: .3rem;
+        padding-bottom: .3rem;
+    }
+
+    .expanded #audio-data {
+        width: 60vw;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #audio-card {
+        display: block;
+        object-fit: cover;
+        border-radius: .8rem;
+        height: 60px;
+        width: 60px;
+    }
+
+    .expanded #audio-card {
+        height: 60vw;
+        width: 100%;
+    }
+
+    #audio-name {
+        justify-content: start !important;
+    }
+
+    .expanded #audio-name {
+        align-self: start;
+        padding: 0 !important;
+        margin-top: .5rem;
+    }
+
+    #controls {
+        width: 40%;
+    }
+
+    .expanded #controls {
+        width: 60vw;
+    }
+
+    .expanded #actions {
+        width: 100%;
+        justify-content: space-between !important;
+    }
+
+    #time-controls {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100vw;
+    }
+
+    .expanded #time-controls {
+        position: initial;
+        width: 100%;
+    }
+
+    #time-controls div.d-flex {
+        visibility: hidden;
+    }
+
+    .expanded #time-controls div.d-flex {
+        visibility: visible;
+        width: 100%;
+        position: relative;
+    }
+
+    .expanded #time-controls #timer {
+        width: 100%;
+    }
+
+    #mobile-timer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: var(--player-before-width);
+        height: .3rem;
+        background-color: var(--white);
+        border-radius: 0 1rem 1rem 0;
+    }
+
+    .expanded #mobile-timer {
+        visibility: hidden;
+    }
+
+    #current,
+    #end {
+        display: none;
+    }
+
+    .expanded #current,
+    .expanded #end {
+        display: initial;
+    }
+
+    .expanded #current {
+        margin: 0 !important;
+        position: absolute;
+        top: 1rem;
+        left: calc(var(--player-before-width) - .5rem);
+    }
+
+    .expanded #end {
+        position: absolute;
+        left: 100%;
+    }
+
+    .button-icon {
+        height: 3rem;
+    }
+
+    .button-icon .material-symbols-outlined {
+        font-size: 3rem;
     }
 }

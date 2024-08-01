@@ -1,3 +1,40 @@
+#drop-back {
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* if you change that you need change dropdown-content too*/
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.dropdown-content {
+    position: absolute;
+    background-color: var(--dark-gray);
+    border: 2px solid var(--white);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 1rem;
+    z-index: 2; /* if you change that you need change drop-back too*/
+    top: 40px;
+    right: 0;
+    padding: .2rem;
+}
+
+.dropdown-content a {
+    color: var(--white);
+    font-weight: bolder;
+    padding: .4rem;
+    text-decoration: none;
+    display: block;
+    border-radius: .8rem;
+}
+
+.dropdown-content a:hover {
+    cursor: pointer;
+    background-color: var(--gray);
+}
+
 nav.navbar {
     background-color: var(--dark-gray);
     padding: 0 20px;
@@ -223,4 +260,9 @@ nav.navbar {
         padding: 10px 10px 10px 10px;
     }
 
+}
+
+#config.remove-radius-bottom {
+    background-color: var(--gray);
+    color: var(--white);
 }

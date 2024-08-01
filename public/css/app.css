@@ -38,6 +38,10 @@ body{
     padding-right: .7rem;
 }
 
+.custom-input:not([type="checkbox"]) {
+    min-height: 2.3rem;
+}
+
 .custom-input::-webkit-input-placeholder {
     font-weight: bolder;
     font-size: .8rem;
@@ -156,3 +160,31 @@ body{
     font-size: 20px;
     box-shadow: -5px 5px  var(--primary);
 }
+
+/* Chrome, Safari e outros navegadores baseados no WebKit */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    ::-webkit-scrollbar {
+        width: .75rem !important;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--dark) !important;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--gray) !important;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: var(--dark-gray) !important;
+    }
+}
+
+/* Firefox */
+@-moz-document url-prefix() {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--gray) var(--dark-gray);
+    }
+}
+

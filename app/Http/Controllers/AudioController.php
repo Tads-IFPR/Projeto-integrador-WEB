@@ -6,6 +6,7 @@ use App\Http\Requests\AudioShowRequest;
 use App\Http\Requests\AudioStoreRequest;
 use App\Http\Requests\AudioUpdateRequest;
 use App\Models\Audio;
+use App\Models\Playlist;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -112,10 +113,17 @@ class AudioController extends Controller
 
     public function destroy(Request $request, Audio $audio): RedirectResponse
     {
-        Storage::disk($audio->disk)->delete($audio->path);
-        Storage::disk($audio->cover_disk)->delete($audio->cover_path);
+        if ($audio->path) {
+            Storage::disk($audio->disk)->delete($audio->path);
+        }
+
+        if ($audio->cover_path) {
+            Storage::disk($audio->cover_disk)->delete($audio->cover_path);
+        }
+
         $audio->delete();
 
         return redirect()->route('home');
     }
+
 }
