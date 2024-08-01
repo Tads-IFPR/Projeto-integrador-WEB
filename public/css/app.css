@@ -22,6 +22,10 @@ body{
     color: var(--white);
 }
 
+.border-bottom {
+    border-bottom: 1px solid var(--gray);
+}
+
 .text-effect{
 
     text-shadow: -3px 3px var(--primary), -6px 6px var(--secondary), -9px 9px var(--tertiary);
