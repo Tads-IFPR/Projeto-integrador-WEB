@@ -38,6 +38,7 @@
 nav.navbar {
     background-color: var(--dark-gray);
     padding: 0 20px;
+    padding-left: 0;
 }
 
 .navbar-nav {
@@ -45,9 +46,17 @@ nav.navbar {
     display: flex;
 }
 
+#main-nav .container-fluid {
+    padding-left: 0;
+}
+
+.navbar-nav ul{
+    padding-left: 0;
+}
+
 .navbar-nav li {
     position: relative;
-    margin-right: 15px;
+    margin-right: 27px;
 }
 
 .navbar-nav li a {
@@ -56,9 +65,12 @@ nav.navbar {
     color: var(--gray);
     font-size: 16px;
     font-weight: bold;
-    border-radius: 10px 10px 0 0;
     transition: none !important;
+    padding-right: 10px;
+    padding-left: 10px;
 }
+
+
 
 .navbar-nav li a:hover {
     color: var(--white);
@@ -216,6 +228,50 @@ nav.navbar {
     border-radius: 100%;
     line-height: normal;
     padding: 0.2rem !important;
+}
+
+@media (max-width: 760px){
+    .navbar-nav {
+        display: contents;
+        width:30%;
+        justify-content: space-between;
+    }
+
+    #navbarCollapse {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #search-bar {
+        margin-top: 15%;
+    }
+
+    #config {
+        display: flex;
+    }
+
+    #search-bar input {
+        width: 260px;
+        align-items: center;
+    }
+
+    #search-bar input:hover {
+        width: 260px;
+    }
+
+    nav.navbar{
+        padding: 0;
+    }
+
+    body > div:nth-child(2){
+        margin-top: 18%;
+    }
+
+    .navbar-nav li a{
+        padding: 10px 10px 10px 10px;
+    }
+
 }
 
 #config.remove-radius-bottom {
