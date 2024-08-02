@@ -63,10 +63,11 @@
 
         .filter-option {
             color: var(--primary);
-            padding: 2rem .5rem;
+            padding: 1.8rem 1rem;
             background-color: var(--dark-gray);
             border-radius: 1rem;
             font-weight: bolder;
+            font-size: .9rem;
             cursor: pointer;
             transition: all ease-out 150ms;
         }
@@ -76,7 +77,7 @@
         }
 
         h1 {
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: bold;
             text-align: center;
         }
