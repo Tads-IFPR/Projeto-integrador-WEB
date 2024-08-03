@@ -48,7 +48,7 @@
             </span>
         </div>
         <div wire:click="togglePrivacy">
-            <span class="material-symbols-outlined me-1" style="{{$playlist->is_public ? 'color: var(--primary)' : ''}}">
+            <span class="material-symbols-outlined me-1">
                 language
             </span>
             {{$playlist->is_public ? 'Turn private' : 'Turn public'}}
