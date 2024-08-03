@@ -1,0 +1,30 @@
+models:
+  Audio:
+    name: string
+    path: string
+    disk: string
+    author: string nullable
+    duration: integer unsigned
+    cover_path: string nullable
+    cover_disk: cover_path nullable
+    is_public: boolean default:false
+    softDeletes
+    relationships:
+      belongsToMany: Playlist, User
+      belongsTo: User
+  Playlist:
+    name: string
+    is_public: boolean default:false
+    cover_path: string nullable
+    cover_disk: cover_path nullable
+    relationships:
+      belongsToMany: Audio, User
+      belongsTo: User
+
+controllers:
+  Audio:
+    resource
+  Playlist:
+    resource
+
+seeders: Playlist, Audio, User

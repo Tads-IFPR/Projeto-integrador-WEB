@@ -1,0 +1,194 @@
+*{
+    --dark:rgb(13, 13, 13);
+    --dark-gray:rgb(64, 64, 64);
+    --tertiary:#BABF24;
+    --secondary: #13F2A1;
+    --primary: #6DF2CC;
+    --gray: rgb(192, 192, 192);
+    --white: #f2f2f2;
+    --danger: #F26D6D;
+}
+
+@font-face {
+    font-family: "Sofia Sans", sans-serif;
+    src: url('/fonts/SofiaSans-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    font-family: "Sofia Sans", sans-serif;
+    background-color: var(--dark);
+    color: var(--white);
+}
+
+.border-bottom {
+    border-bottom: 1px solid var(--gray);
+}
+
+.text-effect{
+
+    text-shadow: -3px 3px var(--primary), -6px 6px var(--secondary), -9px 9px var(--tertiary);
+}
+
+.custom-input{
+    background-color: var(--white);
+    color: var(--dark-gray);
+    font-weight: bolder;
+    font-size: .8rem;
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    padding-left: .7rem;
+    padding-right: .7rem;
+}
+
+.custom-input:not([type="checkbox"]) {
+    min-height: 2.3rem;
+}
+
+.custom-input::-webkit-input-placeholder {
+    font-weight: bolder;
+    font-size: .8rem;
+    color: var(--gray);
+}
+
+.custom-input::-moz-placeholder {
+    font-weight: bolder;
+    font-size: .8rem;
+    color: var(--gray);
+}
+
+.custom-input::-ms-input-placeholder {
+    font-weight: bolder;
+    font-size: .8rem;
+    color: var(--gray);
+}
+
+.custom-input[type="checkbox"] {
+    padding: 0;
+    margin: 0;
+    appearance: none;
+    background-color: var(--gray);
+    font: inherit;
+    height: 1.2rem;
+    width: 1.2rem;
+    color: var(--primary);
+    border: 0.15em solid var(--primary);
+    border-radius: 0.15em;
+    display: grid;
+    place-content: center;
+    position: relative;
+}
+
+.custom-input[type="checkbox"]::before {
+    content: "";
+    width: .6rem;
+    height: .6rem;
+    transform: scale(0) translate(-100%, -100%);
+    transition: 60ms transform ease-in-out;
+    border-radius: 0.15em;
+    background-color: var(--primary);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.custom-input[type="checkbox"]:checked::before {
+    transform: scale(1) translate(-50%, -50%);
+}
+
+.input-nav{
+    background-color: var(--white);
+    color: var(--dark);
+    border: 1px solid var(--gray);
+    border-radius: 20px;
+}
+
+.cfs-1 {
+    font-size: 1rem;
+}
+
+.cfs-2 {
+    font-size: 2rem;
+}
+
+.cfs-3 {
+    font-size: 3rem;
+}
+
+.cfs-4 {
+    font-size: 4rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.bolder {
+    font-weight: bolder;
+}
+
+.button-default{
+    color: var(--dark-gray);
+    border: 1px solid var(--dark-gray);
+    background-color: var(--secondary);
+    border-radius: 5px;
+    transition: all 150ms ease-out;
+    font-weight: bold;
+}
+
+.button-default:hover{
+    border: 1px solid var(--dark-gray);
+    background-color: var(--primary);
+    border-radius: 5px;
+    box-shadow: -2px 2px 5px var(--white);
+}
+
+.button-community{
+
+    border-radius: 20px;
+    background-color: var(--dark-gray);
+    color: var(--primary);
+    font-family: "Sofia Sans", sans-serif;
+    font-size: 20px;
+    border: solid 1px var(--dark-gray);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.button-community:hover{
+
+    border-radius: 20px;
+    background-color: var(--dark-gray);
+    color: var(--primary);
+    font-family: "Sofia Sans", sans-serif;
+    font-size: 20px;
+    box-shadow: -5px 5px  var(--primary);
+}
+
+/* Chrome, Safari e outros navegadores baseados no WebKit */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    ::-webkit-scrollbar {
+        width: .75rem !important;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--dark) !important;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--gray) !important;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: var(--dark-gray) !important;
+    }
+}
+
+/* Firefox */
+@-moz-document url-prefix() {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--gray) var(--dark-gray);
+    }
+}
+

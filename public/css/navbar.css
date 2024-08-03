@@ -1,0 +1,280 @@
+#drop-back {
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* if you change that you need change dropdown-content too*/
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.dropdown-content {
+    position: absolute;
+    background-color: var(--dark-gray);
+    border: 2px solid var(--white);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 1rem;
+    z-index: 2; /* if you change that you need change drop-back too*/
+    top: 40px;
+    right: 0;
+    padding: .2rem;
+}
+
+.dropdown-content a {
+    color: var(--white);
+    font-weight: bolder;
+    padding: .4rem;
+    text-decoration: none;
+    display: block;
+    border-radius: .8rem;
+}
+
+.dropdown-content a:hover {
+    cursor: pointer;
+    background-color: var(--gray);
+}
+
+nav.navbar {
+    background-color: var(--dark-gray);
+    padding: 0 20px;
+    padding-left: 0;
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+}
+
+#main-nav .container-fluid {
+    padding-left: 0;
+}
+
+.navbar-nav ul{
+    padding-left: 0;
+}
+
+.navbar-nav li {
+    position: relative;
+    margin-right: 27px;
+}
+
+.navbar-nav li a {
+    position: relative;
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 16px;
+    font-weight: bold;
+    transition: none !important;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+
+
+.navbar-nav li a:hover {
+    color: var(--white);
+    background-color: var(--dark);
+}
+
+.active a{
+    color: var(--white) !important;
+    background-color: var(--dark) !important;
+}
+
+/* ABINHA ESQUERDA */
+.navbar-nav li a:hover::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark-gray);
+    position: absolute;
+    bottom: 0;
+    left: -15px;
+    border-bottom-right-radius: 20px;
+}
+
+.navbar-nav li:hover::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark);
+    position: absolute;
+    bottom: 0;
+    left: -15px;
+}
+
+.active a::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark-gray);
+    position: absolute;
+    bottom: 0;
+    left: -15px;
+    border-bottom-right-radius: 20px;
+}
+
+.active::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark);
+    position: absolute;
+    bottom: 0;
+    left: -15px;
+}
+
+/* ABINHA DIREITA */
+.navbar-nav li:hover::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark);
+    position: absolute;
+    bottom: 0;
+    right: -15px;
+    z-index: 0;
+}
+
+.navbar-nav li a:hover::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark-gray);
+    position: absolute;
+    bottom: 0;
+    right: -15px;
+    border-bottom-left-radius: 20px;
+    z-index: 1;
+}
+
+.active::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark);
+    position: absolute;
+    bottom: 0;
+    right: -15px;
+    z-index: 0;
+}
+
+.active a::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark-gray);
+    position: absolute;
+    bottom: 0;
+    right: -15px;
+    border-bottom-left-radius: 20px;
+    z-index: 1;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+}
+
+#navbarCollapse {
+    position: relative;
+}
+
+#search-bar {
+    font-weight: bold;
+    color: var(--dark);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#search-bar input {
+    border-radius: 10px;
+}
+
+/* Serach Bar */
+#search-bar input {
+    width: 300px;
+    border-radius: 15px;
+    padding: 0 30px 0 30px;
+    outline: none;
+    border: none;
+    transition: width 0.9s ease;
+}
+
+#search-bar .input-wrapper.input {
+    position: relative;
+    display: inline-block;
+}
+
+#search-bar i {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    /* transform: rotate(90deg); Girar a lupa */
+    color: var(--dark);
+}
+
+#search-bar input:hover {
+    width: 600px;
+}
+
+#config {
+    color: var(--secondary);
+    background-color: var(--dark);
+    display: flex;
+    border-radius: 100%;
+    line-height: normal;
+    padding: 0.2rem !important;
+}
+
+@media (max-width: 760px){
+    .navbar-nav {
+        display: contents;
+        width:30%;
+        justify-content: space-between;
+    }
+
+    #navbarCollapse {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #search-bar {
+        margin-top: 15%;
+    }
+
+    #config {
+        display: flex;
+    }
+
+    #search-bar input {
+        width: 260px;
+        align-items: center;
+    }
+
+    #search-bar input:hover {
+        width: 260px;
+    }
+
+    nav.navbar{
+        padding: 0;
+    }
+
+    body > div:nth-child(2){
+        margin-top: 18%;
+    }
+
+    .navbar-nav li a{
+        padding: 10px 10px 10px 10px;
+    }
+
+}
+
+#config.remove-radius-bottom {
+    background-color: var(--gray);
+    color: var(--white);
+}
