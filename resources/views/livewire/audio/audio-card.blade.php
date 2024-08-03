@@ -28,7 +28,7 @@
                 <span class="material-symbols-outlined me-1">
                     delete
                 </span>
-                DELETE
+                Delete
             </button>
         </form>
         <div>
@@ -36,7 +36,7 @@
                 <span class="material-symbols-outlined me-1">
                     edit
                 </span>
-                EDIT
+                Edit
             </a>
         </div>
     </div>

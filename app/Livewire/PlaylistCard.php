@@ -11,15 +11,23 @@ class PlaylistCard extends Component
     public Playlist $playlist;
     public string $class;
     public $audios;
+    public $audiosNotInPlaylist;
 
     public function mount()
     {
-        $this->audios = Audio::all(); 
+        $this->audios = Audio::all();
+        $this->audiosNotInPlaylist = $this->audios->diff($this->playlist->audios);
     }
 
     public function play()
     {
         return redirect()->route('playlist.show', $this->playlist);
+    }
+
+    public function togglePrivacy()
+    {
+        $this->playlist->is_public = !$this->playlist->is_public;
+        $this->playlist->save();
     }
 
     public function render()
