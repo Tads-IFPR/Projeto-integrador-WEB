@@ -16,9 +16,6 @@ class HomeController extends Controller
             return view('guest-home');
         }
 
-        $playlists = Playlist::where('user_id', auth()->id())->get();
-        return view('home', [
-            'playlists' => $playlists
-        ]);
+        return view('home');
     }
 }
