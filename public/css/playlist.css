@@ -292,7 +292,17 @@ card-title mb-1{
     background-color: rgba(192, 192, 192, 0.3);
 }
 
+.playlist-card {
+    width: 20%;
+    min-width: 20%;
+}
+
 @media screen and (max-width: 800px) {
+    .playlist-card {
+        width: 100%;
+        min-width: 100%;
+    }
+
     .options-playlist {
         opacity: 1;
     }

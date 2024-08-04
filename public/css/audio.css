@@ -421,9 +421,19 @@
     background-color: rgba(192, 192, 192, 0.3);
 }
 
+.audio-card {
+    width: 20%;
+    min-width: 20%;
+}
+
 @media screen and (max-width: 800px) {
     .options-audio {
         opacity: 1;
+    }
+
+    .audio-card {
+        width: 100%;
+        min-width: 100%;
     }
 
     #player-controls.expanded {
