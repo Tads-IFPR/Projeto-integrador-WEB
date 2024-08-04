@@ -4,11 +4,11 @@
 
             <ul class="navbar-nav">
                 <li @class(['nav-item', 'active' => request()->routeIs("home")]) id="home">
-                    <a class="nav-link" href="/" wire:navigate >Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
 
                 <li @class(['nav-item', 'active' => request()->routeIs("community")]) id="community">
-                    <a class="nav-link" href="{{route('community')}}" wire:navigate>Community</a>
+                    <a class="nav-link" href="{{route('community')}}">Community</a>
                 </li>
 
                 <li @class(['nav-item', 'active' => request()->routeIs("favorites")]) id="favorites">
