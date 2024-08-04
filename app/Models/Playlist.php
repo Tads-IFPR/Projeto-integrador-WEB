@@ -92,4 +92,11 @@ class Playlist extends Model
             }
         }])->orderBy('likes_count', 'desc');
     }
+
+    public function isCurrentUserOwner(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->user->id === auth()->user()->id,
+        );
+    }
 }

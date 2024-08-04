@@ -107,4 +107,11 @@ class Audio extends Model
             get: fn () => $this->likes()->where('user_id', auth()->user()->id)->exists(),
         );
     }
+
+    public function isCurrentUserOwner(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->user->id === auth()->user()->id,
+        );
+    }
 }
