@@ -165,6 +165,23 @@ body{
     box-shadow: -5px 5px  var(--primary);
 }
 
+.wrap {
+    flex-wrap: wrap;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.like {
+    transition: all .5s cubic-bezier(0.19, 3, 0.22, 3);
+}
+
+.like-check {
+    color: var(--primary);
+    font-size: 1.6rem;
+}
+
 /* Chrome, Safari e outros navegadores baseados no WebKit */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     ::-webkit-scrollbar {
