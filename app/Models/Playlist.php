@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -66,6 +67,13 @@ class Playlist extends Model
     public function scopePublic(Builder $query): void
     {
         $query->where('is_public', true);
+    }
+
+    public function userLiked(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->likes()->where('user_id', auth()->user()->id)->exists(),
+        );
     }
 
     public function scopeMostLiked($query, $timePeriod = null)

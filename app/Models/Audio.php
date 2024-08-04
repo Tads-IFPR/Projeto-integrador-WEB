@@ -100,4 +100,11 @@ class Audio extends Model
             get: fn () => self::currentUser()->where('id', '<', $this->id)->orderBy('id','desc')->first(),
         );
     }
+
+    public function userLiked(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->likes()->where('user_id', auth()->user()->id)->exists(),
+        );
+    }
 }
