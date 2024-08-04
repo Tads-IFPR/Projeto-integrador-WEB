@@ -21,30 +21,32 @@
             favorite
         </span>
     </div>
-    <div class="options-audio cursor-pointer" target="{{$audio->id}}" wire:prevent>
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-            <path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/>
-        </svg>
-    </div>
-    <div id="backdrop-audio-{{$audio->id}}" target="{{$audio->id}}" class="backdrop-audio" style="display: none;"></div>
-    <div id="option-audio-{{$audio->id}}" class="option-audio flex-column align-items-center" style="display: none;">
-        <form action="{{ route('audio.destroy', $audio->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="d-flex align-items-center">
-                <span class="material-symbols-outlined me-1">
-                    delete
-                </span>
-                Delete
-            </button>
-        </form>
-        <div>
-            <a href="{{ route('audio.edit', $audio->id) }}" wire:navigate class="d-flex align-items-center">
-                <span class="material-symbols-outlined me-1">
-                    edit
-                </span>
-                Edit
-            </a>
+    @if ($audio->isCurrentUserOwner)
+        <div class="options-audio cursor-pointer" target="{{$audio->id}}" wire:prevent>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                <path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/>
+            </svg>
         </div>
-    </div>
+        <div id="backdrop-audio-{{$audio->id}}" target="{{$audio->id}}" class="backdrop-audio" style="display: none;"></div>
+        <div id="option-audio-{{$audio->id}}" class="option-audio flex-column align-items-center" style="display: none;">
+            <form action="{{ route('audio.destroy', $audio->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="d-flex align-items-center">
+                    <span class="material-symbols-outlined me-1">
+                        delete
+                    </span>
+                    Delete
+                </button>
+            </form>
+            <div>
+                <a href="{{ route('audio.edit', $audio->id) }}" wire:navigate class="d-flex align-items-center">
+                    <span class="material-symbols-outlined me-1">
+                        edit
+                    </span>
+                    Edit
+                </a>
+            </div>
+        </div>
+    @endif
 </div>
