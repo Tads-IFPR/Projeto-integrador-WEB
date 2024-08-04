@@ -23,9 +23,7 @@
             </div>
             <div class="d-flex w-100 wrap">
                 @if (!$isLoading)
-                    @foreach ($playlists as $playlist)
-                        <livewire:playlist-card :$playlist :key="$playlist->id" class="mt-3"/>
-                    @endforeach
+                    <livewire:playlist.playlist-list :playlists="$playlists" class="d-flex w-100 wrap" />
                 @else
                     <div class="w-100 d-flex justify-content-center">
                         <div class="loader"></div>
