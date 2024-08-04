@@ -101,6 +101,11 @@ class Audio extends Model
         );
     }
 
+    public function scopePublic(Builder $query): void
+    {
+        $query->where('is_public', true);
+    }
+
     public function userLiked(): Attribute
     {
         return Attribute::make(

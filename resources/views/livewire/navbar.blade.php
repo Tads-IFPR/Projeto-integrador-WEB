@@ -12,7 +12,7 @@
                 </li>
 
                 <li @class(['nav-item', 'active' => request()->routeIs("favorites")]) id="favorites">
-                    <a class="nav-link" href="#">Favorites</a>
+                    <a class="nav-link" href="{{ route('favorites') }}">Favorites</a>
                 </li>
             </ul>
 

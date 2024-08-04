@@ -59,9 +59,15 @@ class Playlist extends Model
     {
         return Storage::disk($this->cover_disk)->get($this->cover_path);
     }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeCurrentUser(Builder $query): void
+    {
+        $query->where('user_id', auth()->user()->id);
     }
 
     public function scopePublic(Builder $query): void
