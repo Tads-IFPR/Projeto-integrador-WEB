@@ -3,15 +3,15 @@
         <div class="navbar-collapse justify-content-between" id="navbarCollapse">
 
             <ul class="navbar-nav">
-                <li @class(['nav-item', 'active' => request()->routeIs("home")]) id="home">
-                    <a class="nav-link" href="/">Home</a>
+                <li @class(['nav-item', 'active' =>$currentRouteName === 'home']) id="home">
+                    <a class="nav-link" href="{{ route('home')}} ">Home</a>
                 </li>
 
-                <li @class(['nav-item', 'active' => request()->routeIs("community")]) id="community">
-                    <a class="nav-link" href="{{route('community')}}">Community</a>
+                <li @class(['nav-item', 'active' =>$currentRouteName === 'community']) id="community">
+                    <a class="nav-link" href="{{ route('community')}} ">Community</a>
                 </li>
 
-                <li @class(['nav-item', 'active' => request()->routeIs("favorites")]) id="favorites">
+                <li @class(['nav-item', 'active' =>$currentRouteName === 'favorites']) id="favorites">
                     <a class="nav-link" href="{{ route('favorites') }}">Favorites</a>
                 </li>
             </ul>
