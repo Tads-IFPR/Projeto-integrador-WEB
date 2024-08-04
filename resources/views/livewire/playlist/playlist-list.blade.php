@@ -25,9 +25,4 @@
             backdropPlaylist.style.display = 'none';
         }
     }
-
-    const optionsPlaylist = document.getElementsByClassName('options-playlist');
-    Array.from(optionsPlaylist).forEach(option => {
-        option.addEventListener('click', () => toggleDropDownPlaylist(option.attributes.target.nodeValue));
-    });
 </script>

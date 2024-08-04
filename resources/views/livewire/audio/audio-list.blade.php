@@ -24,9 +24,4 @@
             backdropAudio.style.display = 'none';
         }
     }
-
-    const optionsAudio = document.getElementsByClassName('options-audio');
-    Array.from(optionsAudio).forEach(option => {
-        option.addEventListener('click', () => toggleDropDownAudio(option.attributes.target.nodeValue));
-    });
 </script>
