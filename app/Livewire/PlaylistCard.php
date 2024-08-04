@@ -30,6 +30,11 @@ class PlaylistCard extends Component
         $this->playlist->save();
     }
 
+    public function toggleLike()
+    {
+        $this->playlist->likes()->toggle([auth()->user()->id]);
+    }
+
     public function render()
     {
         return view('livewire.playlist.playlist-card',[

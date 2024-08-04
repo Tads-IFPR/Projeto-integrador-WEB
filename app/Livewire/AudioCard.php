@@ -23,6 +23,11 @@ class AudioCard extends Component
         $this->isPlaying = $this->audio->id === $audio->id;
     }
 
+    public function toggleLike()
+    {
+        $this->audio->likes()->toggle([auth()->user()->id]);
+    }
+
     public function render()
     {
         return view('livewire.audio.audio-card',[
