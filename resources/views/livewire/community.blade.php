@@ -23,7 +23,7 @@
             </div>
             <div class="d-flex w-100 wrap">
                 @if (!$isLoading)
-                    <livewire:playlist.playlist-list :playlists="$playlists" class="d-flex w-100 wrap" />
+                    <livewire:playlist.playlist-list :$playlists class="d-flex w-100 wrap" />
                 @else
                     <div class="w-100 d-flex justify-content-center">
                         <div class="loader"></div>

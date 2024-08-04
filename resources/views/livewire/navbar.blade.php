@@ -18,7 +18,7 @@
 
             <form class="d-flex" role="search" id="search-bar">
                 <div class="input-wrapper">
-                    <input type="text" placeholder="Search here" wire:keydown.debounce.100ms="search" wire:model="searchInput">
+                    <input type="text" placeholder="Search here" wire:keydown.debounce.300ms="search" wire:model="searchInput">
                     <i class="fa fa-search"></i>
                 </div>
             </form>

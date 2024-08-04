@@ -19,6 +19,7 @@ class Favorites extends Component
     {
         $this->search = $text;
         $this->updateAudios();
+        $this->updatePlaylists();
     }
 
     private function updateAudios()
@@ -34,6 +35,8 @@ class Favorites extends Component
     {
         $this->playlists = Playlist::where(fn($q) => $q->public()->orWhere->currentUser())
             ->whereHas('likes', fn(Builder $q) => $q->where('user_id', auth()->user()->id))
+            ->when($this->search, fn($q) => $q->where('name', 'like', '%'.$this->search.'%'))
+            ->with('user', 'audios')
             ->get();
     }
 
