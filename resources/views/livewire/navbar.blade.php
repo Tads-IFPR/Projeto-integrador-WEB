@@ -16,10 +16,9 @@
                 </li>
             </ul>
 
-            <form class="d-flex"role="search" id="search-bar">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+            <form class="d-flex" role="search" id="search-bar">
                 <div class="input-wrapper">
-                    <input type="text" placeholder="Search here">
+                    <input type="text" placeholder="Search here" wire:keydown.debounce.100ms="search" wire:model="searchInput">
                     <i class="fa fa-search"></i>
                 </div>
             </form>
