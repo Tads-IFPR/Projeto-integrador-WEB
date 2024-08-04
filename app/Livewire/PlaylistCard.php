@@ -26,8 +26,7 @@ class PlaylistCard extends Component
 
     public function togglePrivacy()
     {
-        $this->playlist->is_public = !$this->playlist->is_public;
-        $this->playlist->save();
+        $this->playlist->togglePrivacy();
     }
 
     public function toggleLike()

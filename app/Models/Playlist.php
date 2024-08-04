@@ -105,4 +105,39 @@ class Playlist extends Model
             get: fn () => $this->user->id === auth()->user()->id,
         );
     }
+
+    private function makePublic()
+    {
+        $this->is_public = true;
+        $this->save();
+        $this->audios()->update(['is_public' => true]);
+    }
+
+    private function makePrivate()
+    {
+        $this->is_public = false;
+        $this->save();
+
+        $audioIds = $this->audios()->pluck('id');
+
+        $audioIdsInOtherPublicPlaylists = Audio::whereIn('id', $audioIds)
+            ->whereHas('playlists', function ($query) {
+                $query->where('is_public', true);
+            })
+            ->pluck('id');
+
+        $audioIdsToMakePrivate = $audioIds->diff($audioIdsInOtherPublicPlaylists);
+
+        Audio::whereIn('id', $audioIdsToMakePrivate)->update(['is_public' => false]);
+    }
+
+    public function togglePrivacy()
+    {
+        if (!$this->is_public) {
+            $this->makePublic();
+            return;
+        }
+
+        $this->makePrivate();
+    }
 }
