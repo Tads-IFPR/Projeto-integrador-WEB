@@ -11,8 +11,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log; // Add this line
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+
+
 
 class PlaylistController extends Controller
 {
@@ -50,13 +53,19 @@ class PlaylistController extends Controller
 
 
         $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
-    
-       
-        //dd($playlist);
 
-    
+
         $playlist = Playlist::create($playlist);
-        
+
+        //dd($playlist->id);
+
+
+        // Criando um relacionamento fake com a tabela playlist_user
+        DB::table('playlist_user')->insert([
+            'playlist_id' => $playlist->id,
+            'user_id' => auth()->id()
+        ]);
+
 
         return redirect()->route('home');
     }
@@ -69,11 +78,11 @@ class PlaylistController extends Controller
 
     public function update(Request $request, $id){
 
-    
+
     $playlist = Playlist::findOrFail($id);
     $playlist->name = $request->input('name');
     $playlist->is_public = $request->has('is_public');
-    
+
     if ($request->hasFile('cover_path')) {
         $path = $request->file('cover_path')->store('covers');
         $playlist->cover_path = $path;
@@ -96,12 +105,12 @@ class PlaylistController extends Controller
     public function show(PlaylistShowRequest $request, Playlist $playlist)
     {
         $request->validated();
-        
+
         return view('playlist.show', compact('playlist'));
     }
 
     public function showImage(PlaylistShowRequest $request, Playlist $playlist)
-    {   
+    {
         $request->validated();
 
         $data = explode('/', $playlist->cover_path);
@@ -109,8 +118,8 @@ class PlaylistController extends Controller
         $path = 'temp/cover' . uniqid() . '.' . $extension;
 
         Storage::put($path, $playlist->cover());
-    
-        return response()->file(storage_path('app/' . $path))->deleteFileAfterSend();    
+
+        return response()->file(storage_path('app/' . $path))->deleteFileAfterSend();
     }
 
     public function play($id){
@@ -120,7 +129,7 @@ class PlaylistController extends Controller
 
         return view('playlist.show', compact('playlist', 'playlists', 'audios', 'id'));
     }
-   
+
     public function addAudio(Request $request)
 {
     $playlist = Playlist::findOrFail($request->playlist_id);
@@ -137,12 +146,12 @@ class PlaylistController extends Controller
     {
         $playlist = Playlist::with('audios')->findOrFail($id);
         $query = $request->input('query');
-    
+
         $filteredAudios = Audio::where('name', 'like', '%' . $query . '%')
             ->whereDoesntHave('playlists', function ($q) use ($playlist) {
                 $q->where('playlist_id', $playlist->id);
             })->get();
-    
+
         return view('playlist.partials.audio_list', compact('playlist', 'filteredAudios'));
     }
 
@@ -152,4 +161,25 @@ class PlaylistController extends Controller
 
         return redirect()->route('playlist.show', $playlist->id)->with('message', 'Audio removed successfully.');
     }
+
+    public function share(Request $request)
+    {
+
+        // Inserir um novo registro
+        DB::table('shareds')->insert([
+            'playlist_id' => $request->playlistId,
+            'user_id' => $request->user
+        ]);
+
+        // Inserir um novo registro
+        DB::table('playlist_user')->insert([
+            'playlist_id' => $request->playlistId,
+            'user_id' => $request->user
+        ]);
+
+
+        return response()->json(['message' => 'Playlist shared!!' . $request->playlistId, 'status' => 200], 200);
+    }
+
+
 }
