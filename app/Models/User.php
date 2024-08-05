@@ -62,6 +62,11 @@ class User extends Authenticatable
 
     public function playlistLikes(): BelongsToMany
     {
+        return $this->belongsToMany(Playlist::class);
+    }
+
+    public function sharedsPlaylist(): BelongsToMany
+    {
         return $this->belongsToMany(Playlist::class, 'shareds');
     }
 }
