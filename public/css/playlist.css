@@ -3,6 +3,7 @@
     background-color: var(--dark);
     border-radius: .5rem;
     padding: auto;
+    position: relative;
 }
 
 .playlist-card h2 {
@@ -235,4 +236,79 @@
     padding: .2rem .5rem;
     font-size: .6rem;
     font-weight: bold;
+}
+
+.options-playlist {
+    opacity: 0;
+    transition: opacity 300ms;
+    display: flex;
+    align-items: center;
+}
+
+.options-playlist:hover {
+    transform: scale(1.1);
+}
+
+.playlist-card:hover .options-playlist {
+    opacity: 1;
+}
+
+.backdrop-playlist {
+    width: 100vw;
+    height: 100vh;
+    z-index: 5; /* if you change that you need change options too*/
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.option-playlist {
+    position: absolute;
+    background-color: rgba(54, 54, 54, 1);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: .2rem;
+    z-index: 6; /* if you change that you need change drop-back too*/
+    top: 40px;
+    right: 0;
+    padding: .2rem;
+}
+
+.option-playlist > * {
+    color: var(--white);
+    font-size: .9rem;
+    font-weight: bolder;
+    padding: .4rem;
+    text-decoration: none;
+    display: block;
+    border-radius: .2rem;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.option-playlist .material-symbols-outlined {
+    font-size: .9rem;
+}
+
+.option-playlist > *:hover {
+    cursor: pointer;
+    background-color: rgba(192, 192, 192, 0.3);
+}
+
+.playlist-card {
+    width: 20%;
+    min-width: 20%;
+}
+
+@media screen and (max-width: 800px) {
+    .playlist-card {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .options-playlist {
+        opacity: 1;
+    }
 }

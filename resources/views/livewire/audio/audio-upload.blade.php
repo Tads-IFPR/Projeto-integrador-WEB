@@ -81,7 +81,6 @@
         }
 
         Livewire.on('fileProcessed', () => {
-            console.log('teste')
             document.querySelector('#send-button').click();
         });
     });

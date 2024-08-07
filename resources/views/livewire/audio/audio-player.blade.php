@@ -44,7 +44,7 @@
                 <div></div>
             @endif
         </div>
-        <audio id="player" ontimeupdate="changeTime()" onloadedmetadata="loadedAudio()">
+        <audio id="player" ontimeupdate="changeTime()" onloadedmetadata="loadedAudio()" target="{{$audio?->id}}">
             @if ($audio)
                 <source src="{{ route('audio.show', $audio) }}" type="audio/mpeg" id="player-source">
                 Your browser does not support the audio element.
@@ -73,19 +73,55 @@
 </div>
 
 <script>
-    const player = document.getElementById('player');
-    const current = document.getElementById('current');
-    const end = document.getElementById('end');
-    const timer = document.getElementById('timer');
-    const volume = document.getElementById('volume');
-    const playButton = document.getElementById('play');
-    const pauseButton = document.getElementById('pause');
-    const up = document.getElementById('up');
-    const off = document.getElementById('off');
-    const timeControls = document.getElementById('time-controls');
-    var isDragging = false;
+    var player = document.getElementById('player');
+    var current = document.getElementById('current');
+    var end = document.getElementById('end');
+    var timer = document.getElementById('timer');
+    var volume = document.getElementById('volume');
+    var playButton = document.getElementById('play');
+    var pauseButton = document.getElementById('pause');
+    var up = document.getElementById('up');
+    var off = document.getElementById('off');
+    var timeControls = document.getElementById('time-controls');
     var crSrc = null;
-    changeVolume()
+    var userInteracted = false;
+    const state = JSON.parse(localStorage.getItem('playerState'));
+
+    function userInteraction() {
+        userInteracted = true;
+        document.removeEventListener('click', userInteraction);
+        document.removeEventListener('keydown', userInteraction);
+    }
+
+    document.addEventListener('click', userInteraction);
+    document.addEventListener('keydown', userInteraction);
+
+    function loadPlayerState() {
+        if (state && state?.currentSongId) {
+            @this.call('startLastAudio', state.currentSongId);
+
+            player.volume = state.volume;
+            volume.value = state.volume;
+
+            changeVolume();
+        }
+    }
+
+    function savePlayerState() {
+        if (crSrc != null) {
+            const state = {
+                currentSongId: player.attributes.target.value,
+                currentTime: player.currentTime,
+                currentDuration: player.duration,
+                volume: player.volume,
+                isPlaying: !player.paused
+            };
+            localStorage.setItem('playerState', JSON.stringify(state));
+        }
+    }
+
+    window.addEventListener('beforeunload', savePlayerState);
+    document.addEventListener('DOMContentLoaded', loadPlayerState);
 
     function stopPropagation(event) {
         event?.stopPropagation();
@@ -143,7 +179,10 @@
             player.load();
         }
 
-        play();
+        if (userInteracted) {
+            play();
+        }
+
         timer.max = player.duration;
 
         const mins = Math.floor(player.duration / 60);
@@ -152,6 +191,7 @@
         end.innerText = seconds ? mins + ':' + decimalSecond + Math.floor(seconds) : '0:0';
         player.volume = volume.value;
         volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
+        savePlayerState();
     }
 
     function changeTime() {

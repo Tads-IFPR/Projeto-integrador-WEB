@@ -28,6 +28,17 @@ class AudioPlayer extends Component
         $this->dispatch('changed-audio', audio: $this->audio->previous);
     }
 
+    public function startLastAudio(int $id)
+    {
+        $audio = Audio::find($id);
+
+        if (!$audio) {
+            return false;
+        }
+
+        $this->dispatch('changed-audio', audio: $audio);
+    }
+
     public function togglePlaying()
     {
         $this->isPlaying = !$this->isPlaying;

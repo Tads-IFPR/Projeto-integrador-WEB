@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlaylistController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\PlaylistAudioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,8 @@ use App\Http\Controllers\UserController;
 Route::get('/', HomeController::class)->name('home');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/community', CommunityController::class)->name('community');
+    Route::get('/favorites', FavoritesController::class)->name('favorites');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -36,10 +40,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/playlist/{id}/filter', [PlaylistController::class, 'filterAudios'])->name('playlist.filterAudios');
     Route::delete('playlist/{playlist}/audio/{audio}', [PlaylistController::class, 'removeAudio'])->name('playlist.removeAudio');
-    Route::post('/playlist/{playlist}/share', [PlaylistController::class, 'share']);
-
-    Route::get('/users', [UserController::class, 'getAll']);
-    Route::get('/users/{name}', [UserController::class, 'getByName']);
+});
 
 
 });

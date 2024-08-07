@@ -76,8 +76,13 @@
 
 .audio-card {
     height: 3rem;
-    overflow: hidden;
     cursor: pointer;
+    position: relative;
+}
+
+.audio-card .name {
+    max-height: 10.5rem;
+    overflow: hidden;
 }
 
 .audio-card .play {
@@ -93,15 +98,11 @@
     display: none;
 }
 
-.audio-card .delete-form,
-.audio-card .edit-form,
 .audio-card .rest-name {
     opacity: 0;
     transition: opacity 150ms ease-out;
 }
 
-.audio-card:hover .delete-form,
-.audio-card:hover .edit-form,
 .audio-card:hover .rest-name {
     opacity: 1;
 }
@@ -361,7 +362,80 @@
     background: var(--secondary);
 }
 
-@media screen and (max-width: 500px) {
+.options-audio {
+    opacity: 0;
+    transition: opacity 300ms;
+    display: flex;
+    align-items: center;
+}
+
+.options-audio:hover {
+    transform: scale(1.1);
+}
+
+.audio-card:hover .options-audio {
+    opacity: 1;
+}
+
+.backdrop-audio {
+    width: 100vw;
+    height: 100vh;
+    z-index: 5; /* if you change that you need change options too*/
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.option-audio {
+    position: absolute;
+    background-color: rgba(54, 54, 54, 1);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: .2rem;
+    z-index: 6; /* if you change that you need change drop-back too*/
+    top: 40px;
+    right: 0;
+    padding: .2rem;
+}
+
+.option-audio > * {
+    color: var(--white);
+    font-size: .9rem;
+    font-weight: bolder;
+    padding: .4rem;
+    text-decoration: none;
+    display: block;
+    border-radius: .2rem;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.option-audio .material-symbols-outlined {
+    font-size: .9rem;
+}
+
+.option-audio > *:hover {
+    cursor: pointer;
+    background-color: rgba(192, 192, 192, 0.3);
+}
+
+.audio-card {
+    width: 20%;
+    min-width: 20%;
+}
+
+@media screen and (max-width: 800px) {
+    .options-audio {
+        opacity: 1;
+    }
+
+    .audio-card {
+        width: 100%;
+        min-width: 100%;
+    }
+
     #player-controls.expanded {
         flex-direction: column;
         height: 60vh;

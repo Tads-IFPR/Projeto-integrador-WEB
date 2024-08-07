@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -44,20 +47,97 @@ class Playlist extends Model
 
     public function likes(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     public function shareds(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'shareds');
     }
-    
+
     public function cover()
     {
         return Storage::disk($this->cover_disk)->get($this->cover_path);
     }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeCurrentUser(Builder $query): void
+    {
+        $query->where('user_id', auth()->user()->id);
+    }
+
+    public function scopePublic(Builder $query): void
+    {
+        $query->where('is_public', true);
+    }
+
+    public function userLiked(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->likes()->where('user_id', auth()->user()->id)->exists(),
+        );
+    }
+
+    public function scopeMostLiked($query, $timePeriod = null)
+    {
+        $timeFrame = match ($timePeriod) {
+            'day' => Carbon::now()->subDay(),
+            'week' => Carbon::now()->subWeek(),
+            'month' => Carbon::now()->subMonth(),
+            'year' => Carbon::now()->subYear(),
+            default => null,
+        };
+
+        return $query->withCount(['likes' => function ($query) use ($timeFrame) {
+            if ($timeFrame) {
+                $query->where('playlist_user.created_at', '>=', $timeFrame);
+            }
+        }])->orderBy('likes_count', 'desc');
+    }
+
+    public function isCurrentUserOwner(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->user->id === auth()->user()->id,
+        );
+    }
+
+    private function makePublic()
+    {
+        $this->is_public = true;
+        $this->save();
+        $this->audios()->update(['is_public' => true]);
+    }
+
+    private function makePrivate()
+    {
+        $this->is_public = false;
+        $this->save();
+
+        $audioIds = $this->audios()->pluck('id');
+
+        $audioIdsInOtherPublicPlaylists = Audio::whereIn('id', $audioIds)
+            ->whereHas('playlists', function ($query) {
+                $query->where('is_public', true);
+            })
+            ->pluck('id');
+
+        $audioIdsToMakePrivate = $audioIds->diff($audioIdsInOtherPublicPlaylists);
+
+        Audio::whereIn('id', $audioIdsToMakePrivate)->update(['is_public' => false]);
+    }
+
+    public function togglePrivacy()
+    {
+        if (!$this->is_public) {
+            $this->makePublic();
+            return;
+        }
+
+        $this->makePrivate();
     }
 }
