@@ -33,24 +33,26 @@
         </div>
         <div id="backdrop-audio-{{$audio->id}}" target="{{$audio->id}}" class="backdrop-audio" style="display: none;"></div>
         <div id="option-audio-{{$audio->id}}" class="option-audio flex-column align-items-center" style="display: none;">
-            <form action="{{ route('audio.destroy', $audio->id) }}" method="POST">
+            <form action="{{ route('audio.destroy', $audio->id) }}" method="POST" class="w-100">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="d-flex align-items-center">
-                    <span class="material-symbols-outlined me-1">
-                        delete
-                    </span>
-                    Delete
+                <button type="submit" class="d-flex align-items-center w-100 p-0 border-0 bg-transparent">
+                    <div class="d-flex align-items-center w-100">
+                        <span class="material-symbols-outlined me-1">
+                            delete
+                        </span>
+                        <span>Delete</span>
+                    </div>
                 </button>
             </form>
-            <div>
-                <a href="{{ route('audio.edit', $audio->id) }}" wire:navigate class="d-flex align-items-center">
+            <a href="{{ route('audio.edit', $audio->id) }}" wire:navigate class="d-flex align-items-center w-100 h-100 p-2 text-decoration-none">
+                <div class="d-flex align-items-center w-100">
                     <span class="material-symbols-outlined me-1">
                         edit
                     </span>
-                    Edit
-                </a>
-            </div>
+                    <span>Edit</span>
+                </div>
+            </a>
         </div>
     @endif
 </div>
