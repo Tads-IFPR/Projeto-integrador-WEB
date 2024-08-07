@@ -31,6 +31,9 @@
                 </button>
                 <div id="drop-back" style="display: none;"></div>
                 <div id="dropdown" class="dropdown-content" style="display: none;">
+                    <a href="{{route('user.edit', auth()->user())}}">
+                        Edit account
+                    </a>
                     <form method="POST" action="{{ route('logout') }}" id="logout-form">
                         @csrf
                         <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
