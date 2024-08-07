@@ -9,6 +9,7 @@ use App\Models\Audio;
 use App\Models\Playlist;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -54,13 +55,34 @@ class AudioController extends Controller
     {
         $request->validated();
 
-        $data = explode('/', $audio->path);
-        $extension = $data[array_key_last($data)];
-        $path = 'temp/audio' . uniqid() . '.' . $extension;
+        try {
+            $data = explode('.', $audio->path);
+            $extension = end($data);
+            $filename = 'audio' . uniqid() . '.' . $extension;
+            $path = 'temp/' . $filename;
 
-        Storage::put($path, $audio->file());
+            Storage::put($path, $audio->file());
 
-        return response()->file(storage_path('app/') . $path)->deleteFileAfterSend();
+            $fullPath = storage_path('app/') . $path;
+
+            $mimeType = mime_content_type($fullPath);
+
+            if (!str_starts_with($mimeType, 'audio/')) {
+                throw new \Exception("Invalid MIME type: $mimeType");
+            }
+
+            return response()->file($fullPath, [
+                'Content-Type' => $mimeType,
+                'Content-Disposition' => 'inline; filename="' . $filename . '"',
+            ])->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+            Log::error('Erro ao enviar o arquivo de áudio: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'Fail to load file content',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function showImage(AudioShowRequest $request, Audio $audio)
