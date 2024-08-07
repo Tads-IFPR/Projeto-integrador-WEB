@@ -38,16 +38,11 @@ class PlaylistController extends Controller
     public function store(PlaylistStoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        //$playlist = Playlist::create($request->validated());
-
         $isPublic = $request->has('is_public') ? 1 : 0;
-
-
         $playlist = [
             'name' => $validated['name'],
             'is_public' => $isPublic,
             'cover_disk' => config('filesystems.default'),
-            //'cover_path' => $request->file('cover_path'),
             'user_id' => auth()->id()
         ];
 
@@ -56,8 +51,6 @@ class PlaylistController extends Controller
 
 
         $playlist = Playlist::create($playlist);
-
-        //dd($playlist->id);
 
 
         // Criando um relacionamento fake com a tabela playlist_user
@@ -164,18 +157,24 @@ class PlaylistController extends Controller
 
     public function share(Request $request)
     {
+        // Verificando se o usuário existe
+        $user = DB::table('users')->find($request->user);
+        if (!$user) {
+            return response()->json(['message' => 'User not found', 'status' => 404], 404);
+        }
 
         // Inserir um novo registro
-        DB::table('shareds')->insert([
-            'playlist_id' => $request->playlistId,
-            'user_id' => $request->user
-        ]);
+        
+        // DB::table('shareds')->insert([
+        //     'playlist_id' => $request->playlistId,
+        //     'user_id' => $request->user
+        // ]);
 
         // Inserir um novo registro
-        DB::table('playlist_user')->insert([
-            'playlist_id' => $request->playlistId,
-            'user_id' => $request->user
-        ]);
+        // DB::table('playlist_user')->insert([
+        //     'playlist_id' => $request->playlistId,
+        //     'user_id' => $request->user
+        // ]);
 
 
         return response()->json(['message' => 'Playlist shared!!' . $request->playlistId, 'status' => 200], 200);
