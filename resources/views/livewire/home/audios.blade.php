@@ -3,9 +3,5 @@
         <h2 class="cfs-1 bolder">Musics</h2>
         <a href="{{route('audio.create')}}" class="button-default px-4 py-1" wire:navigate>New</a>
     </div>
-    <div class="d-flex w-100 wrap">
-        @foreach ($audios as $audio)
-            <livewire:audio-card :$audio :key="$audio->id" class="mt-3"/>
-        @endforeach
-    </div>
+    <livewire:audio.audio-list class="d-flex w-100 wrap" :audios="$audios" />
 </div>

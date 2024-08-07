@@ -1,10 +1,10 @@
 *{
-    --dark:#0d0d0d;
-    --dark-gray:#404040;
+    --dark:rgb(13, 13, 13);
+    --dark-gray:rgb(64, 64, 64);
     --tertiary:#BABF24;
     --secondary: #13F2A1;
     --primary: #6DF2CC;
-    --gray: #c0c0c0;
+    --gray: rgb(192, 192, 192);
     --white: #f2f2f2;
     --danger: #F26D6D;
 }
@@ -20,6 +20,10 @@ body{
     font-family: "Sofia Sans", sans-serif;
     background-color: var(--dark);
     color: var(--white);
+}
+
+.border-bottom {
+    border-bottom: 1px solid var(--gray);
 }
 
 .text-effect{
@@ -159,6 +163,23 @@ body{
     font-family: "Sofia Sans", sans-serif;
     font-size: 20px;
     box-shadow: -5px 5px  var(--primary);
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.like {
+    transition: all .5s cubic-bezier(0.19, 3, 0.22, 3);
+}
+
+.like-check {
+    color: var(--primary);
+    font-size: 1.6rem;
 }
 
 /* Chrome, Safari e outros navegadores baseados no WebKit */

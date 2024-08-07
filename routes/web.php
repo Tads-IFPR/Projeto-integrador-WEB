@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,8 @@ use App\Http\Controllers\PlaylistAudioController;
 Route::get('/', HomeController::class)->name('home');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/community', CommunityController::class)->name('community');
+    Route::get('/favorites', FavoritesController::class)->name('favorites');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

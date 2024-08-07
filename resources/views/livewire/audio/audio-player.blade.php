@@ -73,16 +73,16 @@
 </div>
 
 <script>
-    const player = document.getElementById('player');
-    const current = document.getElementById('current');
-    const end = document.getElementById('end');
-    const timer = document.getElementById('timer');
-    const volume = document.getElementById('volume');
-    const playButton = document.getElementById('play');
-    const pauseButton = document.getElementById('pause');
-    const up = document.getElementById('up');
-    const off = document.getElementById('off');
-    const timeControls = document.getElementById('time-controls');
+    var player = document.getElementById('player');
+    var current = document.getElementById('current');
+    var end = document.getElementById('end');
+    var timer = document.getElementById('timer');
+    var volume = document.getElementById('volume');
+    var playButton = document.getElementById('play');
+    var pauseButton = document.getElementById('pause');
+    var up = document.getElementById('up');
+    var off = document.getElementById('off');
+    var timeControls = document.getElementById('time-controls');
     var crSrc = null;
     var userInteracted = false;
     const state = JSON.parse(localStorage.getItem('playerState'));

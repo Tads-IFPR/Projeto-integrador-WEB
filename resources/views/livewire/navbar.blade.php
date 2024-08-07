@@ -3,23 +3,22 @@
         <div class="navbar-collapse justify-content-between" id="navbarCollapse">
 
             <ul class="navbar-nav">
-                <li @class(['nav-item', 'active' => request()->routeIs("home")]) id="home">
-                    <a class="nav-link" href="/" wire:navigate >Home</a>
+                <li @class(['nav-item', 'active' =>$currentRouteName === 'home']) id="home">
+                    <a class="nav-link" href="{{ route('home')}} ">Home</a>
                 </li>
 
-                <li @class(['nav-item', 'active' => request()->routeIs("community")]) id="community">
-                    <a class="nav-link" href="#">Community</a>
+                <li @class(['nav-item', 'active' =>$currentRouteName === 'community']) id="community">
+                    <a class="nav-link" href="{{ route('community')}} ">Community</a>
                 </li>
 
-                <li @class(['nav-item', 'active' => request()->routeIs("favorites")]) id="favorites">
-                    <a class="nav-link" href="#">Favorites</a>
+                <li @class(['nav-item', 'active' =>$currentRouteName === 'favorites']) id="favorites">
+                    <a class="nav-link" href="{{ route('favorites') }}">Favorites</a>
                 </li>
             </ul>
 
-            <form class="d-flex"role="search" id="search-bar">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+            <form class="d-flex" role="search" id="search-bar">
                 <div class="input-wrapper">
-                    <input type="text" placeholder="Search here">
+                    <input type="text" placeholder="Search here" wire:keydown.debounce.300ms="search" wire:model="searchInput">
                     <i class="fa fa-search"></i>
                 </div>
             </form>
