@@ -9,7 +9,6 @@
         </button>
         <div>
             @if($playlist->audios->count() > 0)
-
                 <span class="badge">{{ $playlist->audios->count() }} Audios</span>
             @endif
         </div>
@@ -33,24 +32,26 @@
         </div>
         <div id="backdrop-playlist-{{$playlist->id}}" target="{{$playlist->id}}" class="backdrop-playlist" style="display: none;"></div>
         <div id="option-playlist-{{$playlist->id}}" class="option-playlist flex-column align-items-center" style="display: none;">
-            <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST">
+            <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST" class="w-100">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="d-flex align-items-center">
-                    <span class="material-symbols-outlined me-1">
-                        delete
-                    </span>
-                    Delete
+                <button type="submit" class="d-flex align-items-center w-100 p-0 border-0 bg-transparent">
+                    <div class="d-flex align-items-center w-100">
+                        <span class="material-symbols-outlined me-1">
+                            delete
+                        </span>
+                        <span>Delete</span>
+                    </div>
                 </button>
             </form>
-            <div>
-                <a href="{{ route('playlist.edit', $playlist->id) }}" wire:navigate class="d-flex align-items-center">
+            <a href="{{ route('playlist.edit', $playlist->id) }}" wire:navigate class="d-flex align-items-center w-100 h-100 p-2 text-decoration-none">
+                <div class="d-flex align-items-center w-100">
                     <span class="material-symbols-outlined me-1">
                         edit
                     </span>
-                    Edit
-                </a>
-            </div>
+                    <span>Edit</span>
+                </div>
+            </a>
             <div>
                 <span class="material-symbols-outlined me-1">
                     add_circle
@@ -82,7 +83,7 @@
                         <h1 id="playlist-name">{{ $playlist->name }}</h1>
 
                         @if($audiosNotInPlaylist->isEmpty())
-                            <p>No Aduios to be added.</p>
+                            <p>No Audios to be added.</p>
                         @else
                         <form method="POST" action="{{ route('playlist.addAudio') }}" target="hidden-iframe-{{ $playlist->id }}">
                         @csrf
@@ -90,8 +91,6 @@
                                 <div class="container">
                                     <div class="row">
                                         @foreach($audiosNotInPlaylist as $audio)
-
-
                                             <div class="col-md-6 mb-3" id="card-add">
                                                 <div class="card">
                                                     <div class="card-body d-flex">
