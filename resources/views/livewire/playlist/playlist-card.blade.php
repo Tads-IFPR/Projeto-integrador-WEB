@@ -56,9 +56,10 @@
                 <span class="material-symbols-outlined me-1">
                     add_circle
                 </span>
-                <span data-bs-toggle="modal" data-bs-target="#add-rem-{{ $playlist->id }}">
+                <span wire:click="openModal({{ $playlist->id }})">
                     Add in this playlist
                 </span>
+                <livewire:audio-modal :playlistId="$playlist->id"/>
             </div>
             <div wire:click="togglePrivacy">
                 <span class="material-symbols-outlined me-1">
@@ -132,6 +133,13 @@
 </div>
 
 <script>
+    document.addEventListener('livewire:load', function () {
+    Livewire.on('open-modal', event => {
+        var modalId = '#add-rem-' + event.id;
+        var modal = new bootstrap.Modal(document.querySelector(modalId));
+        modal.show();
+        });
+    });
     document.addEventListener('DOMContentLoaded', function () {
         var processedPlaylists = new Set();
 
