@@ -7,6 +7,10 @@
 
         <x-input type="email" name="email" placeholder="Email" class="mt-3 w-100" value="{{$user->email}}" />
 
+        <x-input type="password" name="password" placeholder="Password" class="mt-3 w-100" />
+
+        <x-input type="password" name="password_confirmation" placeholder="Password Confirmation" class="mt-3 w-100" />
+
         <div class="d-flex justify-content-center">
             <x-button type="submit" id="submit" class="px-4 py-1 bolder mt-3">Save</x-button>
         </div>
