@@ -8,7 +8,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeModal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ $playlistId }}</p>
+                    <p>{{ ($playlistId) }}</p>
+                    <h1>MODAL DO CARALHO, ESSA PORRA FUNCINOU????</h1>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="closeModal">Close</button>

@@ -34,6 +34,11 @@ class PlaylistCard extends Component
         $this->playlist->likes()->toggle([auth()->user()->id]);
     }
 
+    public function modal()
+    {
+        $this->dispatch('openModal', $this->playlist->id);
+    }
+
     public function render()
     {
         return view('livewire.playlist.playlist-card',[
