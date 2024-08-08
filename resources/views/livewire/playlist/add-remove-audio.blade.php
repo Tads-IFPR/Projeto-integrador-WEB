@@ -8,18 +8,7 @@
         <h3 class="name">{{ $audio->name }}</h3>
         <h4>{{ $audio->author }}</h4>
     </div>
-    <div class="d-flex align-items-center" >
-        <form id="add-audio-form" action="{{ route('addAudio') }}" method="POST" class="add-form me-2">
-            @csrf
-            <input type="hidden" name="playlist_id" value="{{ $playlist->id }}">
-            <input type="checkbox" name="selected_audios[]" value="{{ $audio->id }}">
-            <button type="submit">
-                <span class="material-symbols-outlined">
-                    add
-                </span>
-            </button>
-        </form>
-    </div>
+   
 </div>
 
 <script>

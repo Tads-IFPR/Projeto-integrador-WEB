@@ -59,7 +59,7 @@
                 <span wire:click="modal">
                     Add in this playlist
                 </span>
-                <livewire:audio-modal />
+                <livewire:audio-modal :playlistId="$playlist->id"/>
             </div>
             <div wire:click="togglePrivacy">
                 <span class="material-symbols-outlined me-1">

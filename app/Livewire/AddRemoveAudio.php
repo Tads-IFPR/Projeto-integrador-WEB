@@ -27,4 +27,6 @@ class AddRemoveAudio extends Component
             'playlist' => $this->playlist,
         ]);
     }
+
+    
 }
