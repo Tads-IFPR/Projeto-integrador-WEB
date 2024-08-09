@@ -11,6 +11,8 @@ class AudioPlayer extends Component
 {
     public Audio $audio;
     public $isPlaying = false;
+    public $isShuffle = false;
+    public $playedMusics = [];
 
     #[On('changed-audio')]
     public function updateAudio(Audio $audio)
@@ -42,6 +44,22 @@ class AudioPlayer extends Component
     public function togglePlaying()
     {
         $this->isPlaying = !$this->isPlaying;
+    }
+
+    public function toggleShuffle()
+    {
+        $this->isShuffle = !$this->isShuffle;
+
+        if (!$this->isShuffle) {
+            $this->playedMusics = [];
+        }
+    }
+
+    public function addPlayedMusic()
+    {
+        if ($this->isShuffle) {
+            $this->playedMusics[$this->audio->id] = $this->audio->id;
+        }
     }
 
     public function render()

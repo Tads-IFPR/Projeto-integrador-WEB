@@ -17,6 +17,13 @@
 
     <div id="controls" class="d-flex flex-column align-items-center justify-content-center">
         <div id="actions" class="d-flex justify-content-center">
+            <button class="button-icon me-2" wire:click="toggleShuffle" id="shuffle">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="{{$isShuffle ? 'var(--primary)' : 'var(--white)'}}"
+                >
+                    <path d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z"/>
+                </svg>
+            </button>
             @if ($audio?->previous)
                 <button id="previous" class="button-icon" wire:click='previous' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
@@ -127,6 +134,11 @@
         event?.stopPropagation();
     }
 
+    function playNext() {
+        @this.addPlayedMusic();
+        document.getElementById('next')?.click();
+    }
+
     function play(event = null) {
         event?.stopPropagation();
         pauseButton.style.display = 'block';
@@ -208,7 +220,7 @@
         }
 
         if (player.currentTime === player.duration) {
-            reset();
+            playNext();
         }
     }
 
