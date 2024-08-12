@@ -9,6 +9,11 @@
         <livewire:home.audios />
     </div>
 
+
+    {{-- incluido o componente share unico --}}
+    <livewire:playlist-share />
+
+
 @endsection
 
 @push('styles')

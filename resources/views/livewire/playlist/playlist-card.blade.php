@@ -76,7 +76,21 @@
                 </span>
                 {{$playlist->is_public ? 'Turn private' : 'Turn public'}}
             </div>
+
+            <a href="#" onclick="shareModal({{$playlist->id}}, '{{$playlist->name}}')">
+                <div class="d-flex align-items-center w-100">
+                    <span class="material-symbols-outlined me-1">
+                        share
+                    </span>
+                    <span>
+                        Share
+                    </span>
+                </div>
+            </a>
         </div>
+
+
+
         <div class="modal fade" id="add-rem-{{ $playlist->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
             <div class="modal-dialog">
 
@@ -153,7 +167,7 @@
 
 
         <!-- Modal -->
-        <div class="modal-share modal fade" id="share-modal-playlist-{{ $playlist->id }}">
+        {{-- <div class="modal-share modal fade" id="share-modal-playlist-{{ $playlist->id }}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
@@ -190,7 +204,7 @@
 
                 </div>
             </div>
-        </div>
+        </div> --}}
     @endif
 </div>
 
@@ -264,6 +278,9 @@
             window.dispatchEvent(event);
         }
     }
+
+
+});
 </script>
 
 @push('styles')

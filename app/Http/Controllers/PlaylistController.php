@@ -6,15 +6,10 @@ use App\Http\Requests\PlaylistShowRequest;
 use App\Http\Requests\PlaylistStoreRequest;
 use App\Models\Playlist;
 use App\Models\Audio;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log; // Add this line
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-
 
 
 class PlaylistController extends Controller
@@ -49,16 +44,7 @@ class PlaylistController extends Controller
 
         $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
 
-
         $playlist = Playlist::create($playlist);
-
-
-        // Criando um relacionamento fake com a tabela playlist_user
-        DB::table('playlist_user')->insert([
-            'playlist_id' => $playlist->id,
-            'user_id' => auth()->id()
-        ]);
-
 
         return redirect()->route('home');
     }
@@ -157,27 +143,19 @@ class PlaylistController extends Controller
 
     public function share(Request $request)
     {
-        // Verificando se o usuário existe
-        $user = DB::table('users')->find($request->user);
-        if (!$user) {
-            return response()->json(['message' => 'User not found', 'status' => 404], 404);
-        }
+        // Verificando se a playlist e o usuário existe
+        $validated = $request->validate([
+            'playlistId' => 'required|exists:playlists,id',
+            'sharedUserId' => 'required|exists:users,id'
+        ]);
 
-        // Inserir um novo registro
-        
-        // DB::table('shareds')->insert([
-        //     'playlist_id' => $request->playlistId,
-        //     'user_id' => $request->user
-        // ]);
+        // Inserir na tabela 'shareds' o id da playlist e o id do usuário que compartilhou
 
-        // Inserir um novo registro
-        // DB::table('playlist_user')->insert([
-        //     'playlist_id' => $request->playlistId,
-        //     'user_id' => $request->user
-        // ]);
+        $playlist = Playlist::find($validated['playlistId']);
+        $playlist->shareds()->attach($validated['sharedUserId']);
 
 
-        return response()->json(['message' => 'Playlist shared!!' . $request->playlistId, 'status' => 200], 200);
+        return response()->json(['message' => 'Playlist shared!' . $request->playlistId . " - - " . $request->sharedUserId, 'status' => 200], 200);
     }
 
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PlaylistAudioController;
 
 /*
@@ -35,15 +36,17 @@ Route::middleware('auth')->group(function () {
     Route::get('playlist/{playlist}/cover', [PlaylistController::class, 'showImage'])->name('playlist.show.image');
     Route::get('playlist/{playlist}', [PlaylistController::class, 'play'])->name('playlist.show');
     Route::get('playlist/{id}/audios', [PlaylistController::class, 'index'])->name('playlist.index');
-
     Route::post('playlist/add-audio', [PlaylistController::class, 'addAudio'])->name('playlist.addAudio');
-
     Route::get('/playlist/{id}/filter', [PlaylistController::class, 'filterAudios'])->name('playlist.filterAudios');
     Route::delete('playlist/{playlist}/audio/{audio}', [PlaylistController::class, 'removeAudio'])->name('playlist.removeAudio');
+    Route::get('user/{user}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('/playlist/{playlist}/share', [PlaylistController::class, 'share']);
+
+    Route::get('/users', [UserController::class, 'getAll']);
+    Route::get('/users/{name}', [UserController::class, 'getByName']);
+
 });
 
-
-});
 
 require __DIR__.'/auth.php';
 

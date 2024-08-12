@@ -34,11 +34,11 @@
                     <a href="{{route('user.edit', auth()->user())}}">
                         Edit account
                     </a>
-                    <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                        @csrf
-                        <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                           Logout
-                        </a>
+                        <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                            @csrf
+                            <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                    </a>
                     </form>
                 </div>
             </div>
