@@ -18,6 +18,10 @@ class AudioPlayer extends Component
     #[On('changed-audio')]
     public function updateAudio(Audio $audio)
     {
+        if (isset($this->audio)) {
+            $this->isPlaying = true;
+        }
+
         $this->audio = $audio;
 
         if ($this->isShuffle) {

@@ -33,14 +33,17 @@
             @else
                 <div></div>
             @endif
-            <button onclick="play(event)" id="play" class="button-icon">
-                <span class="material-symbols-outlined">play_arrow</span>
-            </button>
-            <button onclick="pause(event)" id="pause" style="display: none" class="button-icon">
-                <span class="material-symbols-outlined">
-                    pause
-                </span>
-            </button>
+            @if ($isPlaying)
+                <button onclick="pause(event)" id="pause" class="button-icon" wire:click="togglePlaying">
+                    <span class="material-symbols-outlined">
+                        pause
+                    </span>
+                </button>
+            @else
+                <button onclick="play(event)" id="play" class="button-icon" wire:click="togglePlaying">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                </button>
+            @endif
             @if ($audio?->next($playedMusics))
                 <button id="next" class="button-icon" wire:click='next' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
@@ -85,8 +88,6 @@
     var end = document.getElementById('end');
     var timer = document.getElementById('timer');
     var volume = document.getElementById('volume');
-    var playButton = document.getElementById('play');
-    var pauseButton = document.getElementById('pause');
     var up = document.getElementById('up');
     var off = document.getElementById('off');
     var timeControls = document.getElementById('time-controls');
@@ -140,15 +141,11 @@
 
     function play(event = null) {
         event?.stopPropagation();
-        pauseButton.style.display = 'block';
-        playButton.style.display = 'none';
         player.play();
     }
 
     function pause(event = null) {
         event?.stopPropagation();
-        playButton.style.display = 'block';
-        pauseButton.style.display = 'none';
         player.pause();
     }
 
@@ -181,6 +178,7 @@
     }
 
     function loadedAudio() {
+
         if (!player.duration || isNaN(Number(player.duration)) || typeof player.duration !== 'number') {
             return;
         }
@@ -198,6 +196,12 @@
         end.innerText = seconds ? mins + ':' + decimalSecond + Math.floor(seconds) : '0:0';
         player.volume = volume.value;
         volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
+        changeTime();
+
+        if (@this.isPlaying) {
+            play();
+        }
+
         savePlayerState();
     }
 
