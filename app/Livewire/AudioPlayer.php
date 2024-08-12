@@ -10,6 +10,7 @@ use Livewire\Component;
 class AudioPlayer extends Component
 {
     public Audio $audio;
+    public $isExpanded = false;
     public $isPlaying = false;
     public $isShuffle = false;
     public $playedMusics = [];
@@ -18,16 +19,20 @@ class AudioPlayer extends Component
     public function updateAudio(Audio $audio)
     {
         $this->audio = $audio;
+
+        if ($this->isShuffle) {
+            $this->playedMusics[$this->audio->id] = $this->audio->id;
+        }
     }
 
     public function next()
     {
-        $this->dispatch('changed-audio', audio: $this->audio->next);
+        $this->dispatch('changed-audio', audio: $this->audio->next($this->playedMusics));
     }
 
     public function previous()
     {
-        $this->dispatch('changed-audio', audio: $this->audio->previous);
+        $this->dispatch('changed-audio', audio: $this->audio->previous());
     }
 
     public function startLastAudio(int $id)
@@ -41,6 +46,11 @@ class AudioPlayer extends Component
         $this->dispatch('changed-audio', audio: $audio);
     }
 
+    public function toggleExpanded()
+    {
+        $this->isExpanded = !$this->isExpanded;
+    }
+
     public function togglePlaying()
     {
         $this->isPlaying = !$this->isPlaying;
@@ -52,12 +62,7 @@ class AudioPlayer extends Component
 
         if (!$this->isShuffle) {
             $this->playedMusics = [];
-        }
-    }
-
-    public function addPlayedMusic()
-    {
-        if ($this->isShuffle) {
+        } else if ($this->audio) {
             $this->playedMusics[$this->audio->id] = $this->audio->id;
         }
     }

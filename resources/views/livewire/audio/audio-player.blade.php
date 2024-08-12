@@ -1,5 +1,5 @@
 <div id="player-controls"
-    @class(['have-audio' => !!$audio, 'expanded' => $isPlaying])
+    @class(['have-audio' => !!$audio, 'expanded' => $isExpanded])
     style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;"
 >
     <div id="audio-data" class="d-flex align-items-center">
@@ -24,7 +24,7 @@
                     <path d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z"/>
                 </svg>
             </button>
-            @if ($audio?->previous)
+            @if ($audio?->previous())
                 <button id="previous" class="button-icon" wire:click='previous' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_previous
@@ -41,7 +41,7 @@
                     pause
                 </span>
             </button>
-            @if ($audio?->next)
+            @if ($audio?->next($playedMusics))
                 <button id="next" class="button-icon" wire:click='next' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_next
@@ -121,7 +121,7 @@
                 currentTime: player.currentTime,
                 currentDuration: player.duration,
                 volume: player.volume,
-                isPlaying: !player.paused
+                isExpanded: !player.paused
             };
             localStorage.setItem('playerState', JSON.stringify(state));
         }
@@ -135,7 +135,6 @@
     }
 
     function playNext() {
-        @this.addPlayedMusic();
         document.getElementById('next')?.click();
     }
 
@@ -191,10 +190,6 @@
             player.load();
         }
 
-        if (userInteracted) {
-            play();
-        }
-
         timer.max = player.duration;
 
         const mins = Math.floor(player.duration / 60);
@@ -224,14 +219,9 @@
         }
     }
 
-    function reset() {
-        pause();
-        player.currentTime = 0;
-    }
-
     function toggleMobilePlayer(event = null) {
         event.stopPropagation();
-        @this.togglePlaying();
+        @this.toggleExpanded();
 
         let elements = document.getElementsByClassName('black-background');
         Array.from(elements).forEach(element => {
