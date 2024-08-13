@@ -17,14 +17,14 @@
 
     <div id="controls" class="d-flex flex-column align-items-center justify-content-center">
         <div id="actions" class="d-flex justify-content-center">
-            <button class="button-icon me-2" wire:click="toggleShuffle" id="shuffle">
+            <button class="button-icon me-2" wire:click="toggleShuffle" id="shuffle" target="{{$isShuffle}}">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                     fill="{{$isShuffle ? 'var(--primary)' : 'var(--white)'}}"
                 >
                     <path d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z"/>
                 </svg>
             </button>
-            @if ($audio?->previous())
+            @if ($audio?->previous($playedMusics))
                 <button id="previous" class="button-icon" wire:click='previous' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_previous
@@ -84,6 +84,7 @@
 
 <script>
     var player = document.getElementById('player');
+    var shuffle = document.getElementById('shuffle');
     var current = document.getElementById('current');
     var end = document.getElementById('end');
     var timer = document.getElementById('timer');
@@ -106,7 +107,7 @@
 
     function loadPlayerState() {
         if (state && state?.currentSongId) {
-            @this.call('startLastAudio', state.currentSongId);
+            @this.call('startLastAudio', state);
 
             player.volume = state.volume;
             volume.value = state.volume;
@@ -122,7 +123,8 @@
                 currentTime: player.currentTime,
                 currentDuration: player.duration,
                 volume: player.volume,
-                isExpanded: !player.paused
+                isExpanded: !player.paused,
+                isShuffle: shuffle.attributes.target.value,
             };
             localStorage.setItem('playerState', JSON.stringify(state));
         }

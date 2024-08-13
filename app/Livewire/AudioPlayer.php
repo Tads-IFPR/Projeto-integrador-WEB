@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Audio;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -22,11 +21,15 @@ class AudioPlayer extends Component
             $this->isPlaying = true;
         }
 
-        $this->audio = $audio;
-
-        if ($this->isShuffle) {
-            $this->playedMusics[$this->audio->id] = $this->audio->id;
+        if (
+            $this->isShuffle
+            && isset($audio)
+            && !in_array($audio?->id, $this->playedMusics)
+        ) {
+            $this->playedMusics[] = $audio->id;
         }
+
+        $this->audio = $audio;
     }
 
     public function next()
@@ -36,15 +39,19 @@ class AudioPlayer extends Component
 
     public function previous()
     {
-        $this->dispatch('changed-audio', audio: $this->audio->previous());
+        $this->dispatch('changed-audio', audio: $this->audio->previous($this->playedMusics));
     }
 
-    public function startLastAudio(int $id)
+    public function startLastAudio($state)
     {
-        $audio = Audio::find($id);
+        $audio = Audio::currentUser()->find($state['currentSongId']);
 
         if (!$audio) {
             return false;
+        }
+
+        if (isset($state['isShuffle'])) {
+            $this->isShuffle = true;
         }
 
         $this->dispatch('changed-audio', audio: $audio);
@@ -66,8 +73,8 @@ class AudioPlayer extends Component
 
         if (!$this->isShuffle) {
             $this->playedMusics = [];
-        } else if ($this->audio) {
-            $this->playedMusics[$this->audio->id] = $this->audio->id;
+        } else if (isset($this->audio) && !in_array($this->audio->id, $this->playedMusics)) {
+            $this->playedMusics[] = $this->audio->id;
         }
     }
 

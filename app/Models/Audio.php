@@ -89,15 +89,29 @@ class Audio extends Model
 
     public function next(array $ignoreIds = [])
     {
-        return self::currentUser()
+        $nextAudio = self::currentUser()
             ->when($ignoreIds,
-                fn($q) => $q->whereNotIn('id', $ignoreIds)->inRandomOrder(),
+                fn($q) => $q->whereNotIn('id', $ignoreIds)->whereNot('id', $this->id)->inRandomOrder(),
                 fn($q) => $q->where('id', '>', $this->id)->orderBy('id','asc')
             )->first();
+
+        return $nextAudio;
     }
 
-    public function previous()
+    public function previous(array &$oldIds = [])
     {
+        $key = array_search($this->id, $oldIds);
+
+        if (isset($oldIds[$key - 1])) {
+            $lastAudio = Audio::find($oldIds[$key - 1]);
+            unset($oldIds[$key]);
+            return $lastAudio;
+        }
+
+        if ($key !== false) {
+            return null;
+        }
+
         return self::currentUser()->where('id', '<', $this->id)->orderBy('id','desc')->first();
     }
 
