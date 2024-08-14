@@ -149,8 +149,15 @@ class PlaylistController extends Controller
             'sharedUserId' => 'required|exists:users,id'
         ]);
 
-        // Inserir na tabela 'shareds' o id da playlist e o id do usuário que compartilhou
+        // Verificando se já existe um compartilhamento entre a playlist e o usuário
+        $playlist = Playlist::find($validated['playlistId']);
+        $alreadyShared = $playlist->shareds()->where('user_id', $validated['sharedUserId'])->exists();
 
+        if ($alreadyShared) {
+            return response()->json(['message' => 'Playlist já compartilhada com este usuário.', 'status' => 409], 409);
+        }
+
+        // Inserir na tabela 'shareds' o id da playlist e o id do usuário que compartilhou
         $playlist = Playlist::find($validated['playlistId']);
         $playlist->shareds()->attach($validated['sharedUserId']);
 
@@ -158,5 +165,11 @@ class PlaylistController extends Controller
         return response()->json(['message' => 'Playlist shared!' . $request->playlistId . " - - " . $request->sharedUserId, 'status' => 200], 200);
     }
 
+    public function getSharedUsers($playlistId)
+{
+    $playlist = Playlist::findOrFail($playlistId);
+    $sharedUserIds = $playlist->shareds()->pluck('user_id');
 
+    return response()->json($sharedUserIds);
+}
 }

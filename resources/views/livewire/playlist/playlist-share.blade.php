@@ -37,7 +37,11 @@
                     @foreach ($playlist?->shareds as $user)
                         <div class="d-flex justify-content-between">
                             <span>{{$user->name}}</span>
-                            <a href="#" wire:click="removeShared({{$user->id}})" class="button-default px-4 py-1">Remove Share</a>
+                            <button href="#" wire:click="removeShared({{$user->id}})" class="button-default px-4 py-1" id="delete-share">
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+                            </button>
                         </div>
 
                     @endforeach
@@ -70,96 +74,94 @@
 
     }
 
-    // Get user by name ajax to use on autocomplete modal
     document.getElementById('users-autocomplete').addEventListener('input', function() {
+    const query = this.value;
 
-        const query = this.value;
+    if (query.length >= 3) {
+        const playlistId = share.playlistId;
 
-        if (query.length >= 3) {
-            fetch(`/users/${query}`)
-                .then((response) => {
-                    return response.json();
-                }).then(resultJson => {
+        // Obtenha os IDs dos usuários já compartilhados
+        fetch(`/playlist/${playlistId}/shared-users`)
+            .then(response => response.json())
+            .then(sharedUserIds => {
 
+                fetch(`/users/${query}`)
+                    .then(response => response.json())
+                    .then(resultJson => {
 
-                    //dados do usuario buscado
-                    //console.log(resultJson);
+                        const suggestionsContainer = document.getElementById('autocomplete-suggestions');
 
+                        // Filtrar usuários que já têm a playlist compartilhada
+                        const filteredUsers = resultJson.filter(user => !sharedUserIds.includes(user.id));
 
-                    const suggestionsContainer = document.getElementById('autocomplete-suggestions');
+                        if (filteredUsers.length > 0) {
+                            suggestionsContainer.classList.add('active');
+                        }
 
-                    if (resultJson.length > 0) {
-                        suggestionsContainer.classList.add('active');
-                    }
+                        suggestionsContainer.innerHTML = '';
+                        filteredUsers.forEach(user => {
+                            const suggestion = document.createElement('div');
+                            suggestion.classList.add('autocomplete-suggestion');
 
-                    suggestionsContainer.innerHTML = '';
-                    resultJson.forEach(user => {
-                        const suggestion = document.createElement('div');
-                        suggestion.classList.add('autocomplete-suggestion');
+                            suggestion.textContent = user.name;
 
-                        suggestion.textContent = user.name;
+                            suggestion.addEventListener('click', () => {
+                                document.getElementById('users-autocomplete').value = user.name;
 
-                        suggestion.addEventListener('click', () => {
-                            document.getElementById('users-autocomplete').value = user.name;
+                                share.sharedUserId = user.id;
 
-                            share.sharedUserId = user.id;
+                                suggestionsContainer.innerHTML = '';
+                                suggestionsContainer.classList.remove('active');
+                            });
 
-                            suggestionsContainer.innerHTML = '';
-
-                            suggestionsContainer.classList.remove('active');
-
+                            suggestionsContainer.appendChild(suggestion);
                         });
-
-                        suggestionsContainer.appendChild(suggestion);
                     });
-                });
-        } else {
-            document.getElementById('autocomplete-suggestions').innerHTML = '';
-        }
-
-    });
-
-    document.getElementById('share-playlist').addEventListener('click', function() {
-
-        console.log(share);
+            });
+    } else {
+        document.getElementById('autocomplete-suggestions').innerHTML = '';
+    }
+});
 
 
-        fetch(`/playlist/` + share.playlistId + `/share`, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                    'content')
-            },
-            body: JSON.stringify({
-                sharedUserId: share.sharedUserId,
-                playlistId: share.playlistId
-            })
+document.getElementById('share-playlist').addEventListener('click', function() {
+
+console.log(share);
 
 
-        }).then((response) => {
+fetch(`/playlist/` + share.playlistId + `/share`, {
+    method: 'post',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+            'content')
+    },
+    body: JSON.stringify({
+        sharedUserId: share.sharedUserId,
+        playlistId: share.playlistId
+    })
 
-            return response.json();
 
-        }).then(response => {
+}).then((response) => {
 
-            console.log(response);
+    return response.json();
+
+}).then(response => {
+
+    console.log(response);
 
 
-            if (response.status == 200) {
-                alert(response.message);
-                document.getElementById('users-autocomplete').value = '';
-                // document.getElementById('autocomplete-suggestions').innerHTML = '';
-                // document.querySelector('.modal-share').classList.remove('show');
-                // document.querySelector('.modal-backdrop').remove();
-            } else {
-                alert('Error sharing playlist');
-            }
-        });
+    if (response.status == 200) {
+        alert(response.message);
+        document.getElementById('users-autocomplete').value = '';
+    } else {
+        alert('Error sharing playlist');
+    }
+});
 
 
 
-    });
+});
 </script>
 
 @push('styles')
@@ -202,8 +204,6 @@
             font-weight: bold;
         }
 
-
-        /* Estilo básico para a lista de sugestões */
         .autocomplete-suggestions {
             max-height: 200px;
             overflow-y: auto;
@@ -223,6 +223,10 @@
             background-color: #f0f0f0;
         }
 
+        .autocomplete-suggestion.active {
+            background-color: #13f2a1; //var(--secondary);
+            color: #fff;
+        }
 
     </style>
 @endpush
