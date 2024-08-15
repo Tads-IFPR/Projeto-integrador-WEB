@@ -34,7 +34,12 @@
         @stack('scripts')
         @livewireScripts
         @persist('player')
-            <livewire:audio-player />
+            @isset($playlist)
+                <livewire:audio-player :playlist="$playlist" :audios="$playlist->audios" />
+            @else
+                <livewire:audio-player />
+            @endisset
         @endpersist
+        <livewire:audio-modal >
     </body>
 </html>

@@ -35,10 +35,6 @@ class AudioPlayer extends Component
 {
     if ($this->playlist) {
         $nextAudio = $this->playlist->audios()
-            ->where(function($query) {
-                $query->where('is_public', true)
-                      ->orWhere('user_id', auth()->id());
-            })
             ->where('id', '>', $this->audio->id)
             ->orderBy('id', 'asc')
             ->first();
@@ -48,18 +44,7 @@ class AudioPlayer extends Component
             $this->dispatch('changed-audio', audio: $nextAudio);
         }
     } else {
-        $nextAudio = Audio::where(function($query) {
-                $query->where('is_public', true)
-                      ->orWhere('user_id', auth()->id());
-            })
-            ->where('id', '>', $this->audio->id)
-            ->orderBy('id', 'asc')
-            ->first();
-
-        if ($nextAudio) {
-            $this->updateAudio($nextAudio);
-            $this->dispatch('changed-audio', audio: $nextAudio);
-        }
+        $this->dispatch('changed-audio', audio: $this->audio->next);
     }
 }
 
@@ -67,10 +52,6 @@ public function previous()
 {
     if ($this->playlist) {
         $previousAudio = $this->playlist->audios()
-            ->where(function($query) {
-                $query->where('is_public', true)
-                      ->orWhere('user_id', auth()->id());
-            })
             ->where('id', '<', $this->audio->id)
             ->orderBy('id', 'desc')
             ->first();
@@ -80,18 +61,7 @@ public function previous()
             $this->dispatch('changed-audio', audio: $previousAudio);
         }
     } else {
-        $previousAudio = Audio::where(function($query) {
-                $query->where('is_public', true)
-                      ->orWhere('user_id', auth()->id());
-            })
-            ->where('id', '<', $this->audio->id)
-            ->orderBy('id', 'desc')
-            ->first();
-
-        if ($previousAudio) {
-            $this->updateAudio($previousAudio);
-            $this->dispatch('changed-audio', audio: $previousAudio);
-        }
+        $this->dispatch('changed-audio', audio: $this->audio->previous);
     }
 }
 

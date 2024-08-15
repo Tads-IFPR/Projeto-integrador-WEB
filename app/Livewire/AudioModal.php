@@ -36,10 +36,12 @@ class AudioModal extends Component
             ->get();
     }
 
-    public function mount($playlistId)
+    public function mount($playlistId = null)
     {
-        $this->playlistId = $playlistId;
-        $this->audios = $this->getAudiosForPlaylist($playlistId);
+        if ($playlistId) {
+            $this->playlistId = $playlistId;
+            $this->audios = $this->getAudiosForPlaylist($playlistId);
+        }
     }
 
     public function closeModal()
