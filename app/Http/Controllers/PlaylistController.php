@@ -6,11 +6,8 @@ use App\Http\Requests\PlaylistShowRequest;
 use App\Http\Requests\PlaylistStoreRequest;
 use App\Models\Playlist;
 use App\Models\Audio;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log; // Add this line
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -35,7 +32,6 @@ class PlaylistController extends Controller
     public function store(PlaylistStoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        //$playlist = Playlist::create($request->validated());
 
         $isPublic = $request->has('is_public') ? 1 : 0;
 
@@ -51,13 +47,8 @@ class PlaylistController extends Controller
 
         $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
     
-       
-        //dd($playlist);
-
-    
         $playlist = Playlist::create($playlist);
         
-
         return redirect()->route('home');
     }
 
@@ -67,24 +58,22 @@ class PlaylistController extends Controller
         return view('playlist.edit', compact('playlist'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
+        $playlist = Playlist::findOrFail($id);
+        $playlist->name = $request->input('name');
+        $playlist->is_public = $request->has('is_public');
+        
+        if ($request->hasFile('cover_path')) {
+            $path = $request->file('cover_path')->store('covers');
+            $playlist->cover_path = $path;
+        }
 
-    
-    $playlist = Playlist::findOrFail($id);
-    $playlist->name = $request->input('name');
-    $playlist->is_public = $request->has('is_public');
-    
-    if ($request->hasFile('cover_path')) {
-        $path = $request->file('cover_path')->store('covers');
-        $playlist->cover_path = $path;
+        $playlist['cover_disk'] = config('filesystems.default');
+        $playlist->save();
+
+        return redirect()->route('home')->with('success', 'Playlist atualizada com sucesso!');
     }
-
-    $playlist['cover_disk'] = config('filesystems.default');
-    $playlist->save();
-
-    return redirect()->route('home')->with('success', 'Playlist atualizada com sucesso!');
-    }
-
 
     public function destroy(Request $request, Playlist $playlist): RedirectResponse
     {
@@ -93,12 +82,7 @@ class PlaylistController extends Controller
         return redirect()->route('home');
     }
 
-    public function show(PlaylistShowRequest $request, Playlist $playlist)
-    {
-        $request->validated();
-        
-        return view('playlist.show', compact('playlist'));
-    }
+    
 
     public function showImage(PlaylistShowRequest $request, Playlist $playlist)
     {   
@@ -114,24 +98,31 @@ class PlaylistController extends Controller
     }
 
     public function play($id){
-        $playlist = Playlist::with('audios')->findOrFail($id);
-        $playlists = Playlist::all();
-        $audios = Audio::all();
 
-        return view('playlist.show', compact('playlist', 'playlists', 'audios', 'id'));
+        $user = auth()->user();
+        $playlist = Playlist::where('user_id', $user->id)
+        ->with(['audios' => function ($query) use ($user) {
+            $query->currentUser()  
+                  ->orWhere('is_public', true)  
+                  ->with('user');  
+        }])
+        ->findOrFail($id);
+        
+        $audios = $playlist->audios->sortBy('id')->values();
+        return view('playlist.show', compact('playlist', 'audios'));
     }
    
     public function addAudio(Request $request)
-{
-    $playlist = Playlist::findOrFail($request->playlist_id);
-    $audioIds = $request->audio_ids;
+    {
+        $playlist = Playlist::findOrFail($request->playlist_id);
+        $audioIds = $request->audio_ids;
 
-    if ($audioIds) {
-        $playlist->audios()->attach($audioIds);
+        if ($audioIds) {
+            $playlist->audios()->attach($audioIds);
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Áudios adicionados com sucesso.']);
     }
-
-    return response()->json(['status' => 'success', 'message' => 'Áudios adicionados com sucesso.']);
-}
 
     public function filterAudios(Request $request, $id)
     {
@@ -150,6 +141,6 @@ class PlaylistController extends Controller
     {
         $playlist->audios()->detach($audio);
 
-        return redirect()->route('playlist.show', $playlist->id)->with('message', 'Audio removed successfully.');
+        return redirect()->route('playlist.show', $playlist->id);
     }
 }

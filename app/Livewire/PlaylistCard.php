@@ -20,13 +20,14 @@ class PlaylistCard extends Component
     }
 
     public function play()
-    {
-        return redirect()->route('playlist.show', $this->playlist);
-    }
+{
+    return redirect()->route('playlist.show', ['playlist' => $this->playlist->id]);
+}
+
 
     public function togglePrivacy()
     {
-        $this->playlist->togglePrivacy();
+        return redirect()->route('playlist.show', $this->playlist);
     }
 
     public function toggleLike()

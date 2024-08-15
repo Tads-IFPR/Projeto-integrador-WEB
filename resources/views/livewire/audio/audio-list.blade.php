@@ -1,6 +1,6 @@
 <div class="{{$class}}">
     @foreach ($audios as $audio)
-        <livewire:audio-card :$audio :key="$audio->id" class="mt-3"/>
+        <livewire:audio-card :$audio :key="$audio->id" class="mt-3" :playlist="$playlist" />
     @endforeach
 </div>
 

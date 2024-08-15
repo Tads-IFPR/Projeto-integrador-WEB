@@ -13,23 +13,27 @@ class AudioModal extends Component
     public $playlistId;
     public $audios = [];
 
-
     #[On('openModal')]
     public function openModal($playlistId)
     {
         $this->playlistId = $playlistId;
         $this->showModal = true;
-        $this->audios; 
-
+        $this->audios = $this->getAudiosForPlaylist($playlistId); 
     }
 
     public function getAudiosForPlaylist($playlistId)
     {
         $userId = auth()->id(); 
 
-        return Audio::where('is_public', true)
-                    ->orWhere('user_id', $userId)
-                    ->get();
+        $playlist = Playlist::with('audios')->find($playlistId);
+        $audioIdsInPlaylist = $playlist ? $playlist->audios->pluck('id')->toArray() : [];
+
+        return Audio::where(function($query) use ($userId) {
+                $query->where('is_public', true)
+                      ->orWhere('user_id', $userId);
+            })
+            ->whereNotIn('id', $audioIdsInPlaylist)
+            ->get();
     }
 
     public function mount($playlistId)
@@ -49,11 +53,5 @@ class AudioModal extends Component
             'playlistId' => $this->playlistId,
             'audios' => $this->audios,
         ]);
-    }
-
-    public function addAudio($audioId, $playlistId)
-    {
-        $playlist = Playlist::find($playlistId);
-        $playlist->audios()->attach($audioId);
     }
 }

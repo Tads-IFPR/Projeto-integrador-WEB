@@ -127,102 +127,7 @@ card-title mb-1{
     font-weight: bold;
 }
 
-.container-audio {
-    width: 100%;
-}
 
-.wrap {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-}
-
-.show-audio {
-    background-color: var(--dark);
-    border-radius: .5rem;
-    padding: .2rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    transition: transform 0.3s;
-    font-family: "Sofia Sans", sans-serif;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-.show-audio:hover {
-    transform: scale(1.02);
-}
-
-.show-audio img {
-    border-radius: .5rem;
-    max-width: 2.8rem;
-    max-height: 2.8rem;
-    object-fit: cover;
-}
-
-.show-audio .audio-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 1rem;
-    flex-grow: 1;
-}
-
-.show-audio .audio-info h3,
-.show-audio .audio-info h4 {
-    font-size: .6rem;
-    color: var(--white);
-    margin: 0;
-    text-align: left;
-    font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.show-audio .audio-info h4 {
-    color: var(--gray);
-}
-
-.show-audio .actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding-left: 1rem;
-}
-
-.show-audio .actions form {
-    display: flex;
-}
-
-.show-audio .actions button {
-    background-color: var(--primary);
-    border: none;
-    border-radius: .3rem;
-    padding: .3rem .7rem;
-    color: var(--dark);
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 150ms ease-out;
-}
-
-.show-audio .actions button:hover {
-    background-color: var(--secondary);
-}
-
-.show-audio .actions .remove-button {
-    color: var(--danger);
-}
-
-.show-audio .actions .play-button {
-    background-color: var(--primary);
-    color: var(--dark);
-}
-
-.show-audio .actions .play-button:hover {
-    background-color: var(--secondary);
-}
 
 .badge {
     background-color: var(--secondary);
@@ -308,6 +213,49 @@ card-title mb-1{
     }
 }
 
-.modal-dialog{
-    background-color: var(--dark);
+.modal-content {
+    background-color: #1c1c1c; 
+    color: white; 
 }
+
+.modal-header, .modal-footer {
+    border-color: #444; 
+}
+
+.btn-close-white {
+    filter: invert(1); 
+}
+
+.modal-body {
+    max-height: 60vh; 
+    overflow-y: auto; 
+}
+
+
+.wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.2rem;
+    
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    .wrap {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .wrap {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .wrap {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+

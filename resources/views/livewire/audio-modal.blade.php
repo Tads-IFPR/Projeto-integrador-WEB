@@ -1,25 +1,23 @@
 <div>
     @if($showModal)
-    <div class="modal fade show" id="add-rem-{{ $playlistId }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: block;" background-color="black">
-        <div class="modal-dialog" background-color="black">
-            <div class="modal-content" background-color="black">
-                <div class="modal-header" background-color="black">
-                    <h5 class="modal-title" id="exampleModalLabel">Add to Playlist</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeModal"></button>
+    <div class="modal fade show" id="add-rem-{{ $playlistId }}" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: block; background-color: rgba(0, 0, 0, 0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #1c1c1c; color: white;">
+                <div class="modal-header" style="border-bottom: 1px solid #444;">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Audios to your Playlist</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" wire:click="closeModal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ ($playlistId) }}</p>
-                    <h1>MODAL DO CARALHO, ESSA PORRA FUNCINOU????</h1>
-                    @foreach($audios as $audio)
-                        <div wire:click="addAudio({{ $audio->id }}, {{ $playlistId }})">
-                            
+                    @if($audios->count() == 0)
+                        <p>No audios to be added</p>
+                    @else
+                        @foreach($audios as $audio)
                             <livewire:add-remove-audio :audio="$audio" :key="$audio->id" :playlistId="$playlistId" class="mt-3"/>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="border-top: 1px solid #444;">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="closeModal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

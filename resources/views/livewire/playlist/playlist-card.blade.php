@@ -52,7 +52,7 @@
                     <span>Edit</span>
                 </div>
             </a>
-            <div >
+            <div>
                 <span class="material-symbols-outlined me-1">
                     add_circle
                 </span>
