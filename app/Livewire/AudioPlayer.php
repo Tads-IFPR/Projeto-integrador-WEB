@@ -40,7 +40,7 @@ class AudioPlayer extends Component
             ->first();
 
         if ($nextAudio) {
-            $this->updateAudio($nextAudio);
+            
             $this->dispatch('changed-audio', audio: $nextAudio);
         }
     } else {
@@ -57,7 +57,6 @@ public function previous()
             ->first();
 
         if ($previousAudio) {
-            $this->updateAudio($previousAudio);
             $this->dispatch('changed-audio', audio: $previousAudio);
         }
     } else {
