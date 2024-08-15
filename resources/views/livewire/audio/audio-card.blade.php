@@ -54,6 +54,12 @@
                         <span>Edit</span>
                     </div>
                 </a>
+            <div wire:click="togglePrivacy">
+                <span class="material-symbols-outlined me-1">
+                    language
+                </span>
+                {{$audio->is_public ? 'Turn private' : 'Turn public'}}
+            </div>
             @endif
             @if ($playlist)
                 <form action="{{ route('playlist.removeAudio', ['playlist' => $playlist->id, 'audio' => $audio->id]) }}" method="POST" class="w-100">

@@ -34,6 +34,12 @@ class AudioCard extends Component
         $this->audio->likes()->toggle([auth()->user()->id]);
     }
 
+    public function togglePrivacy()
+    {
+        $this->audio->is_public = !$this->audio->is_public;
+        $this->audio->save();
+    }
+
     public function remove()
     {
         $this->playlist->audios()->detach($this->audio->id);

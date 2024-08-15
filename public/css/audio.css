@@ -37,8 +37,7 @@
     font-size: 2rem;
 }
 
-#actions,
-#sound {
+.button-icon {
     color: var(--primary);
 }
 
