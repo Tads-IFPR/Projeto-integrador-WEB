@@ -212,22 +212,6 @@
 
     var userFriendId = "";
 
-
-    function closeModalOnSuccess(playlistId) {
-
-        var iframe = document.querySelector('iframe[name="hidden-iframe-' + playlistId + '"]');
-        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-        if (iframeDoc.body.innerHTML.trim().includes('success')) {
-            var event = new CustomEvent('audioAdded', {
-                detail: {
-                    playlistId: playlistId
-                }
-            });
-            window.dispatchEvent(event);
-        }
-    };
-
     document.addEventListener('DOMContentLoaded', function() {
         var processedPlaylists = new Set();
 
@@ -280,7 +264,6 @@
     }
 
 
-});
 </script>
 
 @push('styles')
@@ -344,52 +327,6 @@
             background-color: #f0f0f0;
         }
 
-
-        /*
-
-            .modal-header {
-                display: flex;
-                justify-content: center;
-            }
-
-            .modal-header button {
-                color: white;
-            }
-
-            .card-body {
-                padding: 0.2rem;
-            }
-
-            .card-title {
-                font-size: 1.25rem;
-            }
-
-            .modal-header h5 {
-                color: white;
-            }
-
-            .modal-header button {
-                color: white;
-            }
-
-            .modal-content {
-                background-color: #A9A9A9;
-            }
-
-            .modal-body {
-                height: 60vh;
-                overflow: auto;
-            }
-
-            .modal-footer {
-                display: flex;
-                justify-content: center;
-            }
-
-            .modal-footer button {
-                width: 100px;
-            } */
-
         .card {
             background-color: #696969;
             color: white;
@@ -414,16 +351,6 @@
         .form-check-label {
             margin-top: 0.5rem;
         }
-
-        /* .btn-primary {
-                background-color: #13F2A1;
-                border-color: black;
-                color: black;
-                font-weight: bold;
-                height: 3rem;
-                width: 3rem;
-                font-size: 0.6rem;
-            } */
 
         .btn-primary:hover {
             background-color: #13F2A1;

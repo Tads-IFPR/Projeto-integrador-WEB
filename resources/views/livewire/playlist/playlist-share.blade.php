@@ -64,11 +64,8 @@
         @this.newPlaylist(playlistIdParam);
         let modal = document.getElementById('share-modal-playlist');
         let title = document.querySelector('#share-modal-playlist .modal-title');
-
         share.playlistId = playlistIdParam;
-
         title.textContent = playlistName;
-
         modal = new bootstrap.Modal(modal);
         modal.show();
 
@@ -125,9 +122,7 @@
 
 
 document.getElementById('share-playlist').addEventListener('click', function() {
-
 console.log(share);
-
 
 fetch(`/playlist/` + share.playlistId + `/share`, {
     method: 'post',
@@ -143,9 +138,7 @@ fetch(`/playlist/` + share.playlistId + `/share`, {
 
 
 }).then((response) => {
-
     return response.json();
-
 }).then(response => {
 
     console.log(response);
@@ -159,6 +152,12 @@ fetch(`/playlist/` + share.playlistId + `/share`, {
     }
 });
 
+document.addEventListener('livewire:load', function () {
+    Livewire.on('refreshModal', () => {
+        $('shareModal').modal('show');
+
+    });
+});
 
 
 });
