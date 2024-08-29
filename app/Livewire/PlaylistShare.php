@@ -14,14 +14,6 @@ class PlaylistShare extends Component
         return view('livewire.playlist.playlist-share');
     }
 
-    public function removeShared(User $user)
-    {
-        $this->playlist->shareds()->detach($user->id);
-        $this->playlist = Playlist::find($this->playlist->id);
-        $this->dispatch('playlistUpdated');
-
-    }
-
     public function newPlaylist($id){
         $this->playlist = Playlist::find($id);
     }

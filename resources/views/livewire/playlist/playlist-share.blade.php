@@ -33,17 +33,18 @@
             </div>
 
             <div class="modal-share">
-                @if($playlist?->shareds)
+                @if ($playlist?->shareds)
                     @foreach ($playlist?->shareds as $user)
                         <div class="d-flex justify-content-between">
-                            <span>{{$user->name}}</span>
-                            <button href="#" wire:click="removeShared({{$user->id}})" class="button-default px-4 py-1" id="delete-share">
+                            <span>{{ $user->name }}</span>
+                            <button onclick="removeShared({{ $user->id}}, this)"
+
+                                class="button-default px-4 py-1" id="delete-share">
                                 <span class="material-symbols-outlined">
                                     delete
                                 </span>
                             </button>
                         </div>
-
                     @endforeach
                 @endif
 
@@ -54,113 +55,165 @@
 </div>
 
 <script type="text/javascript">
-
     var share = {
-        "playlistId" : "",
-        "sharedUserId" : "",
+        "playlistId": "",
+        "sharedUserId": "",
     };
 
-    function shareModal(playlistIdParam, playlistName){
+    function removeShared(sharedUserId, element) {
+        fetch(`/playlist/${share.playlistId}/remove-shared/${sharedUserId}`, {
+            method: 'delete',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                    .getAttribute('content')
+            }
+        }).then((response) => {
+            if (response.status == 200) {
+                element.parentNode.remove();
+            }else{
+                alert('Error removing shared user');
+            }
+        });
+    }
+
+    var modal = null;
+
+    function shareModal(playlistIdParam, playlistName) {
         @this.newPlaylist(playlistIdParam);
-        let modal = document.getElementById('share-modal-playlist');
         let title = document.querySelector('#share-modal-playlist .modal-title');
         share.playlistId = playlistIdParam;
         title.textContent = playlistName;
-        modal = new bootstrap.Modal(modal);
+        let modalElement = document.getElementById('share-modal-playlist');
+        modal = new bootstrap.Modal(modalElement);
         modal.show();
 
     }
 
     document.getElementById('users-autocomplete').addEventListener('input', function() {
-    const query = this.value;
+        const query = this.value;
 
-    if (query.length >= 3) {
-        const playlistId = share.playlistId;
+        if (query.length >= 2) {
+            const playlistId = share.playlistId;
 
-        // Obtenha os IDs dos usuários já compartilhados
-        fetch(`/playlist/${playlistId}/shared-users`)
-            .then(response => response.json())
-            .then(sharedUserIds => {
+            // Obtenha os IDs dos usuários já compartilhados
+            fetch(`/playlist/${playlistId}/shared-users`)
+                .then(response => response.json())
+                .then(sharedUserIds => {
 
-                fetch(`/users/${query}`)
-                    .then(response => response.json())
-                    .then(resultJson => {
+                    fetch(`/users/${query}`)
+                        .then(response => response.json())
+                        .then(resultJson => {
 
-                        const suggestionsContainer = document.getElementById('autocomplete-suggestions');
+                            const suggestionsContainer = document.getElementById(
+                                'autocomplete-suggestions');
 
-                        // Filtrar usuários que já têm a playlist compartilhada
-                        const filteredUsers = resultJson.filter(user => !sharedUserIds.includes(user.id));
+                            // Filtrar usuários que já têm a playlist compartilhada
+                            const filteredUsers = resultJson.filter(user => !sharedUserIds.includes(user
+                                .id));
 
-                        if (filteredUsers.length > 0) {
-                            suggestionsContainer.classList.add('active');
-                        }
+                            if (filteredUsers.length > 0) {
+                                suggestionsContainer.classList.add('active');
+                            }
 
-                        suggestionsContainer.innerHTML = '';
-                        filteredUsers.forEach(user => {
-                            const suggestion = document.createElement('div');
-                            suggestion.classList.add('autocomplete-suggestion');
+                            suggestionsContainer.innerHTML = '';
+                            filteredUsers.forEach(user => {
+                                const suggestion = document.createElement('div');
+                                suggestion.classList.add('autocomplete-suggestion');
 
-                            suggestion.textContent = user.name;
+                                suggestion.textContent = user.name;
 
-                            suggestion.addEventListener('click', () => {
-                                document.getElementById('users-autocomplete').value = user.name;
+                                suggestion.addEventListener('click', () => {
+                                    document.getElementById('users-autocomplete')
+                                        .value = user.name;
 
-                                share.sharedUserId = user.id;
+                                    share.sharedUserId = user.id;
 
-                                suggestionsContainer.innerHTML = '';
-                                suggestionsContainer.classList.remove('active');
+                                    suggestionsContainer.innerHTML = '';
+                                    suggestionsContainer.classList.remove('active');
+                                });
+
+                                suggestionsContainer.appendChild(suggestion);
                             });
-
-                            suggestionsContainer.appendChild(suggestion);
                         });
-                    });
-            });
-    } else {
-        document.getElementById('autocomplete-suggestions').innerHTML = '';
-    }
-});
+                });
+        } else {
+            document.getElementById('autocomplete-suggestions').innerHTML = '';
+        }
+    });
 
 
-document.getElementById('share-playlist').addEventListener('click', function() {
-console.log(share);
 
-fetch(`/playlist/` + share.playlistId + `/share`, {
-    method: 'post',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-            'content')
-    },
-    body: JSON.stringify({
-        sharedUserId: share.sharedUserId,
-        playlistId: share.playlistId
-    })
+    document.getElementById('share-playlist').addEventListener('click', function() {
+        console.log(share);
 
+        fetch(`/playlist/` + share.playlistId + `/share`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                    .getAttribute('content')
+            },
+            body: JSON.stringify({
+                sharedUserId: share.sharedUserId,
+                playlistId: share.playlistId
+            })
 
-}).then((response) => {
-    return response.json();
-}).then(response => {
-
-    console.log(response);
-
-
-    if (response.status == 200) {
-        alert(response.message);
-        document.getElementById('users-autocomplete').value = '';
-    } else {
-        alert('Error sharing playlist');
-    }
-});
-
-document.addEventListener('livewire:load', function () {
-    Livewire.on('refreshModal', () => {
-        $('shareModal').modal('show');
+        }).then(response => {
+            modal.hide();
+            console.log('cheguei aki', modal);
+        });
 
     });
-});
 
+    document.addEventListener('livewire:load', function() {
+        window.livewire.on('sharedUpdated', () => {
+            fetch(`/playlist/${share.playlistId}/shared-users`)
+                .then(response => response.json())
+                .then(sharedUserIds => {
 
-});
+                    fetch(`/users/${query}`)
+                        .then(response => response.json())
+                        .then(resultJson => {
+
+                            const suggestionsContainer = document.getElementById(
+                                'autocomplete-suggestions');
+
+                            const filteredUsers = resultJson.filter(user => !sharedUserIds
+                                .includes(user
+                                    .id));
+
+                            if (filteredUsers.length > 0) {
+                                suggestionsContainer.classList.add('active');
+                            }
+
+                            suggestionsContainer.innerHTML = '';
+                            filteredUsers.forEach(user => {
+                                const suggestion = document.createElement('div');
+                                suggestion.classList.add('autocomplete-suggestion');
+
+                                suggestion.textContent = user.name;
+
+                                suggestion.addEventListener('click', () => {
+                                    document.getElementById(
+                                            'users-autocomplete')
+                                        .value = user.name;
+
+                                    share.sharedUserId = user.id;
+
+                                    suggestionsContainer.innerHTML = '';
+                                    suggestionsContainer.classList.remove(
+                                        'active');
+                                });
+
+                                suggestionsContainer.appendChild(suggestion);
+                                console.log('sharedUpdated event received');
+                            });
+
+                        });
+                });
+        });
+    });
 </script>
 
 @push('styles')
@@ -226,6 +279,5 @@ document.addEventListener('livewire:load', function () {
             background-color: #13f2a1; //var(--secondary);
             color: #fff;
         }
-
     </style>
 @endpush

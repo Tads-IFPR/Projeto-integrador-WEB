@@ -1,4 +1,3 @@
-{{-- TODO Verificar CSS --}}
 {{-- style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;" --}}
 <div class="playlist-card d-flex justify-content-between px-1 {{ $class }}">
 
@@ -18,30 +17,32 @@
         </button>
 
         <div>
-            @if($playlist->audios->count() > 0)
+            @if ($playlist->audios->count() > 0)
                 <span class="badge">{{ $playlist->audios->count() }} Audios</span>
             @endif
         </div>
     </div>
     <div class="d-flex align-items-center me-1">
-        <span @class(['material-symbols-outlined like cursor-pointer', 'like-check' => $playlist->userLiked])
-            wire:click="toggleLike"
-        >
+        <span @class([
+            'material-symbols-outlined like cursor-pointer',
+            'like-check' => $playlist->userLiked,
+        ]) wire:click="toggleLike">
             favorite
         </span>
     </div>
     @if ($playlist->isCurrentUserOwner)
-        <div class="options-playlist cursor-pointer"
-            target="{{$playlist->id}}"
-            wire:prevent
-            onclick="toggleDropDownPlaylist(this.attributes.target.nodeValue)"
-        >
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                <path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/>
+        <div class="options-playlist cursor-pointer" target="{{ $playlist->id }}" wire:prevent
+            onclick="toggleDropDownPlaylist(this.attributes.target.nodeValue)">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#e8eaed">
+                <path
+                    d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
             </svg>
         </div>
-        <div id="backdrop-playlist-{{$playlist->id}}" target="{{$playlist->id}}" class="backdrop-playlist" style="display: none;"></div>
-        <div id="option-playlist-{{$playlist->id}}" class="option-playlist flex-column align-items-center" style="display: none;">
+        <div id="backdrop-playlist-{{ $playlist->id }}" target="{{ $playlist->id }}" class="backdrop-playlist"
+            style="display: none;"></div>
+        <div id="option-playlist-{{ $playlist->id }}" class="option-playlist flex-column align-items-center"
+            style="display: none;">
             <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST" class="w-100">
                 @csrf
                 @method('DELETE')
@@ -54,7 +55,8 @@
                     </div>
                 </button>
             </form>
-            <a href="{{ route('playlist.edit', $playlist->id) }}" wire:navigate class="d-flex align-items-center w-100 h-100 p-2 text-decoration-none">
+            <a href="{{ route('playlist.edit', $playlist->id) }}" wire:navigate
+                class="d-flex align-items-center w-100 h-100 p-2 text-decoration-none">
                 <div class="d-flex align-items-center w-100">
                     <span class="material-symbols-outlined me-1">
                         edit
@@ -74,10 +76,10 @@
                 <span class="material-symbols-outlined me-1">
                     language
                 </span>
-                {{$playlist->is_public ? 'Turn private' : 'Turn public'}}
+                {{ $playlist->is_public ? 'Turn private' : 'Turn public' }}
             </div>
 
-            <a href="#" onclick="shareModal({{$playlist->id}}, '{{$playlist->name}}')">
+            <a href="#" onclick="shareModal({{ $playlist->id }}, '{{ $playlist->name }}')">
                 <div class="d-flex align-items-center w-100">
                     <span class="material-symbols-outlined me-1">
                         share
@@ -91,7 +93,8 @@
 
 
 
-        <div class="modal fade" id="add-rem-{{ $playlist->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+        <div class="modal fade" id="add-rem-{{ $playlist->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel">
             <div class="modal-dialog">
 
                 <div class="modal-content" style="background-color: dark-gray;">
@@ -109,7 +112,7 @@
                         @endif
                         <h1 id="playlist-name">{{ $playlist->name }}</h1>
 
-                        @if($audiosNotInPlaylist->isEmpty())
+                        @if ($audiosNotInPlaylist->isEmpty())
                             <p>No Audios to be added.</p>
                         @else
                             <form method="POST" action="{{ route('playlist.addAudio') }}"
@@ -118,7 +121,7 @@
                                 <input type="hidden" name="playlist_id" value="{{ $playlist->id }}">
                                 <div class="container">
                                     <div class="row">
-                                        @foreach($audiosNotInPlaylist as $audio)
+                                        @foreach ($audiosNotInPlaylist as $audio)
                                             <div class="col-md-6 mb-3" id="card-add">
                                                 <div class="card">
                                                     <div class="card-body d-flex">
@@ -163,53 +166,12 @@
                     </div>
                 </div>
             </div>
-        </div>{{--  --}}
-
-
-        <!-- Modal -->
-        {{-- <div class="modal-share modal fade" id="share-modal-playlist-{{ $playlist->id }}">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-
-                        <h5 class="modal-title" id="exampleModalLabel">{{ $playlist->name }}</h5>
-
-                        <button type="button" class="modal-close btn-close" data-bs-dismiss="modal">
-                            <span class="material-symbols-outlined">
-                                close
-                            </span>
-                        </button>
-                    </div>
-
-
-                    <div class="modal-body my-4 mb-5">
-
-                        <span>Share with your friends!</span>
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="users-autocomplete" autocomplete="false">
-
-                            <button class="btn btn-outline-secondary" type="button" id="share-playlist">
-                                <span class="material-symbols-outlined">
-                                    share
-                                </span>
-                            </button>
-                        </div>
-
-                        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
-
-
-                    </div>
-
-                </div>
-            </div>
-        </div> --}}
+        </div>
     @endif
+
 </div>
 
 <script type="text/javascript">
-
     var userFriendId = "";
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -226,9 +188,10 @@
             var myModal = bootstrap.Modal.getInstance(document.getElementById('add-rem-' + playlistId));
             myModal.hide();
 
-            var checkboxes = document.querySelectorAll('#add-rem-' + playlistId + ' input[type="checkbox"]:checked');
+            var checkboxes = document.querySelectorAll('#add-rem-' + playlistId +
+                ' input[type="checkbox"]:checked');
             console.log('Checkboxes encontrados:', checkboxes.length);
-            checkboxes.forEach(function (checkbox) {
+            checkboxes.forEach(function(checkbox) {
                 var audioId = checkbox.value;
                 console.log('Checkbox value:', audioId);
                 var label = document.querySelector('label[for="audio-' + audioId + '"]');
@@ -258,12 +221,14 @@
         var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
         if (iframeDoc.body.innerHTML.trim().includes('success')) {
-            var event = new CustomEvent('audioAdded', { detail: { playlistId: playlistId } });
+            var event = new CustomEvent('audioAdded', {
+                detail: {
+                    playlistId: playlistId
+                }
+            });
             window.dispatchEvent(event);
         }
     }
-
-
 </script>
 
 @push('styles')
@@ -296,8 +261,6 @@
         .modal-share .modal-body input {
             border-radius: 5px 0 0 5px;
         }
-
-
 
         .playlist-card-add-button {
             background-color: #13f2a1; //var(--secondary);
@@ -379,12 +342,9 @@
             width: 30rem;
         }
 
-    #playlist-name{
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-
-</style>
-
+        #playlist-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
 @endpush

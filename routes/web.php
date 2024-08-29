@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'getAll']);
     Route::get('/users/{name}', [UserController::class, 'getByName']);
     Route::get('/playlist/{id}/shared-users', [PlaylistController::class, 'getSharedUsers']);
+    Route::delete('/playlist/{playlist}/remove-shared/{user}',[PlaylistController::class, 'deleteSharedUser'])->name('playlist.deleteSharedUser');
 
 });
 
