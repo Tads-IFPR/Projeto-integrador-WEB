@@ -47,6 +47,7 @@ class AudioModal extends Component
     public function closeModal()
     {
         $this->showModal = false;
+        $this->dispatch('closeModal');
     }
 
     public function render()

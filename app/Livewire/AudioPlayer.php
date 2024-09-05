@@ -46,37 +46,65 @@ class AudioPlayer extends Component
     }
 
     public function next()
-{
-    if ($this->playlist) {
-        $nextAudio = $this->playlist->audios()
-            ->where('id', '>', $this->audio->id)
-            ->orderBy('id', 'asc')
-            ->first();
+    {
+        if ($this->playlist) {
+            if ($this->isShuffle) {
+                $remainingAudios = $this->playlist->audios()
+                    ->whereNotIn('id', $this->playedMusics)
+                    ->get();
 
-        if ($nextAudio) {
-            
-            $this->dispatch('changed-audio', audio: $nextAudio);
+                if ($remainingAudios->isNotEmpty()) {
+                    $nextAudio = $remainingAudios->random();
+                    $this->dispatch('changed-audio', audio: $nextAudio);
+                    return;
+                }
+            }
+
+            $nextAudio = $this->playlist->audios()
+                ->where('id', '>', $this->audio->id)
+                ->orderBy('id', 'asc')
+                ->first();
+
+            if ($nextAudio) {
+                $this->dispatch('changed-audio', audio: $nextAudio);
+            }
+        } else {
+            $this->dispatch('changed-audio', audio: $this->audio->next($this->playedMusics));
         }
-    } else {
-        $this->dispatch('changed-audio', audio: $this->audio->next($this->playedMusics));
     }
-}
 
-public function previous()
-{
-    if ($this->playlist) {
-        $previousAudio = $this->playlist->audios()
-            ->where('id', '<', $this->audio->id)
-            ->orderBy('id', 'desc')
-            ->first();
+    public function previous()
+    {
+        if ($this->playlist) {
+            if ($this->isShuffle) {
+                if (!empty($this->playedMusics)) {
+                    array_pop($this->playedMusics);
 
-        if ($previousAudio) {
-            $this->dispatch('changed-audio', audio: $previousAudio);
+                    if (!empty($this->playedMusics)) {
+                        $previousAudioId = end($this->playedMusics);
+                        $previousAudio = $this->playlist->audios()->find($previousAudioId);
+
+                        if ($previousAudio) {
+                            $this->dispatch('changed-audio', audio: $previousAudio);
+                            return;
+                        }
+                    }
+                }
+            } else {
+                $previousAudio = $this->playlist->audios()
+                    ->where('id', '<', $this->audio->id)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                if ($previousAudio) {
+                    $this->dispatch('changed-audio', audio: $previousAudio);
+                    return;
+                }
+            }
+        } else {
+            $this->dispatch('changed-audio', audio: $this->audio->previous($this->playedMusics));
         }
-    } else {
-        $this->dispatch('changed-audio', audio: $this->audio->previous($this->playedMusics));
     }
-}
 
     public function startLastAudio($state)
     {

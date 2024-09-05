@@ -1,19 +1,19 @@
-<div class="playlist-card d-flex justify-content-between px-1 {{$class}}" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;">
-    <div class="d-flex justify-content-center align-items-center" style="min-width: 50px">
+<div class="playlist-card d-flex justify-content-between px-1 {{$class}}" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;" id="seila">
+    <div class="d-flex justify-content-center align-items-center" style="min-width: 50px" wire:click='play' >
         <img width="50px" src="{{ route('playlist.show.image', $playlist) }}" class="h-100" alt="Playlist cover image">
         <a href="{{ route('playlist.show', $playlist->id) }}" class="play"></a>
     </div>
-    <div class="d-flex flex-column ps-3 pe-1 w-100">
-        <button wire:click='play' class="play">
+    <div class="d-flex flex-column ps-3 pe-1 w-100" wire:click='play'>
+        <div wire:click='play'>
             <h3 class="name">{{ $playlist->name }}</h3>
-        </button>
+        </div>
         <div>
             @if($playlist->audios->count() > 0)
                 <span class="badge">{{ $playlist->audios->count() }} Audios</span>
             @endif
         </div>
     </div>
-    <div class="d-flex align-items-center me-1">
+    <div class="d-flex align-items-center me-1" >
         <span @class(['material-symbols-outlined like cursor-pointer', 'like-check' => $playlist->userLiked])
             wire:click="toggleLike"
         >

@@ -1,7 +1,7 @@
 <div class="add-remove-audio d-flex justify-content-between px-1 {{$class}}"
-    style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;"
+    style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;" wire:click="addAudio({{ $audio->id }}, {{ $playlistId }})" id="adrem"
 >
-<div class="d-flex justify-content-center align-items-center" style="min-width: 50px;">
+    <div class="d-flex justify-content-center align-items-center" style="min-width: 50px;" >
                 <img class="audio-cover" width="50px"
                     src="{{ $audio->cover_path !== null ? route('audio.show.image', $audio) : '/imgs/wave-sound.png'}}"
                     @style(['filter: invert(1)' => $audio->cover_path === null])
@@ -12,10 +12,10 @@
         <h4>{{ $audio->author }}</h4>
     </div>
     <div>
-                                <span wire:click="addAudio({{ $audio->id }}, {{ $playlistId }})">
-                                    {{ $isAdded ? 'Remove' : 'Add' }}
-                                </span>
-                            </div>
+        <span >
+            {{ $isAdded ? 'Remove' : 'Add' }}
+        </span>
+    </div>
    
 </div>
 

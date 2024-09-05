@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Playlist;
 use App\Models\Audio;
+use Livewire\Attributes\On;
+
 
 class PlaylistCard extends Component
 {
@@ -27,7 +29,7 @@ class PlaylistCard extends Component
 
     public function togglePrivacy()
     {
-        return redirect()->route('playlist.show', $this->playlist);
+        $this->playlist->togglePrivacy();
     }
 
     public function toggleLike()
@@ -47,5 +49,10 @@ class PlaylistCard extends Component
             'class' => $this->class,
             'audios' => $this->audios,
         ]);
+    }
+
+    #[On('closeModal')]
+    public function counter(){
+        return $this->playlist->audios->count();
     }
 }

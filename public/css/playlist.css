@@ -46,7 +46,7 @@
 }
 
 .playlist-card .playlist-actions button:hover {
-    background-color: var(--secondary);
+    background-color: var(--dark);
 }
 
 .playlist-card .delete-form {
@@ -62,7 +62,7 @@
 }
 
 .playlist-card:hover img {
-    background-color: var(--secondary);
+    background-color: var(--dark);
 }
 
 .playlist-card img {
@@ -231,6 +231,20 @@ card-title mb-1{
     overflow-y: auto; 
 }
 
+.no-scroll {
+    overflow: hidden; 
+}
+
+#adrem{
+    background-color: var(--dark);
+    border: none;
+    border-radius: .3rem;
+    padding: .5rem 1rem;
+    color: var(--white);
+    font-weight: bold;
+    cursor: pointer;
+    
+}
 
 .wrap {
     display: grid;
@@ -257,5 +271,23 @@ card-title mb-1{
     .wrap {
         grid-template-columns: repeat(2, 1fr); 
     }
+}
+
+#seila{
+    cursor: pointer;
+}
+
+#playlist-create{
+    gap: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    margin: 0 auto;
+    align-items: center;
+}
+
+#create{
+    width: 7rem;
+
 }
 
