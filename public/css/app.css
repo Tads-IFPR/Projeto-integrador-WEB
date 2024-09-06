@@ -132,15 +132,15 @@ body{
     color: var(--dark-gray);
     border: 1px solid var(--dark-gray);
     background-color: var(--secondary);
-    border-radius: 5px;
+    border-radius: 10px;
     transition: all 150ms ease-out;
     font-weight: bold;
 }
 
 .button-default:hover{
     border: 1px solid var(--dark-gray);
-    background-color: var(--primary);
-    border-radius: 5px;
+    background-color: var(--danger);
+    border-radius: 10px;
     box-shadow: -2px 2px 5px var(--white);
 }
 
@@ -198,6 +198,24 @@ body{
 
     ::-webkit-scrollbar-thumb:hover {
         background-color: var(--dark-gray) !important;
+    }
+}
+
+@media screen and (max-width: 612px) {
+    ::-webkit-scrollbar {
+        width: 0 !important;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent !important;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: transparent !important;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: transparent !important;
     }
 }
 
