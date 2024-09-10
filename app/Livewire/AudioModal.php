@@ -18,7 +18,7 @@ class AudioModal extends Component
     {
         $this->playlistId = $playlistId;
         $this->showModal = true;
-        $this->audios = $this->getAudiosForPlaylist($playlistId); 
+        $this->audios = $this->getAudiosForPlaylist($playlistId);
     }
 
     public function getAudiosForPlaylist($playlistId)

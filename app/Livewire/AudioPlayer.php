@@ -21,7 +21,7 @@ class AudioPlayer extends Component
     {
         $this->playlist = $playlist;
         $this->audios = $audios;
-        if (!empty($audios)) {
+        if (!empty($audios) && isset($audios[0])){
             $this->audio = $audios[0]; 
         }
     }
