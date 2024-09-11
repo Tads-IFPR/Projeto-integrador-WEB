@@ -139,10 +139,11 @@ body{
 
 .button-default:hover{
     border: 1px solid var(--dark-gray);
-    background-color: var(--danger);
-    border-radius: 10px;
+    background-color: var(--primary);
+    border-radius: 5px;
     box-shadow: -2px 2px 5px var(--white);
 }
+
 
 .button-community{
 

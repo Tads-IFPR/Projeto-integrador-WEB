@@ -31,14 +31,14 @@
             </div>
 
             <div class="modal-share" id="modal-share" >
-                <span class="title-share">Friends already shared!</span>
-                @if ($playlist?->shareds)
+                @if ($playlist?->shareds && count($playlist?->shareds) > 0)
+                    <span class="title-share">Friends already shared!</span>
                     @foreach ($playlist?->shareds as $user)
                         <div class="d-flex justify-content-between">
                             <span>{{ $user->name }}</span>
                             <button onclick="removeShared({{ $user->id}}, this)"
 
-                                class="button-delete px-4 py-1" id="delete-share">
+                                class="button-delete px-4 py-1">
                                 <span class="material-symbols-outlined">
                                     delete
                                 </span>
@@ -46,7 +46,6 @@
                         </div>
                     @endforeach
                 @endif
-
             </div>
 
         </div>
@@ -160,6 +159,7 @@
 
         }).then(response => {
             modal.hide();
+            document.getElementById('users-autocomplete').value = null
             console.log('cheguei aki', modal);
         });
 
@@ -241,10 +241,6 @@
             box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5) !important;
         }
 
-        .delete-share:hover {
-            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5) !important;
-        }
-
         .modal {
             color: #212529;
         }
@@ -303,7 +299,7 @@
             background-color: var(--dark-gray);
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 0.5rem;
+            margin-top: 0.2rem;
         }
 
         .autocomplete-suggestion {
