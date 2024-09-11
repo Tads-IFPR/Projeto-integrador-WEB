@@ -87,18 +87,32 @@ class Audio extends Model
         );
     }
 
-    protected function next(): Attribute
+    public function next(array $ignoreIds = [])
     {
-        return Attribute::make(
-            get: fn () => self::currentUser()->where('id', '>', $this->id)->orderBy('id','asc')->first(),
-        );
+        $nextAudio = self::currentUser()
+            ->when($ignoreIds,
+                fn($q) => $q->whereNotIn('id', $ignoreIds)->whereNot('id', $this->id)->inRandomOrder(),
+                fn($q) => $q->where('id', '>', $this->id)->orderBy('id','asc')
+            )->first();
+
+        return $nextAudio;
     }
 
-    protected function previous(): Attribute
+    public function previous(array &$oldIds = [])
     {
-        return Attribute::make(
-            get: fn () => self::currentUser()->where('id', '<', $this->id)->orderBy('id','desc')->first(),
-        );
+        $key = array_search($this->id, $oldIds);
+
+        if (isset($oldIds[$key - 1])) {
+            $lastAudio = Audio::find($oldIds[$key - 1]);
+            unset($oldIds[$key]);
+            return $lastAudio;
+        }
+
+        if ($key !== false) {
+            return null;
+        }
+
+        return self::currentUser()->where('id', '<', $this->id)->orderBy('id','desc')->first();
     }
 
     public function scopePublic(Builder $query): void

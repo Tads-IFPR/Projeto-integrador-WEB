@@ -1,5 +1,5 @@
 <div id="player-controls"
-    @class(['have-audio' => !!$audio, 'expanded' => $isPlaying])
+    @class(['have-audio' => !!$audio, 'expanded' => $isExpanded])
     style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;"
 >
     <div id="audio-data" class="d-flex align-items-center">
@@ -17,7 +17,14 @@
 
     <div id="controls" class="d-flex flex-column align-items-center justify-content-center">
         <div id="actions" class="d-flex justify-content-center">
-            @if ($audio?->previous)
+            <button class="button-icon me-2" wire:click="toggleShuffle" id="shuffle" target="{{$isShuffle}}">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="{{$isShuffle ? 'var(--primary)' : 'var(--white)'}}"
+                >
+                    <path d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z"/>
+                </svg>
+            </button>
+            @if ($audio?->previous($playedMusics))
                 <button id="previous" class="button-icon" wire:click='previous' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_previous
@@ -26,15 +33,18 @@
             @else
                 <div></div>
             @endif
-            <button onclick="play(event)" id="play" class="button-icon">
-                <span class="material-symbols-outlined">play_arrow</span>
-            </button>
-            <button onclick="pause(event)" id="pause" style="display: none" class="button-icon">
-                <span class="material-symbols-outlined">
-                    pause
-                </span>
-            </button>
-            @if ($audio?->next)
+            @if ($isPlaying)
+                <button onclick="pause(event)" id="pause" class="button-icon" wire:click="togglePlaying">
+                    <span class="material-symbols-outlined">
+                        pause
+                    </span>
+                </button>
+            @else
+                <button onclick="play(event)" id="play" class="button-icon" wire:click="togglePlaying">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                </button>
+            @endif
+            @if ($audio?->next($playedMusics))
                 <button id="next" class="button-icon" wire:click='next' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_next
@@ -74,12 +84,11 @@
 
 <script>
     var player = document.getElementById('player');
+    var shuffle = document.getElementById('shuffle');
     var current = document.getElementById('current');
     var end = document.getElementById('end');
     var timer = document.getElementById('timer');
     var volume = document.getElementById('volume');
-    var playButton = document.getElementById('play');
-    var pauseButton = document.getElementById('pause');
     var up = document.getElementById('up');
     var off = document.getElementById('off');
     var timeControls = document.getElementById('time-controls');
@@ -98,7 +107,7 @@
 
     function loadPlayerState() {
         if (state && state?.currentSongId) {
-            @this.call('startLastAudio', state.currentSongId);
+            @this.call('startLastAudio', state);
 
             player.volume = state.volume;
             volume.value = state.volume;
@@ -114,7 +123,8 @@
                 currentTime: player.currentTime,
                 currentDuration: player.duration,
                 volume: player.volume,
-                isPlaying: !player.paused
+                isExpanded: !player.paused,
+                isShuffle: shuffle.attributes.target.value,
             };
             localStorage.setItem('playerState', JSON.stringify(state));
         }
@@ -127,17 +137,17 @@
         event?.stopPropagation();
     }
 
+    function playNext() {
+        document.getElementById('next')?.click();
+    }
+
     function play(event = null) {
         event?.stopPropagation();
-        pauseButton.style.display = 'block';
-        playButton.style.display = 'none';
         player.play();
     }
 
     function pause(event = null) {
         event?.stopPropagation();
-        playButton.style.display = 'block';
-        pauseButton.style.display = 'none';
         player.pause();
     }
 
@@ -170,6 +180,7 @@
     }
 
     function loadedAudio() {
+
         if (!player.duration || isNaN(Number(player.duration)) || typeof player.duration !== 'number') {
             return;
         }
@@ -177,10 +188,6 @@
         if (crSrc != document.getElementById('player-source').src) {
             crSrc = document.getElementById('player-source').src;
             player.load();
-        }
-
-        if (userInteracted) {
-            play();
         }
 
         timer.max = player.duration;
@@ -191,6 +198,12 @@
         end.innerText = seconds ? mins + ':' + decimalSecond + Math.floor(seconds) : '0:0';
         player.volume = volume.value;
         volume.style.setProperty('--seek-before-width', volume.value / volume.max * 100 + '%');
+        changeTime();
+
+        if (@this.isPlaying) {
+            play();
+        }
+
         savePlayerState();
     }
 
@@ -208,18 +221,13 @@
         }
 
         if (player.currentTime === player.duration) {
-            reset();
+            playNext();
         }
-    }
-
-    function reset() {
-        pause();
-        player.currentTime = 0;
     }
 
     function toggleMobilePlayer(event = null) {
         event.stopPropagation();
-        @this.togglePlaying();
+        @this.toggleExpanded();
 
         let elements = document.getElementsByClassName('black-background');
         Array.from(elements).forEach(element => {
