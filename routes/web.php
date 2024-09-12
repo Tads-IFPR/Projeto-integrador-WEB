@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/playlist/{id}/filter', [PlaylistController::class, 'filterAudios'])->name('playlist.filterAudios');
     Route::delete('playlist/{playlist}/audio/{audio}', [PlaylistController::class, 'removeAudio'])->name('playlist.removeAudio');
     Route::get('user/{user}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('user/{user}', [UserController::class, 'update'])->name('user.update');
     Route::post('/playlist/{playlist}/share', [PlaylistController::class, 'share']);
     Route::get('/users', [UserController::class, 'getAll']);
     Route::get('/users/{name}', [UserController::class, 'getByName']);
