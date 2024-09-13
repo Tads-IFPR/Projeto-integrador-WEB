@@ -12,6 +12,8 @@ class AudioModal extends Component
     public $showModal = false;
     public $playlistId;
     public $audios = [];
+    public $isPlaylistShow = false;
+
 
     #[On('openModal')]
     public function openModal($playlistId)
@@ -19,6 +21,12 @@ class AudioModal extends Component
         $this->playlistId = $playlistId;
         $this->showModal = true;
         $this->audios = $this->getAudiosForPlaylist($playlistId);
+    }
+
+    #[On('addedAudio')]
+    public function updateAudios($playlistId)
+    {
+        return redirect()->route('playlist.show', ['playlist' => $this->playlistId]);
     }
 
     public function getAudiosForPlaylist($playlistId)
@@ -36,18 +44,22 @@ class AudioModal extends Component
             ->get();
     }
 
-    public function mount($playlistId = null)
-    {
-        if ($playlistId) {
-            $this->playlistId = $playlistId;
-            $this->audios = $this->getAudiosForPlaylist($playlistId);
-        }
+    public function mount($playlistId = null, $isPlaylistShow = false)
+{
+    if ($playlistId) {
+        $this->playlistId = $playlistId;
+        $this->audios = $this->getAudiosForPlaylist($playlistId);
     }
+    $this->isPlaylistShow = $isPlaylistShow;
+}
 
     public function closeModal()
     {
         $this->showModal = false;
         $this->dispatch('closeModal');
+        if ($this->isPlaylistShow) {
+            $this->dispatch('addedAudio', $this->playlistId);
+        }
     }
 
     public function render()

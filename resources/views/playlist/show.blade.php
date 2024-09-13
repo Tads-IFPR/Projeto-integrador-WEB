@@ -3,7 +3,15 @@
 @section('content')
     <div class="container-audio">
         <div class="d-flex justify-content-between w-100">
-            <h1 class="cfs-1 bolder">{{ $playlist->name }}</h1>
+            <h1 class="cfs-1 bolder">{{ $playlist->name }}
+                @if(auth()->id() === $playlist->user_id)
+                    
+                    <button onclick="openPlaylistModal({{ $playlist->id }})" class="button-default px-4 py-1">
+                        Add in this playlist
+                    </button>
+                @endif
+            </h1>
+            
             <a href="{{ route('playlist.edit', $playlist->id) }}" class="button-default px-4 py-1" wire:navigate>Edit</a>
         </div>
 
@@ -16,10 +24,7 @@
                 <h1>No audio in this playlist</h1>
             </div>
         @endif
-
-        <button onclick="openPlaylistModal({{ $playlist->id }})" class="btn btn-primary">
-            Add in this playlist
-        </button>
+        
     </div>
 
     <script>

@@ -35,11 +35,14 @@
         @livewireScripts
         @persist('player')
             @isset($playlist)
-                <livewire:audio-player :playlist="$playlist" :audios="$playlist->audios" />
+                <livewire:audio-player :playlist="$playlist" :audios="$audios" />
             @else
                 <livewire:audio-player />
             @endisset
         @endpersist
-        <livewire:audio-modal >
+        @php
+            $isPlaylistShow = $isPlaylistShow ?? false;
+        @endphp
+        <livewire:audio-modal :isPlaylistShow="$isPlaylistShow">
     </body>
 </html>

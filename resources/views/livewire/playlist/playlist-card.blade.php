@@ -1,6 +1,6 @@
 <div class="playlist-card d-flex justify-content-between px-1 {{$class}}" style="font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;" id="seila">
     <div class="d-flex justify-content-center align-items-center" style="min-width: 50px" wire:click='play' >
-        <img width="50px" src="{{ route('playlist.show.image', $playlist) }}" class="h-100" alt="Playlist cover image">
+        <img width="50px" src="{{ $playlist->cover_path !== null ? route('playlist.show.image', $playlist) : '/imgs/default_cover.png'}}" class="h-100" alt="Playlist cover image">
         <a href="{{ route('playlist.show', $playlist->id) }}" class="play"></a>
     </div>
     <div class="d-flex flex-column ps-3 pe-1 w-100" wire:click='play'>
@@ -8,9 +8,11 @@
             <h3 class="name">{{ $playlist->name }}</h3>
         </div>
         <div>
-            @if($playlist->audios->count() > 0)
-                <span class="badge">{{ $playlist->audios->count() }} Audios</span>
-            @endif
+        @if($playlist->audios->where('is_public', true)->count() > 0 && $playlist->user_id !== auth()->id())
+            <span class="badge">{{ $playlist->audios->where('is_public', true)->count() }} Audios Públicos</span>
+        @elseif($playlist->user_id === auth()->id() && $playlist->audios->count() > 0)
+            <span class="badge">{{ $playlist->audios->count() }} Audios</span>
+        @endif
         </div>
     </div>
     <div class="d-flex align-items-center me-1" >

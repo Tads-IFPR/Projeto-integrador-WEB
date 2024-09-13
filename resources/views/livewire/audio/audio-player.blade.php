@@ -24,15 +24,15 @@
                     <path d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z"/>
                 </svg>
             </button>
-            @if ($audio?->previous($playedMusics))
+            
                 <button id="previous" class="button-icon" wire:click='previous' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_previous
                     </span>
                 </button>
-            @else
+            
                 <div></div>
-            @endif
+            
             @if ($isPlaying)
                 <button onclick="pause(event)" id="pause" class="button-icon" wire:click="togglePlaying">
                     <span class="material-symbols-outlined">
@@ -44,15 +44,15 @@
                     <span class="material-symbols-outlined">play_arrow</span>
                 </button>
             @endif
-            @if ($audio?->next($playedMusics))
+            
                 <button id="next" class="button-icon" wire:click='next' onclick="stopPropagation(event)">
                     <span class="material-symbols-outlined">
                         skip_next
                     </span>
                 </button>
-            @else
+            
                 <div></div>
-            @endif
+            
         </div>
         <audio id="player" ontimeupdate="changeTime()" onloadedmetadata="loadedAudio()" target="{{$audio?->id}}">
             @if ($audio)

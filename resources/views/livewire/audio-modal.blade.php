@@ -17,7 +17,11 @@
                     @endif
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #444;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="closeModal">Close</button>
+                    @if($isPlaylistShow)
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="closeModal">Save Changes</button>
+                    @else
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="closeModal">Close</button>
+                    @endif                
                 </div>
             </div>
         </div>

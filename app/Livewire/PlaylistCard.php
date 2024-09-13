@@ -55,11 +55,4 @@ class PlaylistCard extends Component
     public function counter(){
         return $this->playlist->audios->count();
     }
-
-    #[On('addedAudio')]
-    public function updateAudios($playlistId)
-    {
-        return redirect()->route('playlist.show', ['playlist' => $this->playlistId]);
-
-    }
 }

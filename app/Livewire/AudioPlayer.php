@@ -60,12 +60,14 @@ class AudioPlayer extends Component
                 }
             }
 
+             
             $nextAudio = $this->playlist->audios()
                 ->where('id', '>', $this->audio->id)
                 ->orderBy('id', 'asc')
                 ->first();
-
+            
             if ($nextAudio) {
+               
                 $this->dispatch('changed-audio', audio: $nextAudio);
             }
         } else {
@@ -76,6 +78,7 @@ class AudioPlayer extends Component
     public function previous()
     {
         if ($this->playlist) {
+            
             if ($this->isShuffle) {
                 if (!empty($this->playedMusics)) {
                     array_pop($this->playedMusics);
@@ -91,14 +94,14 @@ class AudioPlayer extends Component
                     }
                 }
             } else {
+               
                 $previousAudio = $this->playlist->audios()
                     ->where('id', '<', $this->audio->id)
                     ->orderBy('id', 'desc')
                     ->first();
 
-                if ($previousAudio) {
+                if ($previousAudio) {   
                     $this->dispatch('changed-audio', audio: $previousAudio);
-                    return;
                 }
             }
         } else {
@@ -108,17 +111,30 @@ class AudioPlayer extends Component
 
     public function startLastAudio($state)
     {
+        if ($this->playlist && $this->playlist->audios()->count() === 0) {
+            $this->isPlaying = false; 
+            return;
+        }
+    
         $audio = Audio::currentUser()->where('id', $state['currentSongId'])->where('user_id', auth()->id())->first();
-
+    
         if (!$audio) {
             return false;
         }
 
+        $this->audio = $audio;
+    
+        if (!isset($state['autoPlay']) || !$state['autoPlay']) {
+            $this->isPlaying = false; 
+            return;
+        }
+    
         if (isset($state['isShuffle'])) {
             $this->isShuffle = true;
         }
-
+    
         $this->dispatch('changed-audio', audio: $audio);
+        $this->isPlaying = true;
     }
 
     public function toggleExpanded()

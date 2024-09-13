@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
+
 class PlaylistController extends Controller
 {
     public function __construct()
@@ -20,7 +21,7 @@ class PlaylistController extends Controller
 
     public function index($id): View
     {
-        $audios = Audio::all(); // Carrega todos os áudios
+        $audios = Audio::all(); 
         return view('playlist.index', compact('audios'));
     }
 
@@ -40,13 +41,15 @@ class PlaylistController extends Controller
             'name' => $validated['name'],
             'is_public' => $isPublic,
             'cover_disk' => config('filesystems.default'),
-            //'cover_path' => $request->file('cover_path'),
             'user_id' => auth()->id()
         ];
 
-
-        $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
-    
+        if($request->hasFile('cover_path')){
+            $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
+        }
+        else{
+            $playlist['cover_path'] = null;
+        }
         $playlist = Playlist::create($playlist);
         
         return redirect()->route('home');
@@ -100,16 +103,22 @@ class PlaylistController extends Controller
     public function play($id){
 
         $user = auth()->user();
-        $playlist = Playlist::where('user_id', $user->id)
+        $playlist = Playlist::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                  ->orWhere('is_public', true);
+        })
         ->with(['audios' => function ($query) use ($user) {
-            $query->currentUser()  
-                  ->orWhere('is_public', true)  
-                  ->with('user');  
+            $query->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                      ->orWhere('is_public', true);
+            })
+            ->with('user');
         }])
         ->findOrFail($id);
         
         $audios = $playlist->audios->sortBy('id')->values();
-        return view('playlist.show', compact('playlist', 'audios'));
+
+        return view('playlist.show', compact('playlist', 'audios'))->with('isPlaylistShow', true);
     }
    
     public function addAudio(Request $request)

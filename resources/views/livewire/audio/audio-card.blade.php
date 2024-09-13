@@ -13,6 +13,8 @@
     <div class="d-flex flex-column ps-3 pe-1 w-100" wire:click='play'>
         <h3 class="name">{{ $audio->name }}</h3>
         <h4>{{ $audio->author }}</h4>
+        <h4> {{ $audio->id }} </h4>
+        <h4> {{ $audio->is_public}}
     </div>
     <div class="d-flex align-items-center me-1">
         <span @class(['material-symbols-outlined like cursor-pointer', 'like-check' => $audio->userLiked])
@@ -75,6 +77,7 @@
                     </button>
                 </form>
             @endif
+            
         </div>
     @endif
 </div>
