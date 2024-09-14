@@ -13,8 +13,7 @@
     <div class="d-flex flex-column ps-3 pe-1 w-100" wire:click='play'>
         <h3 class="name">{{ $audio->name }}</h3>
         <h4>{{ $audio->author }}</h4>
-        <h4> {{ $audio->id }} </h4>
-        <h4> {{ $audio->is_public}}
+        
     </div>
     <div class="d-flex align-items-center me-1">
         <span @class(['material-symbols-outlined like cursor-pointer', 'like-check' => $audio->userLiked])
@@ -63,7 +62,7 @@
                 {{$audio->is_public ? 'Turn private' : 'Turn public'}}
             </div>
             @endif
-            @if ($playlist)
+            @if ($playlist?->isCurrentUserOwner)
                 <form action="{{ route('playlist.removeAudio', ['playlist' => $playlist->id, 'audio' => $audio->id]) }}" method="POST" class="w-100">
                     @csrf
                     @method('DELETE')
@@ -76,6 +75,10 @@
                         </div>
                     </button>
                 </form>
+            @elseif ($playlist?->is_public && $audio->is_public)
+                <div>
+                    <h1 class="cfs-1">This audio is private</h1>
+                </div>
             @endif
             
         </div>

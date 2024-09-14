@@ -32,7 +32,7 @@
                 </button>
             
                 <div></div>
-            
+                
             @if ($isPlaying)
                 <button onclick="pause(event)" id="pause" class="button-icon" wire:click="togglePlaying">
                     <span class="material-symbols-outlined">
