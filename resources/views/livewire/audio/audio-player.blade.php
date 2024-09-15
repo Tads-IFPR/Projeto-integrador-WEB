@@ -130,7 +130,7 @@
         }
     }
 
-    window.addEventListener('beforeunload', savePlayerState);
+    shuffle.addEventListener('click', savePlayerState);
     document.addEventListener('DOMContentLoaded', loadPlayerState);
 
     function stopPropagation(event) {
@@ -172,6 +172,8 @@
             off.style.display = 'none';
             up.style.display = 'block';
         }
+
+        savePlayerState();
     }
 
     function changeTimer() {
