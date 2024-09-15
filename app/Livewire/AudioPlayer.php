@@ -175,30 +175,17 @@ class AudioPlayer extends Component
 
     public function startLastAudio($state)
     {
-        if ($this->playlist && $this->playlist->audios()->count() === 0) {
-            $this->isPlaying = false; 
-            return;
-        }
-    
         $audio = Audio::currentUser()->where('id', $state['currentSongId'])->where('user_id', auth()->id())->first();
-    
+
         if (!$audio) {
             return false;
         }
 
-        $this->audio = $audio;
-    
-        if (!isset($state['autoPlay']) || !$state['autoPlay']) {
-            $this->isPlaying = false; 
-            return;
-        }
-    
         if (isset($state['isShuffle'])) {
             $this->isShuffle = true;
         }
-    
+
         $this->dispatch('changed-audio', audio: $audio);
-        $this->isPlaying = true;
     }
 
     public function toggleExpanded()

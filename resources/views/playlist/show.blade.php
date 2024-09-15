@@ -18,7 +18,7 @@
         </div>
 
         @if($audios->isNotEmpty())
-            <div class="playlist-audios">
+            <div class="playlist-audios" id="inicial">
                 <livewire:audio.audio-list class="d-flex w-100 wrap" :audios="$audios" :playlist="$playlist"/>
             </div>
         @else
@@ -26,13 +26,21 @@
                 <h1>No audio in this playlist</h1>
             </div>
         @endif
-        
+        <livewire:playlist-search/>
     </div>
 
     <script>
         function openPlaylistModal(playlistId) {
             Livewire.dispatch('openModal', { playlistId: playlistId });
         }
+        document.addEventListener('DOMContentLoaded', function () {
+            Livewire.on('search-playlist', function () {
+                var inicialDiv = document.getElementById('inicial');
+                if (inicialDiv) {
+                    inicialDiv.style.display = 'none';
+                }
+            });
+        });
     </script>
 
 @endsection
