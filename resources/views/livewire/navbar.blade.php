@@ -36,7 +36,7 @@
                     </a>
                         <form method="POST" action="{{ route('logout') }}" id="logout-form">
                             @csrf
-                            <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a onclick="logout(event)">
                             Logout
                     </a>
                     </form>
@@ -61,6 +61,12 @@
                 dropdown.style.display = 'none';
                 dropback.style.display = 'none';
             }
+        }
+
+        logout = (event) => {
+            event.preventDefault();
+            localStorage.clear();
+            document.getElementById('logout-form').submit();
         }
 
         config.addEventListener('click', toggleDropDown);
