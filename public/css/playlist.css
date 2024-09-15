@@ -83,7 +83,7 @@
 .playlist-card h3 {
     font-size: .8rem;
     color: var(--white);
-    text-align: center;
+    text-align: left;
     font-weight: bold;
 }
 
@@ -106,25 +106,29 @@
     transition: background-color 150ms ease-out;
 }
 
-.playlist-card .edit-form,
-.playlist-card .delete-form {
+.playlist-card .playlist-card-icons {
+    display: none;
+    margin-right: 15px;
+}
+
+.playlist-card .playlist-card-icons .material-symbols-outlined {
+    font-size: 18px !important;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.playlist-card:hover .playlist-card-icons {
+    display: flex;
+}
+
+.playlist-card .playlist-card-icons {
     display: none;
 }
 
-.playlist-card:hover .edit-form,
-.playlist-card:hover .delete-form {
-    display: block;
-}
-
-.add-remove-audio{
+.add-remove-audio {
     display: block;
     object-fit: cover;
     border-radius: 10px;
-}
-
-card-title mb-1{
-    font-size: 1.2rem;
-    font-weight: bold;
 }
 
 .container-audio {

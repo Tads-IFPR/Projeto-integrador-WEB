@@ -27,6 +27,8 @@ class AudioController extends Controller
             'name' => $validated['name'],
             'author' => $validated['artist'],
             'user_id' => auth()->id(),
+            'is_public' => 0
+
         ];
 
         $audio['disk'] = config('filesystems.default');
