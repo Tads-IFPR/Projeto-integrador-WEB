@@ -50,7 +50,7 @@ class AudioPlayer extends Component
             return false;
         }
 
-        if (isset($state['isShuffle'])) {
+        if (isset($state['isShuffle']) && $state['isShuffle']) {
             $this->isShuffle = true;
         }
 
