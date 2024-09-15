@@ -6,6 +6,7 @@ use App\Http\Requests\PlaylistShowRequest;
 use App\Http\Requests\PlaylistStoreRequest;
 use App\Models\Playlist;
 use App\Models\Audio;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -35,8 +36,6 @@ class PlaylistController extends Controller
         $validated = $request->validated();
 
         $isPublic = $request->has('is_public') ? 1 : 0;
-
-
         $playlist = [
             'name' => $validated['name'],
             'is_public' => $isPublic,
@@ -88,7 +87,7 @@ class PlaylistController extends Controller
     
 
     public function showImage(PlaylistShowRequest $request, Playlist $playlist)
-    {   
+    {
         $request->validated();
 
         $data = explode('/', $playlist->cover_path);
@@ -96,8 +95,8 @@ class PlaylistController extends Controller
         $path = 'temp/cover' . uniqid() . '.' . $extension;
 
         Storage::put($path, $playlist->cover());
-    
-        return response()->file(storage_path('app/' . $path))->deleteFileAfterSend();    
+
+        return response()->file(storage_path('app/' . $path))->deleteFileAfterSend();
     }
 
     public function play($id){
@@ -120,29 +119,29 @@ class PlaylistController extends Controller
 
         return view('playlist.show', compact('playlist', 'audios'))->with('isPlaylistShow', true);
     }
-   
+
     public function addAudio(Request $request)
-    {
-        $playlist = Playlist::findOrFail($request->playlist_id);
-        $audioIds = $request->audio_ids;
+        {
+            $playlist = Playlist::findOrFail($request->playlist_id);
+            $audioIds = $request->audio_ids;
 
-        if ($audioIds) {
-            $playlist->audios()->attach($audioIds);
+            if ($audioIds) {
+                $playlist->audios()->attach($audioIds);
+            }
+
+            return response()->json(['status' => 'success', 'message' => 'Áudios adicionados com sucesso.']);
         }
-
-        return response()->json(['status' => 'success', 'message' => 'Áudios adicionados com sucesso.']);
-    }
 
     public function filterAudios(Request $request, $id)
     {
         $playlist = Playlist::with('audios')->findOrFail($id);
         $query = $request->input('query');
-    
+
         $filteredAudios = Audio::where('name', 'like', '%' . $query . '%')
             ->whereDoesntHave('playlists', function ($q) use ($playlist) {
                 $q->where('playlist_id', $playlist->id);
             })->get();
-    
+
         return view('playlist.partials.audio_list', compact('playlist', 'filteredAudios'));
     }
 
@@ -151,5 +150,45 @@ class PlaylistController extends Controller
         $playlist->audios()->detach($audio);
 
         return redirect()->route('playlist.show', $playlist->id);
+    }
+
+    
+
+    public function share(Request $request)
+    {
+        // Verificando se a playlist e o usuário existe
+        $validated = $request->validate([
+            'playlistId' => 'required|exists:playlists,id',
+            'sharedUserId' => 'required|exists:users,id'
+        ]);
+
+        // Verificando se já existe um compartilhamento entre a playlist e o usuário
+        $playlist = Playlist::find($validated['playlistId']);
+        $alreadyShared = $playlist->shareds()->where('user_id', $validated['sharedUserId'])->exists();
+
+        if ($alreadyShared) {
+            return response()->json(['message' => 'Playlist já compartilhada com este usuário.', 'status' => 409], 409);
+        }
+
+        // Inserir na tabela 'shareds' o id da playlist e o id do usuário que compartilhou
+        $playlist = Playlist::find($validated['playlistId']);
+        $playlist->shareds()->attach($validated['sharedUserId']);
+
+        return response()->json(['message' => 'Playlist shared!' . $request->playlistId . " - - " . $request->sharedUserId, 'status' => 200], 200);
+
+    }
+
+    public function getSharedUsers($playlistId)
+    {
+        $playlist = Playlist::findOrFail($playlistId);
+        $sharedUserIds = $playlist->shareds()->pluck('user_id');
+
+        return response()->json($sharedUserIds);
+    }
+
+    public function deleteSharedUser(Playlist $playlist, User $user){
+        $playlist->shareds()->detach($user->id);
+
+        return response()->json(['message' => 'User removed from shared list.'], 200);
     }
 }

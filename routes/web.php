@@ -7,8 +7,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlaylistController;
-use App\Http\Controllers\PlaylistAudioController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PlaylistAudioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,11 +39,15 @@ Route::middleware('auth')->group(function () {
     Route::post('playlist/add-audio', [PlaylistController::class, 'addAudio'])->name('playlist.addAudio');
     Route::get('/playlist/{id}/filter', [PlaylistController::class, 'filterAudios'])->name('playlist.filterAudios');
     Route::delete('playlist/{playlist}/audio/{audio}', [PlaylistController::class, 'removeAudio'])->name('playlist.removeAudio');
-    
     Route::get('user/{user}', [UserController::class, 'edit'])->name('user.edit');
     Route::put('user/{user}', [UserController::class, 'update'])->name('user.update');
-});
+    Route::post('/playlist/{playlist}/share', [PlaylistController::class, 'share']);
+    Route::get('/users', [UserController::class, 'getAll']);
+    Route::get('/users/{name}', [UserController::class, 'getByName']);
+    Route::get('/playlist/{id}/shared-users', [PlaylistController::class, 'getSharedUsers']);
+    Route::delete('/playlist/{playlist}/remove-shared/{user}',[PlaylistController::class, 'deleteSharedUser'])->name('playlist.deleteSharedUser');
 
+});
 
 
 require __DIR__.'/auth.php';

@@ -23,17 +23,18 @@
         </span>
     </div>
     @if ($playlist->isCurrentUserOwner)
-        <div class="options-playlist cursor-pointer"
-            target="{{$playlist->id}}"
-            wire:prevent
-            onclick="toggleDropDownPlaylist(this.attributes.target.nodeValue)"
-        >
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                <path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/>
+        <div class="options-playlist cursor-pointer" target="{{ $playlist->id }}" wire:prevent
+            onclick="toggleDropDownPlaylist(this.attributes.target.nodeValue)">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#e8eaed">
+                <path
+                    d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
             </svg>
         </div>
-        <div id="backdrop-playlist-{{$playlist->id}}" target="{{$playlist->id}}" class="backdrop-playlist" style="display: none;"></div>
-        <div id="option-playlist-{{$playlist->id}}" class="option-playlist flex-column align-items-center" style="display: none;">
+        <div id="backdrop-playlist-{{ $playlist->id }}" target="{{ $playlist->id }}" class="backdrop-playlist"
+            style="display: none;"></div>
+        <div id="option-playlist-{{ $playlist->id }}" class="option-playlist flex-column align-items-center"
+            style="display: none;">
             <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST" class="w-100">
                 @csrf
                 @method('DELETE')
@@ -46,7 +47,8 @@
                     </div>
                 </button>
             </form>
-            <a href="{{ route('playlist.edit', $playlist->id) }}" wire:navigate class="d-flex align-items-center w-100 h-100 p-2 text-decoration-none">
+            <a href="{{ route('playlist.edit', $playlist->id) }}" wire:navigate
+                class="d-flex align-items-center w-100 h-100 p-2 text-decoration-none">
                 <div class="d-flex align-items-center w-100">
                     <span class="material-symbols-outlined me-1">
                         edit
@@ -66,13 +68,22 @@
                 <span class="material-symbols-outlined me-1">
                     language
                 </span>
-                {{$playlist->is_public ? 'Turn private' : 'Turn public'}}
+                {{ $playlist->is_public ? 'Turn private' : 'Turn public' }}
             </div>
+
+            <a href="#" onclick="shareModal({{ $playlist->id }}, '{{ $playlist->name }}')">
+                <div class="d-flex align-items-center w-100">
+                    <span class="material-symbols-outlined me-1">
+                        share
+                    </span>
+                    <span>
+                        Share
+                    </span>
+                </div>
+            </a>
         </div>
       
     @endif
+
 </div>
-
-
-
 

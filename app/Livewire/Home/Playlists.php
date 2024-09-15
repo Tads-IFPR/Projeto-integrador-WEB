@@ -28,9 +28,15 @@ class Playlists extends Component
     private function updatePlaylist()
     {
         $this->playlists = Playlist::when($this->search, fn($q) => $q->where('name', 'like', '%'.$this->search.'%'))
-            ->where('user_id', auth()->id())
+            ->where(function ($query) {
+                $query->where('user_id', auth()->id())->orWhereHas('shareds', function ($q) {
+                    $q->where('id', auth()->id());
+                });
+            })
             ->with('user', 'audios')
             ->get();
+
+
     }
 
     public function mount()
