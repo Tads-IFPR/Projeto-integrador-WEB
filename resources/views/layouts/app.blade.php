@@ -33,16 +33,20 @@
 
         @stack('scripts')
         @livewireScripts
-        @persist('player')
-            @isset($playlist)
-                <livewire:audio-player :playlist="$playlist" :audios="$audios" />
-            @else
-                <livewire:audio-player />
-            @endisset
-        @endpersist
         @php
+            $currentRoute = Route::currentRouteName();
             $isPlaylistShow = $isPlaylistShow ?? false;
         @endphp
-        <livewire:audio-modal :isPlaylistShow="$isPlaylistShow">
+        
+        @if($currentRoute !== 'playlist.edit') <!-- Substitua 'playlist.edit' pelo nome da rota que você deseja excluir -->
+            @persist('player')
+                @isset($playlist)
+                    <livewire:audio-player :playlist="$playlist" :audios="$audios" />
+                @else
+                    <livewire:audio-player />
+                @endisset
+            @endpersist
+            <livewire:audio-modal :isPlaylistShow="$isPlaylistShow">
+        @endif
     </body>
 </html>
