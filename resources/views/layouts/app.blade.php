@@ -38,7 +38,7 @@
             $isPlaylistShow = $isPlaylistShow ?? false;
         @endphp
         
-        @if($currentRoute !== 'playlist.edit') <!-- Substitua 'playlist.edit' pelo nome da rota que você deseja excluir -->
+        @if($currentRoute !== 'playlist.edit') 
             @persist('player')
                 @isset($playlist)
                     <livewire:audio-player :playlist="$playlist" :audios="$audios" />
