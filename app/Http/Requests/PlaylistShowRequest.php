@@ -14,6 +14,8 @@ class PlaylistShowRequest extends FormRequest
         /** @var \App\Models\Playlist */
         $playlist = $this->route('playlist');
 
-        return $playlist->user->is($this->user()) || $playlist->is_public;
+        return $playlist->user->is($this->user())
+            || $playlist->is_public
+            || $playlist->shareds->contains($this->user());
     }
 }
