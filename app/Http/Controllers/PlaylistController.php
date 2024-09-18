@@ -57,10 +57,26 @@ class PlaylistController extends Controller
 
     public function edit(Request $request, Playlist $playlist): View
     {
-        return view('playlist.edit', compact('playlist'));
+        $user = auth()->user();
+        $playlist = Playlist::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                ->orWhere('is_public', true);
+        })
+        ->with(['audios' => function ($query) use ($user) {
+            $query->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->orWhere('is_public', true);
+            })
+            ->with('user');
+        }])
+        ->findOrFail($playlist->id);
+    
+    $audios = $playlist->audios->sortBy('id')->values();
+
+    return view('playlist.edit', compact('playlist', 'audios'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): View
     {
         $playlist = Playlist::findOrFail($id);
         $playlist->name = $request->input('name');
@@ -74,7 +90,23 @@ class PlaylistController extends Controller
         $playlist['cover_disk'] = config('filesystems.default');
         $playlist->save();
 
-        return redirect()->route('home')->with('success', 'Playlist atualizada com sucesso!');
+        $user = auth()->user();
+        $playlist = Playlist::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                ->orWhere('is_public', true);
+        })
+        ->with(['audios' => function ($query) use ($user) {
+            $query->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->orWhere('is_public', true);
+            })
+            ->with('user');
+        }])
+        ->findOrFail($playlist->id);
+    
+        $audios = $playlist->audios->sortBy('id')->values();
+
+        return view('playlist.show', compact('playlist', 'audios'))->with('isPlaylistShow', true);
     }
 
     public function destroy(Request $request, Playlist $playlist): RedirectResponse

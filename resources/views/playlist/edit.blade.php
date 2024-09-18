@@ -28,7 +28,7 @@
 
 
 <div >
-    <a href="{{ route('home') }}" class="button-default px-4 py 1">Back to Home</a>
+    <a href="{{ route('playlist.show', $playlist->id, $audios) }}" class="button-default px-4 py 1">Back to Playlist</a>
 </div>
 
 <style>

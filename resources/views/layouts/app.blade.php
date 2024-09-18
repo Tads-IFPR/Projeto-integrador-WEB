@@ -33,20 +33,16 @@
 
         @stack('scripts')
         @livewireScripts
+        @persist('player')
+            @isset($playlist)
+                <livewire:audio-player :playlist="$playlist" :audios="$audios" />
+            @else
+                <livewire:audio-player />
+            @endisset
+        @endpersist
         @php
-            $currentRoute = Route::currentRouteName();
             $isPlaylistShow = $isPlaylistShow ?? false;
         @endphp
-        
-        @if($currentRoute !== 'playlist.edit') 
-            @persist('player')
-                @isset($playlist)
-                    <livewire:audio-player :playlist="$playlist" :audios="$audios" />
-                @else
-                    <livewire:audio-player />
-                @endisset
-            @endpersist
-            <livewire:audio-modal :isPlaylistShow="$isPlaylistShow">
-        @endif
+        <livewire:audio-modal :isPlaylistShow="$isPlaylistShow">
     </body>
 </html>
