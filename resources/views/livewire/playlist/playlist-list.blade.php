@@ -19,10 +19,13 @@
             if (!backdropListenersPlaylist[target]) {
                 backdropPlaylist.addEventListener('click', () => toggleDropDownPlaylist(target, true));
                 backdropListenersPlaylist[target] = true;
+                console.log('cliquei 3 pontos')
             }
         } else {
             options.style.display = 'none';
             backdropPlaylist.style.display = 'none';
+            console.log('cliquei fora')
         }
     }
+    
 </script>

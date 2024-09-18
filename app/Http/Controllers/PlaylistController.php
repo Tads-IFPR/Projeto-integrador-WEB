@@ -22,7 +22,7 @@ class PlaylistController extends Controller
 
     public function index($id): View
     {
-        $audios = Audio::all(); // Carrega todos os áudios
+        $audios = Audio::all(); 
         return view('playlist.index', compact('audios'));
     }
 
@@ -34,6 +34,7 @@ class PlaylistController extends Controller
     public function store(PlaylistStoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+
         $isPublic = $request->has('is_public') ? 1 : 0;
         $playlist = [
             'name' => $validated['name'],
@@ -42,28 +43,45 @@ class PlaylistController extends Controller
             'user_id' => auth()->id()
         ];
 
-
-        $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
-
+        if($request->hasFile('cover_path')){
+            $playlist['cover_path'] = $request->file('cover_path')->store('covers', $playlist['cover_disk']);
+        }
+        else{
+            $playlist['cover_path'] = null;
+        }
         $playlist = Playlist::create($playlist);
-
+        
         return redirect()->route('home');
     }
 
 
     public function edit(Request $request, Playlist $playlist): View
     {
-        return view('playlist.edit', compact('playlist'));
+        $user = auth()->user();
+        $playlist = Playlist::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                ->orWhere('is_public', true);
+        })
+        ->with(['audios' => function ($query) use ($user) {
+            $query->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->orWhere('is_public', true);
+            })
+            ->with('user');
+        }])
+        ->findOrFail($playlist->id);
+    
+    $audios = $playlist->audios->sortBy('id')->values();
+
+    return view('playlist.edit', compact('playlist', 'audios'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): View
     {
-
-
         $playlist = Playlist::findOrFail($id);
         $playlist->name = $request->input('name');
         $playlist->is_public = $request->has('is_public');
-
+        
         if ($request->hasFile('cover_path')) {
             $path = $request->file('cover_path')->store('covers');
             $playlist->cover_path = $path;
@@ -72,9 +90,24 @@ class PlaylistController extends Controller
         $playlist['cover_disk'] = config('filesystems.default');
         $playlist->save();
 
-        return redirect()->route('home')->with('success', 'Playlist atualizada com sucesso!');
-    }
+        $user = auth()->user();
+        $playlist = Playlist::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                ->orWhere('is_public', true);
+        })
+        ->with(['audios' => function ($query) use ($user) {
+            $query->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->orWhere('is_public', true);
+            })
+            ->with('user');
+        }])
+        ->findOrFail($playlist->id);
+    
+        $audios = $playlist->audios->sortBy('id')->values();
 
+        return view('playlist.show', compact('playlist', 'audios'))->with('isPlaylistShow', true);
+    }
 
     public function destroy(Request $request, Playlist $playlist): RedirectResponse
     {
@@ -83,12 +116,7 @@ class PlaylistController extends Controller
         return redirect()->route('home');
     }
 
-    public function show(PlaylistShowRequest $request, Playlist $playlist)
-    {
-        $request->validated();
-
-        return view('playlist.show', compact('playlist'));
-    }
+    
 
     public function showImage(PlaylistShowRequest $request, Playlist $playlist)
     {
@@ -103,26 +131,38 @@ class PlaylistController extends Controller
         return response()->file(storage_path('app/' . $path))->deleteFileAfterSend();
     }
 
-    public function play($id)
-    {
-        $playlist = Playlist::with('audios')->findOrFail($id);
-        $playlists = Playlist::all();
-        $audios = Audio::all();
+    public function play($id){
 
-        return view('playlist.show', compact('playlist', 'playlists', 'audios', 'id'));
+        $user = auth()->user();
+        $playlist = Playlist::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                  ->orWhere('is_public', true);
+        })
+        ->with(['audios' => function ($query) use ($user) {
+            $query->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                      ->orWhere('is_public', true);
+            })
+            ->with('user');
+        }])
+        ->findOrFail($id);
+        
+        $audios = $playlist->audios->sortBy('id')->values();
+
+        return view('playlist.show', compact('playlist', 'audios'))->with('isPlaylistShow', true);
     }
 
     public function addAudio(Request $request)
-    {
-        $playlist = Playlist::findOrFail($request->playlist_id);
-        $audioIds = $request->audio_ids;
+        {
+            $playlist = Playlist::findOrFail($request->playlist_id);
+            $audioIds = $request->audio_ids;
 
-        if ($audioIds) {
-            $playlist->audios()->attach($audioIds);
+            if ($audioIds) {
+                $playlist->audios()->attach($audioIds);
+            }
+
+            return response()->json(['status' => 'success', 'message' => 'Áudios adicionados com sucesso.']);
         }
-
-        return response()->json(['status' => 'success', 'message' => 'Áudios adicionados com sucesso.']);
-    }
 
     public function filterAudios(Request $request, $id)
     {
@@ -141,8 +181,10 @@ class PlaylistController extends Controller
     {
         $playlist->audios()->detach($audio);
 
-        return redirect()->route('playlist.show', $playlist->id)->with('message', 'Audio removed successfully.');
+        return redirect()->route('playlist.show', $playlist->id);
     }
+
+    
 
     public function share(Request $request)
     {

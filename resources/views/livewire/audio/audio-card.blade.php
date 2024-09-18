@@ -13,6 +13,7 @@
     <div class="d-flex flex-column ps-3 pe-1 w-100" wire:click='play'>
         <h3 class="name">{{ $audio->name }}</h3>
         <h4>{{ $audio->author }}</h4>
+        
     </div>
     <div class="d-flex align-items-center me-1">
         <span @class(['material-symbols-outlined like cursor-pointer', 'like-check' => $audio->userLiked])
@@ -21,7 +22,7 @@
             favorite
         </span>
     </div>
-    @if ($audio->isCurrentUserOwner)
+    @if ($audio->isCurrentUserOwner || $audio->is_public)
         <div class="options-audio cursor-pointer"
             target="{{$audio->id}}"
             wire:prevent
@@ -33,32 +34,53 @@
         </div>
         <div id="backdrop-audio-{{$audio->id}}" target="{{$audio->id}}" class="backdrop-audio" style="display: none;"></div>
         <div id="option-audio-{{$audio->id}}" class="option-audio flex-column align-items-center" style="display: none;">
-            <form action="{{ route('audio.destroy', $audio->id) }}" method="POST" class="w-100">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="d-flex align-items-center w-100 p-0 border-0 bg-transparent">
+            @if ($audio->isCurrentUserOwner)
+                <form action="{{ route('audio.destroy', $audio->id) }}" method="POST" class="w-100">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="d-flex align-items-center w-100 p-0 border-0 bg-transparent">
+                        <div class="d-flex align-items-center w-100">
+                            <span class="material-symbols-outlined me-1">
+                                delete
+                            </span>
+                            <span>Delete</span>
+                        </div>
+                    </button>
+                </form>
+                <a href="{{ route('audio.edit', $audio->id) }}" wire:navigate class="d-flex align-items-center w-100 h-100 p-2 text-decoration-none">
                     <div class="d-flex align-items-center w-100">
                         <span class="material-symbols-outlined me-1">
-                            delete
+                            edit
                         </span>
-                        <span>Delete</span>
+                        <span>Edit</span>
                     </div>
-                </button>
-            </form>
-            <a href="{{ route('audio.edit', $audio->id) }}" wire:navigate class="d-flex align-items-center w-100 h-100 p-2 text-decoration-none">
-                <div class="d-flex align-items-center w-100">
-                    <span class="material-symbols-outlined me-1">
-                        edit
-                    </span>
-                    <span>Edit</span>
-                </div>
-            </a>
+                </a>
             <div wire:click="togglePrivacy">
                 <span class="material-symbols-outlined me-1">
                     language
                 </span>
                 {{$audio->is_public ? 'Turn private' : 'Turn public'}}
             </div>
+            @endif
+            @if ($playlist?->isCurrentUserOwner)
+                <form action="{{ route('playlist.removeAudio', ['playlist' => $playlist->id, 'audio' => $audio->id]) }}" method="POST" class="w-100">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="d-flex align-items-center w-100 p-0 border-0 bg-transparent">
+                        <div class="d-flex align-items-center w-100">
+                            <span class="material-symbols-outlined me-1">
+                                remove_circle
+                            </span>
+                            <span>Remove from playlist</span>
+                        </div>
+                    </button>
+                </form>
+            @elseif ($playlist?->is_public && $audio->is_public)
+                <div>
+                    <h1 class="cfs-1">This audio is private</h1>
+                </div>
+            @endif
+            
         </div>
     @endif
 </div>

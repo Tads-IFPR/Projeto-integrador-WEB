@@ -4,6 +4,7 @@ namespace App\Livewire\Audio;
 
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
+use App\Models\Playlist;
 
 class AudioList extends Component
 {
@@ -11,6 +12,8 @@ class AudioList extends Component
 
     #[Reactive]
     public $audios;
+    
+    public ?Playlist $playlist = null;
 
     public function render()
     {
