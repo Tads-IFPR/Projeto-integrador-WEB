@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Playlist;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -40,9 +41,10 @@ class Community extends Component
         $this->updatePlaylist();
     }
 
-    public function filterMostLiked(string $timePeriod)
+    public function filterMostLiked($timePeriod)
     {
         $this->timePeriod = $timePeriod;
+        $this->updatePlaylist();
     }
 
     public function render()
